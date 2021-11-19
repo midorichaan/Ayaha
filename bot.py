@@ -45,6 +45,7 @@ class TicketBot(commands.AutoShardedBot):
     #on_command_error
     async def on_command_error(self, ctx, exc):
         traceback_exc = ''.join(traceback.TracebackException.from_exception(exc).format())
+        print(f"[Error] {ctx.author} → {exc}")
         
         if ctx.guild:
             await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
@@ -72,9 +73,11 @@ class TicketBot(commands.AutoShardedBot):
     #on_command
     async def on_command(self, ctx):
         if ctx.guild:
+            print(f"[System] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
             await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, ctx.message.created_at, ctx.message.content))
         else:
+            print(f"[System] {ctx.author} → {ctx.message.content} | @DM")
             await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, ctx.message.created_at, ctx.message.content))
     
