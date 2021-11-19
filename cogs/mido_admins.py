@@ -69,7 +69,7 @@ class mido_admins(commands.Cog):
     async def sql(self, ctx, *, sql=None):
         if not sql:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
        
         ret = await self.bot.db.fetchall(sql)
         
