@@ -24,6 +24,7 @@ class TicketBot(commands.AutoShardedBot):
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.resumes = dict()
         self._ext = ["cogs.mido_admins.py", "cogs.mido_bot.py", "cogs.mido_ticket.py", "jishaku"]
+        self.uptime = datetime.datetime.now()
         
         for ext in self._ext:
             try:
@@ -39,7 +40,12 @@ class TicketBot(commands.AutoShardedBot):
     
     #on_command
     async def on_command(self, ctx):
-        pass
+        if ctx.guild:
+            await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
+                                  (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, ctx.message.created_at, ctx.message.content))
+        else:
+            await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
+                                  (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.author.id, ctx.message.created_at, ctx.message.content))
     
     #on_message
     async def on_message(self, message):
