@@ -1,0 +1,2 @@
+aiomysql
+discord.py[voice]
