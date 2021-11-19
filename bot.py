@@ -51,11 +51,11 @@ class TicketBot(commands.AutoShardedBot):
         if ctx.guild:
             await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, 
-                                   ctx.message.created_at, ctx.message.content, exc, traceback_exc))
+                                   ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         else:
             await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, 
-                                   ctx.message.created_at, ctx.message.content, exc, traceback_exc))
+                                   ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         
         if isinstance(exc, commands.NotOwner):
             await utils.reply_or_send(ctx, content=f"> {await self.langutil.get_lang(ctx.author, key='notowner')}")
