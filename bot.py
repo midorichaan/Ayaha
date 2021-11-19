@@ -32,3 +32,18 @@ class TicketBot(commands.AutoShardedBot):
                 print(f"[Error] Failed to load {ext} → {exc}")
             else:
                 print(f"[System] {ext} load")
+
+    #on_command_error
+    async def on_command_error(self, ctx, exc):
+        pass
+    
+    #on_command
+    async def on_command(self, ctx):
+        pass
+    
+    #on_message
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+        
+        await self.process_commands(message)
