@@ -56,18 +56,18 @@ class TicketBot(commands.AutoShardedBot):
                                    ctx.message.created_at, ctx.message.content, exc, traceback_exc))
         
         if isinstance(exc, commands.NotOwner):
-            await util.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author, key='notowner')}")
+            await utils.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author, key='notowner')}")
         elif isinstance(exc, commands.CommandNotFound):
-            await util.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='cmd-notfound')}")
+            await utils.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='cmd-notfound')}")
         elif isinstance(exc, commands.DisabledCommand):
-            await util.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='cmd-disabled')}")
+            await utils.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='cmd-disabled')}")
         elif isinstance(exc, commands.BadBoolArgument):
-            await util.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='exc-badbool')}")
+            await utils.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='exc-badbool')}")
         else:
             if ctx.author.id in self.owner_ids:
-                await util.reply_or_send(ctx, content=f"> unknown exception \n```py\n{exc}\n```")
+                await utils.reply_or_send(ctx, content=f"> unknown exception \n```py\n{exc}\n```")
             else:
-                await util.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='unknown-exc')}")
+                await utils.reply_or_send(ctx, content=f"> {self.langutil.get_lang(ctx.author.id, key='unknown-exc')}")
                 
     #on_command
     async def on_command(self, ctx):
