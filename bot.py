@@ -47,11 +47,11 @@ class TicketBot(commands.AutoShardedBot):
         traceback_exc = ''.join(traceback.TracebackException.from_exception(exc).format())
         
         if ctx.guild:
-            await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s)", 
+            await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, 
                                    ctx.message.created_at, ctx.message.content, exc, traceback_exc))
         else:
-            await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s)", 
+            await self.db.execute("INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, 
                                    ctx.message.created_at, ctx.message.content, exc, traceback_exc))
         
