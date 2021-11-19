@@ -12,7 +12,7 @@ class LangUtil:
         keys = None
         
         if not db:
-            await self.bot.db.register_user(ctx, lang="jp")
+            await self.bot.db.register_user(author_id, lang="jp")
         else:
             lang = db["lang"]
         
