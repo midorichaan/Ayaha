@@ -29,7 +29,7 @@ class TicketBot(commands.AutoShardedBot):
         self.db = database.Database()
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.resumes = dict()
-        self._ext = ["cogs.mido_admins.py", "cogs.mido_bot.py", "cogs.mido_ticket.py", "jishaku"]
+        self._ext = ["cogs.mido_admins", "cogs.mido_bot", "cogs.mido_ticket", "jishaku"]
         self.uptime = datetime.datetime.now()
         self.tasks = dict()
         self.langutil = langutil.LangUtil(self)
