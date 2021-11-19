@@ -33,6 +33,7 @@ class TicketBot(commands.AutoShardedBot):
         self.uptime = datetime.datetime.now()
         self.tasks = dict()
         self.langutil = langutil.LangUtil(self)
+        self.color = 0xb66767
         
         for ext in self._ext:
             try:
