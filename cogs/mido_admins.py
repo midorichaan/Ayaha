@@ -33,7 +33,7 @@ class mido_admins(commands.Cog):
         
         env.update(globals())
         
-        code = util.cleanup_code(code)
+        code = utils.cleanup_code(code)
         stdout = io.StringIO()
 
         to_compile = f'async def func():\n{textwrap.indent(code, "  ")}'
