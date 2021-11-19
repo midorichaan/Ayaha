@@ -62,3 +62,7 @@ class Database:
                 if sql is not None:
                     await cur.execute(sql, *args, **kwargs)
                 return await cur.fetchone()
+    
+    #register_user
+    async def register_user(self, ctx, *, key: str):
+        await self.execute("INSERT INTO users VALUES(%s, %s, %s)", (ctx.author.id, key, 0))
