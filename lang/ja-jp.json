@@ -14,6 +14,7 @@
     "usersettings": "ユーザー設定",
     "timeout": "タイムアウトしたよ！",
     "no-aliases": "エイリアスなし",
+    "guildsettings": "サーバー設定",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
