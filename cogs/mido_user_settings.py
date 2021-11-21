@@ -58,6 +58,9 @@ class mido_user_settings(commands.Cog):
             await self.clear_reactions(ctx, m)
             return await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="timeout")))
         else:
+            if ctx.channel.permissions_for(ctx.me).manage_messages:
+                await m.remove_reaction(ctx.author, r.emoji)
+                
             if r.emoji == "🏳":
                 await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="usersetting-select-lang")), 
                              embed=await self.build_us_embed(ctx, 1)
