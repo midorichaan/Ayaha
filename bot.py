@@ -17,9 +17,17 @@ logging.basicConfig(level=logging.WARNING, format="[DebugLog] %(levelname)-8s: %
 load_dotenv()
 
 #_prefix_callable
-def _prefix_callable(bot, msg):
-    return ["-"]
-        
+async def _prefix_callable(bot, msg):
+    base = ["-"]
+    
+    if msg.guild:
+        gs = await bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (msg.guild.id,))
+        if gs["prefix"] != None:
+            base.append(gs["prefix"])
+        if gs["disable_base_prefix"]:
+            base.remove("-")
+    return base
+
 class Ayaha(commands.AutoShardedBot):
     
     def __init__(self):
@@ -133,6 +141,12 @@ class Ayaha(commands.AutoShardedBot):
     async def on_shard_resumed(self, shard_id):
         print(f"[System] shard {shard_id} has resumed")
         self.resumes[shard_id] = datetime.datetime.now()
+    
+    #on_guild_join
+    async def on_guild_join(self, guild):
+        db = await self.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (guild.id,))
+        if not db:
+            await self.db.register_guild(guild.id)
 
     #status update
     @tasks.loop(minutes=10.0)
