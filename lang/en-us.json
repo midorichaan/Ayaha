@@ -16,6 +16,7 @@
     "timeout": "Timeouted",
     "no-aliases": "No aliases",
     "guildsettings": "Guild Settings",
+    "none": "none",
     
     "notowner": "Only the bot administrator can use it",
     "cmd-notfound": "Command not found",
@@ -53,6 +54,14 @@
     "usersetting-select-lang": "Please select a language",
     
     "request-submited": "Your request was submitted to the bot administrator. Thanks for requesting!",
-    "report-submited": "Your report was submitted to the bot administrator. Thanks for reporting!"
+    "report-submited": "Your report was submitted to the bot administrator. Thanks for reporting!",
+    
+    "guildsettings-toggle-baseprefix": "Toggle prefix 「-」",
+    "guildsettings-set-prefix": "Guild prefix set to {REPLACE}",
+    "guildsettings-toggled-baseprefix": "Toggled guild-prefix to {REPLACE}",
+    "guildsettings-no-prefix": "No prefix",
+    "guildsettings-true": "On",
+    "guildsettings-false": "Off",
+    "guildsettings-prefix": "Guild Prefix"
     
 }
