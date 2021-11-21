@@ -22,5 +22,8 @@
     "help-system": "System Command",
     "help-eval": "Evaluates a python code",
     "help-shell": "Runs a shell command",
-    "help-sql": "Runs a sql command"
+    "help-sql": "Runs a sql command",
+    
+    "ping-pinging": "Pinging... please wait..."
+    "ping-pong": "Pong！🏓"
 }
