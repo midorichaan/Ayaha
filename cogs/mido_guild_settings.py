@@ -36,8 +36,8 @@ class mido_guild_settings(commands.Cog):
                              )
             
             settings = [
-                "📝: {} ({})".format(d["guildsettings-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
-                "📚: {} ({})".format(d["guildsettings-toggle-baseprefix"], d["guildsettings-true"]) if db["disable_base_prefix"] else d["guildsettings-false"],
+                "📝: {} ({})\n".format(d["guildsettings-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
+                "📚: {} ({})\n".format(d["guildsettings-toggle-baseprefix"], d["guildsettings-true"]) if db["disable_base_prefix"] else d["guildsettings-false"],
                 "❌: {}".format(d["cancel"])
             ]
         
