@@ -17,7 +17,7 @@ class mido_help(commands.Cog):
             e = discord.Embed(title=f"Help - {command}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
             e.add_field(name=data["description"], value=data[f"help-{command}"])
-            e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]))
+            e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]) or data["no-aliases"])
             return e
         else:
             e = discord.Embed(title=f"Help - Commands", color=self.bot.color, timestamp=ctx.message.created_at)
