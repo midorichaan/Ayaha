@@ -1,2 +1,2 @@
-# TicketBot
+# Ayaha
 DiscordのTicketBot
