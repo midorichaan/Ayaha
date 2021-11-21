@@ -31,9 +31,10 @@ class mido_user_settings(commands.Cog):
                               timestamp=ctx.message.created_at
                              )
         
-            settings = ["🏳: {} ({})\n".format(d["language"]), lang,
-                        "❌: {}".format(d["cancel"])
-                       ]
+            settings = [
+                "🏳: {} ({})\n".format(d["language"], lang), 
+                "❌: {}".format(d["cancel"])
+            ]
         
             for i in settings:
                 e.description += i
