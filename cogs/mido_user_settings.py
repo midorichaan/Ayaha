@@ -46,7 +46,7 @@ class mido_user_settings(commands.Cog):
         if ctx.channel.permissions_for(ctx.me).manage_messages:
             await msg.clear_reactions()
         else:
-            asyncio.gather(*[msg.remove_reaction("🏳", ctx.me), msg.remove_reaction("❌", ctx.me)])
+            asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
 
     #usersettings
     @commands.group(name="usersettings", aliases=["usersetting", "us"], invoke_without_command=True)
@@ -69,14 +69,16 @@ class mido_user_settings(commands.Cog):
                 break
             else:
                 if ctx.channel.permissions_for(ctx.me).manage_messages:
-                    await m.remove_reaction(str(r.emoji), ctx.author)
+                    await m.remove_reaction(str(r), ctx.author)
                 
                 if r.emoji == "🏳":
+                    await self.clear_reactions(ctx, m)
                     await m.edit(embed=await self.build_us_embed(ctx, 1))
                 
                     i = await ctx.send("> {}".format(d["usersetting-select-lang"]))
                     msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id and m.content in self.available_lang)
                     asyncio.gather(*[i.delete(), msg.delete()])
+                    
                     await self.bot.langutil.set_user_lang(ctx.author.id, lang=msg.content)
                     d = await self.bot.langutil.get_lang(msg.content)
                     await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
