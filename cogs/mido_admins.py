@@ -22,7 +22,8 @@ class mido_admins(commands.Cog):
     @commands.command(name="eval", usage="eval <code>")
     async def _eval(self, ctx, *, code: str=None):
         if not code:
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
         
         env = {
             'bot': self.bot,
@@ -69,7 +70,8 @@ class mido_admins(commands.Cog):
     async def sql(self, ctx, *, sql=None):
         if not sql:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
        
         ret = await self.bot.db.fetchall(sql)
         
@@ -86,7 +88,8 @@ class mido_admins(commands.Cog):
     async def shell(self, ctx, *, command=None):
         if not command:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
        
         stdout, stderr = await utils.run_process(ctx, command)
         
@@ -126,7 +129,8 @@ class mido_admins(commands.Cog):
                 try:
                    return await utils.reply_or_send(ctx, embed=e)
                 except Exception as exc:
-                    return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc}\n```")
+                    lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+                    return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc}\n```")
             else:
                 for i in self.bot.get_command("system").commands:
                     e.add_field(name=i.usage, value=await self.bot.langutil.get_lang(ctx.author.id, key=f'help-{i.name}'))
@@ -134,7 +138,8 @@ class mido_admins(commands.Cog):
                 try:
                     return await utils.reply_or_send(ctx, embed=e)
                 except Exception as exc:
-                    return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc}\n```")
+                    lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+                    return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc}\n```")
         else:
             for i in self.bot.get_command("system").commands:
                 e.add_field(name=i.usage, value=await self.bot.langutil.get_lang(ctx.author.id, key=f'help-{i.name}'))
@@ -142,7 +147,8 @@ class mido_admins(commands.Cog):
             try:
                 return await utils.reply_or_send(ctx, embed=e)
             except Exception as exc:
-                return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc}\n```")
+                lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+                return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc}\n```")
 
     #load
     @commands.is_owner()
@@ -150,13 +156,15 @@ class mido_admins(commands.Cog):
     async def load(self, ctx, *, module=None):
         if not module:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
 
         try:
             self.bot.load_extension(module)
         except Exception as exc:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc.__class__.__name__}: {exc}\n```")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+            return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc.__class__.__name__}: {exc}\n```")
         else:
             await ctx.message.add_reaction(self.success)
     
@@ -166,14 +174,16 @@ class mido_admins(commands.Cog):
     async def unload(self, ctx, *, module=None):
         if not module:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
             
         try:
             self.bot.unload_extension(module)
         except Exception as exc:
             await ctx.message.remove_reaction(self.loading, self.bot.user)
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc.__class__.__name__}: {exc}\n```")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+            return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc.__class__.__name__}: {exc}\n```")
         else:
             await ctx.message.add_reaction(self.success)
     
@@ -194,14 +204,16 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.success)
             
             if excs != "":
-                await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='failed-loads')} \n```\n{excs}\n```")
+                lang = await self.bot.langutil.get_lang(ctx.author.id, key='failed-loads')
+                await utils.reply_or_send(ctx, content=f"> {lang} \n```\n{excs}\n```")
             return
         else:
             try:
                 self.bot.reload_extension(module)
             except Exception as exc:
                 await ctx.message.add_reaction(self.failed)
-                return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc.__class__.__name__}: {exc}\n```")
+                lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+                return await utils.reply_or_send(ctx, content=f"> {lang} \n```py\n{exc.__class__.__name__}: {exc}\n```")
             else:
                 await ctx.message.add_reaction(self.success)
     
@@ -209,14 +221,16 @@ class mido_admins(commands.Cog):
     @commands.is_owner()
     @system.command(name="restart", aliases=["reboot"], usage="restart")
     async def restart(self, ctx):
-        msg = await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='bot-restart')}")
+        lang = await self.bot.langutil.get_lang(ctx.author.id, key='bot-restart') 
+        msg = await utils.reply_or_send(ctx, content=f"> {lang}")
         await self.bot.change_presence(activity=discord.Game(name=f'disabling... Please Wait...'))
         await asyncio.sleep(3)
         
         try:
             await self.bot.close()
         except Exception as exc:
-            await msg.edit(content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='error')} \n```py\n{exc}\n```")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
+            await msg.edit(content=f"> {lang} \n```py\n{exc}\n```")
     
     #toggle
     @commands.is_owner()
@@ -224,12 +238,14 @@ class mido_admins(commands.Cog):
     async def toggle(self, ctx, command=None):
         if not command:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
         
         cmd = self.bot.get_command(command)
         if not cmd:
             await ctx.message.add_reaction(self.failed)
-            return await utils.reply_or_send(ctx, content=f"> {await self.bot.langutil.get_lang(ctx.author.id, key='args-required')}")
+            lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
+            return await utils.reply_or_send(ctx, content=f"> {lang}")
         
         if cmd.enabled:
             cmd.enabled = False
