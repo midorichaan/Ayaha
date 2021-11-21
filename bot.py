@@ -62,16 +62,23 @@ class Ayaha(commands.AutoShardedBot):
                                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         
         if isinstance(exc, commands.NotOwner):
-            await utils.reply_or_send(ctx, content=f"> {await self.langutil.get_lang(ctx.author, key='notowner')}")
+            lang = await self.langutil.get_lang(ctx.author, key='notowner')
+            await utils.reply_or_send(ctx, content=f"> {lang}")
         elif isinstance(exc, commands.CommandNotFound):
-            await utils.reply_or_send(ctx, content=f"> {await self.langutil.get_lang(ctx.author.id, key='cmd-notfound')}")
+            lang = await self.langutil.get_lang(ctx.author, key='cmd-notfound')
+            await utils.reply_or_send(ctx, content=f"> {lang}")
         elif isinstance(exc, commands.DisabledCommand):
-            await utils.reply_or_send(ctx, content=f"> {await self.langutil.get_lang(ctx.author.id, key='cmd-disabled')}")
+            lang = await self.langutil.get_lang(ctx.author, key='cmd-disabled')
+            await utils.reply_or_send(ctx, content=f"> {lang}")
+        elif isinstance(exc, commands.BadBoolArgument):
+            lang = await self.langutil.get_lang(ctx.author, key='exc-badbool')
+            await utils.reply_or_send(ctx, content=f"> {lang.replace('{REPLACE}', exc.argument)}")
         else:
             if ctx.author.id in self.owner_ids:
                 await utils.reply_or_send(ctx, content=f"> unknown exception \n```py\n{exc}\n```")
             else:
-                await utils.reply_or_send(ctx, content=f"> {await self.langutil.get_lang(ctx.author.id, key='unknown-exc')}")
+                lang = await self.langutil.get_lang(ctx.author.id, key='unknown-exc')
+                await utils.reply_or_send(ctx, content=f"> {lang}")
                 
     #on_command
     async def on_command(self, ctx):
