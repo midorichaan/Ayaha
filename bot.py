@@ -65,8 +65,8 @@ class Ayaha(commands.AutoShardedBot):
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, 
                                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         
-        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
-        d = await self.bot.langutil.get_lang(lang)
+        lang = await self.langutil.get_user_lang(ctx.author.id)
+        d = await self.langutil.get_lang(lang)
         
         if isinstance(exc, commands.NotOwner):
             await utils.reply_or_send(ctx, content=f"> {d['notowner']}")
