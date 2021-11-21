@@ -22,6 +22,7 @@ class mido_admins(commands.Cog):
     @commands.command(name="eval", usage="eval <code>")
     async def _eval(self, ctx, *, code: str=None):
         if not code:
+            await ctx.message.add_reaction(self.failed)
             lang = await self.bot.langutil.get_lang(ctx.author.id, key='args-required')
             return await utils.reply_or_send(ctx, content=f"> {lang}")
         
