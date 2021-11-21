@@ -87,6 +87,8 @@ class Ayaha(commands.AutoShardedBot):
             await utils.reply_or_send(ctx, content=f"> {d['cmd-disabled']}")
         elif isinstance(exc, commands.BadBoolArgument):
             await utils.reply_or_send(ctx, content=f"> {d['exc-badbool']}")
+        elif isinstance(exc, commands.NoPrivateMessage):
+            await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']}")
         else:
             if ctx.author.id in self.owner_ids:
                 await utils.reply_or_send(ctx, content=f"> unknown exception \n```py\n{exc}\n```")
