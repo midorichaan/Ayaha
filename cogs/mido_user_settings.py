@@ -65,7 +65,7 @@ class mido_user_settings(commands.Cog):
                 r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
             except asyncio.TimeoutError:
                 await self.clear_reactions(ctx, m)
-                await m.edit(content="> {}".format(d["timeout"]))
+                await m.reply(f"> {d['timeout']}")
                 break
             else:
                 if ctx.channel.permissions_for(ctx.me).manage_messages:
