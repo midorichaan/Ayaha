@@ -27,7 +27,7 @@ class mido_user_settings(commands.Cog):
         for i in settings:
             e.description += i
         
-        await m.edit(content=None. embed=e)
+        await m.edit(content=None, embed=e)
         await m.add_reaction("🏳")
         await m.add_reaction("❌")
         
