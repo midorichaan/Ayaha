@@ -17,7 +17,7 @@ class mido_user_settings(commands.Cog):
             lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         if type == 1:
-            e = discord.Embed(title=d["usersettings"]), 
+            e = discord.Embed(title=d["usersettings"], 
                               description="",
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
@@ -25,7 +25,7 @@ class mido_user_settings(commands.Cog):
             e.description = "🇯🇵: ja-jp \n🇺🇸: en-us"
             return e
         else:
-            e = discord.Embed(title=d["usersettings"]), 
+            e = discord.Embed(title=d["usersettings"], 
                               description="",
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
