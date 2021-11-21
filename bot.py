@@ -6,7 +6,11 @@ import datetime
 import traceback
 
 import config
+from dotenv import load_dotenv
 from lib import database, utils, langutil
+
+#load .env
+load_dotenv()
 
 #_prefix_callable
 def _prefix_callable(bot, msg):
