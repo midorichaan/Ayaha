@@ -105,9 +105,19 @@ class Ayaha(commands.AutoShardedBot):
     #on_ready
     async def on_ready(self):
         print("[System] on_ready!")
+        
         await self.change_presence(status=discord.Status.online, 
                                    activity=discord.Game(name=f"-help | Guilds: {len(self.guilds)} | Users: {len(self.users)}")
                                   )
+        
+        try:
+            self.status_update.start()
+        except Exception as exc:
+            print(f"[Error] {exc}")
+        else:
+            self.tasks["status_updater"] = self.status_update
+            print("[System] Status updater start")
+        
         print("[System] enabled midori-dbot!")
     
     #on_connect
@@ -123,6 +133,18 @@ class Ayaha(commands.AutoShardedBot):
         print(f"[System] shard {shard_id} has resumed")
         self.resumes[shard_id] = datetime.datetime.now()
 
+    #status update
+    @tasks.loop(minutes=10.0)
+    async def status_update(self):
+        try:
+            await self.change_presence(status=discord.Status.online, 
+                                       activity=discord.Game(name=f"-help | Guilds: {len(self.guilds)} | Users: {len(self.users)}")
+                                      )
+        except Exception as exc:
+            print(f"[Error] {exc}")
+        else:
+            print(f"[System] Status updated")
+        
     #close
     async def close(self):
         await super().close()
