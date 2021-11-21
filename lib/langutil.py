@@ -6,7 +6,7 @@ class LangUtil:
         self.bot = bot
     
     #get_lang
-    async def get_lang(self, author_id, *, key: str):
+    async def get_lang(self, author_id: int, *, key: str):
         db = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (author_id,))
         lang = "ja-jp"
         keys = None
@@ -22,3 +22,11 @@ class LangUtil:
             keys = js.get(key, None)
         
         return keys
+    
+    #get_user_lang
+    async def get_user_lang(self, user_id: int):
+        db = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (user_id,))
+        
+        if not db:
+            return "ja-jp"
+        return db["lang"]
