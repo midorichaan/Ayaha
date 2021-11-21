@@ -10,20 +10,20 @@ class mido_guild_settings(commands.Cog):
         self.bot = bot
     
     #build_gs_embed
-    async def build_gs_embed(self, ctx, type: int, db, *, lang: str=None):
+    async def build_gs_embed(self, ctx, type: int, db, *, lang: str=None, value: str=None):
         if not lang:
             lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         if type == 1:
             e = discord.Embed(title=d["guildsettings-prefix"], 
-                              description=d["guildsettings-set-prefix"],
+                              description=d["guildsettings-set-prefix"].replace("{REPLACE}", value or d["none"]),
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
                              )
             return e
         elif type == 2:
-            e = discord.Embed(title=d["guildsettings-baseprefix"], 
-                              description=d["guildsettings-toggle-baseprefix"],
+            e = discord.Embed(title=d["guildsettings-toggle-base-prefix"], 
+                              description=d["guildsettings-toggled-baseprefix"].replace("{REPLACE}", value),
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
                              )
@@ -36,8 +36,8 @@ class mido_guild_settings(commands.Cog):
                              )
             
             settings = [
-                "📝: {} ({})".format(d["guild-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
-                "📚: {} ({})".format(d["toggle-base-prefix"], d["guildsettings-true"]) if db["disable_base_prefix"] else d["guildsettings-false"],
+                "📝: {} ({})".format(d["guildsettings-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
+                "📚: {} ({})".format(d["guildsettings-toggle-baseprefix"], d["guildsettings-true"]) if db["disable_base_prefix"] else d["guildsettings-false"],
                 "❌: {}".format(d["cancel"])
             ]
         
@@ -93,14 +93,16 @@ class mido_guild_settings(commands.Cog):
                 elif r.emoji == "📚":
                     await self.clear_reactions(ctx, m)
                     await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
+                    v = 0
                     
                     if gs["disable_base_prefix"]:
                         await self.bot.db.execute("UPDATE guilds SET disable_base_prefix=%s WHERE guild_id=%s", (0, ctx.guild.id,))
                     else:
                         await self.bot.db.execute("UPDATE guilds SET disable_base_prefix=%s WHERE guild_id=%s", (1, ctx.guild.id,))
+                        v = 1
                     await asyncio.sleep(3)
                     
-                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db))
+                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db, value=v))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
                     await m.add_reaction("❌")
