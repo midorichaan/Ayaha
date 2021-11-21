@@ -10,6 +10,7 @@
     "cmd-disabled": "そのコマンドは無効化されているよ！",
     "exc-badbool": "onかoffか指定してね！",
     "unknown-exc": "エラーが発生したよ！",
+    "failed-loads": "読み込めなかったCog",
     
     "help-toggle": "コマンドの有効/無効を変更するよ！",
     "help-restart": "Botを再起動するよ！",
