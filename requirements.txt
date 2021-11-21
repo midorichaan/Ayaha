@@ -1,3 +1,4 @@
 aiomysql
 discord.py[voice]
 jishaku
+python-dotenv
