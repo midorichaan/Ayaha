@@ -28,6 +28,13 @@ class mido_guild_settings(commands.Cog):
                               timestamp=ctx.message.created_at
                              )
             return e
+        elif type == 3:
+            e = discord.Embed(title=d["guildsettings-toggle-base-prefix"], 
+                              description=d["guildsettings-type-prefix"],
+                              color=self.bot.color,
+                              timestamp=ctx.message.created_at
+                             )
+            return e
         else:
             e = discord.Embed(title=d["guildsettings"], 
                               description="",
@@ -80,19 +87,19 @@ class mido_guild_settings(commands.Cog):
                 
                 if r.emoji == "📝":
                     await self.clear_reactions(ctx, m)
-                    await m.edit(embed=await self.build_gs_embed(ctx, 1, db))
+                    await m.edit(embed=await self.build_gs_embed(ctx, 3, gs))
                 
                     msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id)
                     await msg.delete()
                     
                     await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (msg.content, ctx.guild.id))
-                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db, value=msg.content))
+                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 1, gs, value=msg.content))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
                     await m.add_reaction("❌")
                 elif r.emoji == "📚":
                     await self.clear_reactions(ctx, m)
-                    await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
+                    await m.edit(embed=await self.build_gs_embed(ctx, 2, gs))
                     v = 0
                     
                     if gs["disable_base_prefix"]:
@@ -102,7 +109,7 @@ class mido_guild_settings(commands.Cog):
                         v = 1
                     await asyncio.sleep(3)
                     
-                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db, value=v))
+                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs, value=v))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
                     await m.add_reaction("❌")
