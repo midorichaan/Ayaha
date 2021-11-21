@@ -18,6 +18,22 @@ class mido_admins(commands.Cog):
         self.success = "✅"
         self.failed = "❌"
     
+    #generate_help
+    def generate_help(self, ctx, data, *, command=None):
+        if command:
+            e = discord.Embed(title=f"Help - {command}", color=self.bot.color, timestamp=ctx.message.created_at)
+            e.add_field(name=data["usage"], value=command.usage)
+            e.add_field(name=data["description"], value=data[f"help-{command}"])
+            e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]) or data["no-aliases"])
+            return e
+        else:
+            e = discord.Embed(title=f"Help - system", color=self.bot.color, timestamp=ctx.message.created_at)
+            
+            for i in self.bot.get_command("system").commands:
+                e.add_field(name=i.name, value=data[f"help-{i.name}"])
+            
+            return e
+    
     #eval
     @commands.is_owner()
     @commands.command(name="eval", usage="eval <code>")
@@ -126,37 +142,15 @@ class mido_admins(commands.Cog):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         
-        e = discord.Embed(title="System - system", color=self.bot.color, timestamp=ctx.message.created_at)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
         if cmd:
             c = self.bot.get_command("system").get_command(cmd)
-            
             if c:
-                e.title = f"System - {c.name}"
-                e.add_field(name=d['usage'], value=c.usage)
-                e.add_field(name=d['description'], value=d[f'help-{c.name}'])
-                e.add_field(name=d['aliases'], value=", ".join([f"`{row}`" for row in c.aliases]))
-               
-                try:
-                   return await utils.reply_or_send(ctx, embed=e)
-                except Exception as exc:
-                    return await utils.reply_or_send(ctx, content=f"> {d['error']} \n```py\n{exc}\n```")
-            else:
-                for i in self.bot.get_command("system").commands:
-                    e.add_field(name=i.usage, value=d[f'help-{i.name}'])
-            
-                try:
-                    return await utils.reply_or_send(ctx, embed=e)
-                except Exception as exc:
-                    return await utils.reply_or_send(ctx, content=f"> {d['error']} \n```py\n{exc}\n```")
+                return await m.edit(content=None, embed=self.generate_help(ctx, d, command=c))
+            return await m.edit(content=None, embed=self.generate_help(ctx, d))
         else:
-            for i in self.bot.get_command("system").commands:
-                e.add_field(name=i.usage, value=d[f'help-{i.name}'])
-            
-            try:
-                return await utils.reply_or_send(ctx, embed=e)
-            except Exception as exc:
-                return await utils.reply_or_send(ctx, content=f"> {d['error']} \n```py\n{exc}\n```")
+            return await m.edit(content=None, embed=self.generate_help(ctx, d))
 
     #load
     @commands.is_owner()
