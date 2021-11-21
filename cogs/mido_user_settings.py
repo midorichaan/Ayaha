@@ -68,7 +68,7 @@ class mido_user_settings(commands.Cog):
                 
                 await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
             elif r.emoji == "❌":
-                await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
+                await self.clear_reactions(ctx, m)
         
 def setup(bot):
     bot.add_cog(mido_user_settings(bot))
