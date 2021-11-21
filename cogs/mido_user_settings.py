@@ -50,7 +50,8 @@ class mido_user_settings(commands.Cog):
     async def usersettings(self, ctx):
         m = await utils.reply_or_send(ctx, content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="loading")))
         await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
-        asyncio.gather(*[m.add_reaction("🏳"), m.add_reaction("❌")])
+        await m.add_reaction("🏳")
+        await m.add_reaction("❌")
         
         try:
             r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
@@ -59,7 +60,7 @@ class mido_user_settings(commands.Cog):
             return await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="timeout")))
         else:
             if ctx.channel.permissions_for(ctx.me).manage_messages:
-                await m.remove_reaction(ctx.author, r.emoji)
+                await m.remove_reaction(ctx.author, str(r.emoji))
                 
             if r.emoji == "🏳":
                 await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="usersetting-select-lang")), 
