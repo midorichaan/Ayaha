@@ -61,16 +61,16 @@ class Ayaha(commands.AutoShardedBot):
                                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         
         if isinstance(exc, commands.NotOwner):
-            lang = await self.langutil.get_lang(ctx.author, key='notowner')
+            lang = await self.langutil.get_lang(ctx.author.id, key='notowner')
             await utils.reply_or_send(ctx, content=f"> {lang}")
         elif isinstance(exc, commands.CommandNotFound):
-            lang = await self.langutil.get_lang(ctx.author, key='cmd-notfound')
+            lang = await self.langutil.get_lang(ctx.author.id, key='cmd-notfound')
             await utils.reply_or_send(ctx, content=f"> {lang}")
         elif isinstance(exc, commands.DisabledCommand):
-            lang = await self.langutil.get_lang(ctx.author, key='cmd-disabled')
+            lang = await self.langutil.get_lang(ctx.author.id, key='cmd-disabled')
             await utils.reply_or_send(ctx, content=f"> {lang}")
         elif isinstance(exc, commands.BadBoolArgument):
-            lang = await self.langutil.get_lang(ctx.author, key='exc-badbool')
+            lang = await self.langutil.get_lang(ctx.author.id, key='exc-badbool')
             await utils.reply_or_send(ctx, content=f"> {lang.replace('{REPLACE}', exc.argument)}")
         else:
             if ctx.author.id in self.owner_ids:
