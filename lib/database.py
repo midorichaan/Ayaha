@@ -63,5 +63,9 @@ class Database:
                 return await cur.fetchone()
     
     #register_user
-    async def register_user(self, author_id, *, key: str):
-        await self.execute("INSERT INTO users VALUES(%s, %s, %s)", (author_id, key, 0))
+    async def register_user(self, author_id: int, *, key: str):
+        await self.execute("INSERT INTO users VALUES(%s, %s, %s, %s)", (author_id, key, 0, 0))
+    
+    #register_guild
+    async def register_guild(self, guild_id: int):
+        await self.execute("INSERT INTO guilds VALUES(%s, %s, %s, %s, %s)", (guild_id, None, 0, 0, 0))
