@@ -39,6 +39,9 @@
     "about-ayaha": "About of Ayaha",
     "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」 was created mainly for the ticket function. It aims to be a bot that is easier to use than conventional bots!",
     
-    "usersetting-select-lang": "Please select a language"
+    "usersetting-select-lang": "Please select a language",
+    
+    "request-submited": "Your request was submitted to the bot administrator. Thanks for requesting!",
+    "report-submited": "Your report was submitted to the bot administrator. Thanks for reporting!"
     
 }
