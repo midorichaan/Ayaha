@@ -16,7 +16,7 @@ load_dotenv()
 def _prefix_callable(bot, msg):
     return ["-"]
         
-class TicketBot(commands.AutoShardedBot):
+class Ayaha(commands.AutoShardedBot):
     
     def __init__(self):
         intents = discord.Intents.all()
@@ -128,5 +128,5 @@ class TicketBot(commands.AutoShardedBot):
         else:
             print("[System] enabling....")
 
-bot = TicketBot()
+bot = Ayaha()
 bot.run()
