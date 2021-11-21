@@ -15,6 +15,7 @@
     "timeout": "タイムアウトしたよ！",
     "no-aliases": "エイリアスなし",
     "guildsettings": "サーバー設定",
+    "none": "なし",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
@@ -52,6 +53,14 @@
     "usersetting-select-lang": "言語を選択してね！",
     
     "request-submited": "管理者に送信したよ！リクエストありがとう！",
-    "report-submited": "管理者に送信したよ！報告ありがとう！"
+    "report-submited": "管理者に送信したよ！報告ありがとう！",
+    
+    "guildsettings-toggle-baseprefix": "Prefix「-」の切り替え",
+    "guildsettings-set-prefix": "サーバーprefixを {REPLACE} に変更したよ！",
+    "guildsettings-toggled-baseprefix": "Prefix「-」を {REPLACE} に変更したよ！",
+    "guildsettings-no-prefix": "prefixなし",
+    "guildsettings-true": "有効",
+    "guildsettings-false": "無効",
+    "guildsettings-prefix": "サーバーPrefix"
     
 }
