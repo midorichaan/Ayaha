@@ -86,7 +86,7 @@ class mido_guild_settings(commands.Cog):
                     await msg.delete()
                     
                     await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (msg.content, ctx.guild.id))
-                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db))
+                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, db, value=msg.content))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
                     await m.add_reaction("❌")
