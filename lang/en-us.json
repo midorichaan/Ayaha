@@ -1,0 +1,24 @@
+{
+    "args-required": "Not enough arguments",
+    "usage": "Usage",
+    "description": "Description",
+    "error": "Error",
+    "aliases": "Aliases",
+    
+    "notowner": "Only the bot administrator can use it",
+    "cmd-notfound": "Command not found",
+    "cmd-disabled": "This command is disabled and cannot be used",
+    "exc-badbool": "Invalid argument",
+    "unknown-exc": "An unknown error has occurred",
+    
+    "help-toggle": "Toggle enable/disable command",
+    "help-restart": "Restart the bot",
+    "help-reload": "Reload the file",
+    "help-unload": "Unload the file",
+    "help-load": "Load the file",
+    "help-help": "Displaying help",
+    "help-system": "System Command",
+    "help-eval": "Evaluates a python code",
+    "help-shell": "Runs a shell command",
+    "help-sql": "Runs a sql command"
+}
