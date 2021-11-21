@@ -12,6 +12,7 @@
     "cancel": "キャンセル",
     "language": "言語",
     "usersettings": "ユーザー設定",
+    "timeout": "タイムアウトしたよ！",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
@@ -35,6 +36,8 @@
     "ping-pong": "ぽんぐっ！🏓",
     
     "about-ayaha": "彩葉の概要",
-    "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」はチケット機能をメインに作られました。従来のBotよりも使いやすい、そんなBotを目指しています！"
+    "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」はチケット機能をメインに作られました。従来のBotよりも使いやすい、そんなBotを目指しています！",
+    
+    "usersetting-select-lang": "言語を選択してね！"
     
 }
