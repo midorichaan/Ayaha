@@ -31,6 +31,13 @@
     "help-eval": "Pythonのコードを評価するよ！",
     "help-shell": "シェルコマンドを実行するよ！",
     "help-sql": "SQL文を実行するよ！",
+    "help-request": "リクエストを送信するよ！",
+    "help-about": "Botの概要を表示するよ！",
+    "help-invite": "Botの招待リンクを表示するよ！",
+    "help-report": "レポートを送信するよ！",
+    "help-ping": "Pingを測定するよ！",
+    "help-usersettings": "ユーザー設定を変更するよ！",
+    "help-jishaku": "jishakuを実行するよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
