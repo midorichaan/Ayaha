@@ -46,7 +46,7 @@ class mido_user_settings(commands.Cog):
         if ctx.channel.permissions_for(ctx.me).manage_messages:
             await msg.clear_reactions()
         else:
-            asyncio.gather(*[msg.remove_reaction(ctx.me, "🏳"), msg.remove_reaction(ctx.me, "❌")])
+            asyncio.gather(*[msg.remove_reaction("🏳", ctx.me), msg.remove_reaction("❌", ctx.me)])
 
     #usersettings
     @commands.group(name="usersettings", aliases=["usersetting", "us"], invoke_without_command=True)
@@ -67,7 +67,7 @@ class mido_user_settings(commands.Cog):
             return await m.edit(content="> {}".format(d["timeout"]))
         else:
             if ctx.channel.permissions_for(ctx.me).manage_messages:
-                await m.remove_reaction(ctx.author, str(r.emoji))
+                await m.remove_reaction(str(r.emoji), ctx.author)
                 
             if r.emoji == "🏳":
                 await m.edit(content="> {}".format(d["usersetting-select-lang"]), 
