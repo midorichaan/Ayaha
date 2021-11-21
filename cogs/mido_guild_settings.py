@@ -79,6 +79,7 @@ class mido_guild_settings(commands.Cog):
                     await msg.delete()
                     
                     await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (msg.content, ctx.guild.id))
+                    gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
@@ -92,6 +93,7 @@ class mido_guild_settings(commands.Cog):
                     else:
                         await self.bot.db.execute("UPDATE guilds SET disable_base_prefix=%s WHERE guild_id=%s", (1, ctx.guild.id,))
                     
+                    gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
