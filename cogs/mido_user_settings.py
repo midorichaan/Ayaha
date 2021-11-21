@@ -70,7 +70,7 @@ class mido_user_settings(commands.Cog):
                 await m.remove_reaction(ctx.author, str(r.emoji))
                 
             if r.emoji == "🏳":
-                await m.edit(content="> {}".format(d["usersetting-select-lang"])), 
+                await m.edit(content="> {}".format(d["usersetting-select-lang"]), 
                              embed=await self.build_us_embed(ctx, 1)
                             )
                 
