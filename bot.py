@@ -24,11 +24,11 @@ class Ayaha(commands.AutoShardedBot):
             command_prefix=_prefix_callable,
             intents=intents,
             status=discord.Status.idle,
-            shard_count=os.environ["SHARD_COUNT"]
+            shard_count=int(os.environ["SHARD_COUNT"])
         )
         
         self.owner_id = None
-        self.owner_ids = os.environ["OWNER_IDS"]
+        self.owner_ids = [546682137240403984]
         self.db = database.Database(host=os.environ["DB_ADDRESS"], port=3306, user=os.environ["DB_USERNAME"], password=os.environ["DB_PASSWD"], db=os.environ["DB_NAME"])
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.resumes = dict()
