@@ -61,6 +61,6 @@
     "guildsettings-true": "有効",
     "guildsettings-false": "無効",
     "guildsettings-prefix": "サーバーPrefix",
-    "guildsettings-type-prefix": "設定したいprefixを入力してね！(reset と入力すると設定を解除します)"
+    "guildsettings-type-prefix": "設定したいprefixを入力してね！(reset と入力するとPrefixを無しにします)"
     
 }
