@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+from lib import utils
+
 class mido_user_settings(commands.Cog):
     
     def __init__(self, bot):
