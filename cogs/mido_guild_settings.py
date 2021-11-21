@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 
+import asyncio
+from lib import utils
+
 class mido_guild_settings(commands.Cog):
 
     def __init__(self, bot):
