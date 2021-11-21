@@ -40,6 +40,8 @@
     "help-ping": "Displays the ping",
     "help-usersettings": "Change user setting",
     "help-jishaku": "Runs jishaku",
+    "help-ticket": "Ticket commands",
+    "help-guildsettings": "Change guild setting",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
