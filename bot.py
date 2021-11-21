@@ -3,11 +3,15 @@ from discord.ext import commands
 
 import aiohttp
 import datetime
+import logging
 import os
 import traceback
 
 from dotenv import load_dotenv
 from lib import database, utils, langutil
+
+#logger
+logging.basicConfig(level=logging.WARNING, format="[DebugLog] %(levelname)-8s: %(message)s")
 
 #load .env
 load_dotenv()
@@ -37,6 +41,7 @@ class Ayaha(commands.AutoShardedBot):
         self.tasks = dict()
         self.langutil = langutil.LangUtil(self)
         self.color = 0xb66767
+        self.logger = logging.getLogger("discord")
         
         for ext in self._ext:
             try:
@@ -82,11 +87,11 @@ class Ayaha(commands.AutoShardedBot):
     #on_command
     async def on_command(self, ctx):
         if ctx.guild:
-            print(f"[System] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
+            print(f"[Log] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
             await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, ctx.message.created_at, ctx.message.content))
         else:
-            print(f"[System] {ctx.author} → {ctx.message.content} | @DM")
+            print(f"[Log] {ctx.author} → {ctx.message.content} | @DM")
             await self.db.execute("INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, ctx.message.created_at, ctx.message.content))
     
