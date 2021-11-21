@@ -6,6 +6,7 @@ import io
 import os
 import textwrap
 import traceback
+import sys
 from contextlib import redirect_stdout
 from lib import utils
 
@@ -231,7 +232,9 @@ class mido_admins(commands.Cog):
             await self.bot.close()
         except Exception as exc:
             lang = await self.bot.langutil.get_lang(ctx.author.id, key='error')
-            await msg.edit(content=f"> {lang} \n```py\n{exc}\n```")
+            return await msg.edit(content=f"> {lang} \n```py\n{exc}\n```")
+        else:
+            os.execl(sys.executable, sys.executable, *sys.argv)
     
     #toggle
     @commands.is_owner()
