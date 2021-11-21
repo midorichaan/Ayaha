@@ -5,6 +5,10 @@
     "error": "Error",
     "aliases": "Aliases",
     "bot-restart": "Bot restarting.... please wait...",
+    "loading": "processing...",
+    "guilds": "Guilds",
+    "users": "Users",
+    "invites": "Invite URL",
     
     "notowner": "Only the bot administrator can use it",
     "cmd-notfound": "Command not found",
@@ -25,5 +29,9 @@
     "help-sql": "Runs a sql command",
     
     "ping-pinging": "Pinging... please wait...",
-    "ping-pong": "Pong！🏓"
+    "ping-pong": "Pong！🏓",
+    
+    "about-ayaha": "About of Ayaha",
+    "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」 was created mainly for the ticket function. It aims to be a bot that is easier to use than conventional bots!"
+    
 }
