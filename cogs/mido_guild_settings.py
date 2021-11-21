@@ -49,7 +49,8 @@ class mido_guild_settings(commands.Cog):
     #guildsettings
     @commands.command(name="guildsettings", aliases=["guildsetting", "gs", "config"], usage="guildsettings")
     @commands.guild_only()
-    @commands.bot_has_permissions(add_reactions=True, embed_links=True, manage_guild=True)
+    @commands.bot_has_permissions(add_reactions=True, embed_links=True)
+    @commands.has_permissions(manage_guild=True)
     async def guildsettings(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
