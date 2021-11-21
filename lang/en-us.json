@@ -62,6 +62,7 @@
     "guildsettings-no-prefix": "No prefix",
     "guildsettings-true": "On",
     "guildsettings-false": "Off",
-    "guildsettings-prefix": "Guild Prefix"
+    "guildsettings-prefix": "Guild Prefix",
+    "guildsettings-type-prefix": "Enter the prefix you want to set"
     
 }
