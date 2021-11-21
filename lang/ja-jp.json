@@ -38,6 +38,9 @@
     "about-ayaha": "彩葉の概要",
     "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」はチケット機能をメインに作られました。従来のBotよりも使いやすい、そんなBotを目指しています！",
     
-    "usersetting-select-lang": "言語を選択してね！"
+    "usersetting-select-lang": "言語を選択してね！",
+    
+    "request-submited": "管理者に送信したよ！リクエストありがとう！",
+    "report-submited": "管理者に送信したよ！報告ありがとう！"
     
 }
