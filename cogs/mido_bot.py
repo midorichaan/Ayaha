@@ -77,6 +77,15 @@ class mido_bot(commands.Cog):
         await self.bot.get_user(546682137240403984).send(embed=e)
         
         return await m.edit(content="> {}".format(d["request-submited"]))
+    
+    #invite
+    @commands.command()
+    async def invite(self, ctx):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
 
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        return await m.edit(f"> {d['invites']} \n<https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot>")
+    
 def setup(bot):
     bot.add_cog(mido_bot(bot))
