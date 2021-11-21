@@ -22,5 +22,9 @@
     "help-system": "管理者専用コマンドだよ！",
     "help-eval": "Pythonのコードを評価するよ！",
     "help-shell": "シェルコマンドを実行するよ！",
-    "help-sql": "SQL文を実行するよ！"
+    "help-sql": "SQL文を実行するよ！",
+    
+    "ping-pinging": "Pinging... please wait...",
+    "ping-pong": "ぽんぐっ！🏓"
+    
 }
