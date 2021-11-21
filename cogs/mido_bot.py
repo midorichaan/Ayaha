@@ -55,7 +55,7 @@ class mido_bot(commands.Cog):
         if not content:
             return await m.edit(content=f"> {d['args-required']}")
         
-        e = discord.Embed(description=f"Report \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
+        e = discord.Embed(description=f"__**Report**__ \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
         await self.bot.get_user(546682137240403984).send(embed=e)
         
@@ -72,7 +72,7 @@ class mido_bot(commands.Cog):
         if not content:
             return await m.edit(content=f"> {d['args-required']}")
         
-        e = discord.Embed(description=f"Request \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
+        e = discord.Embed(description=f"__**Request**__ \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
         await self.bot.get_user(546682137240403984).send(embed=e)
         
