@@ -43,6 +43,40 @@ class mido_bot(commands.Cog):
                     inline=False
                    )
         await m.edit(content=None, embed=e)
+    
+    #report
+    @commands.command()
+    async def report(self, ctx, *, content: str=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not content:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        e = discord.Embed(description=f"Report \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
+        e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
+        await self.bot.get_user(546682137240403984).send(embed=e)
+        
+        return await m.edit(content="> {}".format(d["report-submited"]))
+    
+    #request
+    @commands.command(name="request", aliases=["feature"])
+    async def request(self, ctx, *, content: str=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not content:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        e = discord.Embed(description=f"Request \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
+        e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
+        await self.bot.get_user(546682137240403984).send(embed=e)
+        
+        return await m.edit(content="> {}".format(d["request-submited"]))
 
 def setup(bot):
     bot.add_cog(mido_bot(bot))
