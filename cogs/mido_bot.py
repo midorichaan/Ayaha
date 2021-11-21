@@ -37,7 +37,7 @@ class mido_bot(commands.Cog):
         e.add_field(name=await self.bot.langutil.get_lang(ctx.author.id, key="users"), value=str(len(self.bot.users)))
         e.add_field(name=await self.bot.langutil.get_lang(ctx.author.id, key="invites"), 
                     value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot", 
-                    inline=True
+                    inline=False
                    )
         await m.edit(content=None, embed=e)
 
