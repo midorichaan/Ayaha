@@ -11,7 +11,7 @@ class mido_bot(commands.Cog):
         self.bot = bot
     
     #ping
-    @commands.command()
+    @commands.command(usage="ping")
     async def ping(self, ctx):
         msg_time = time.perf_counter()
         
@@ -24,7 +24,7 @@ class mido_bot(commands.Cog):
         await m.edit(content=f"> {d['ping-pong']} \nPing: {ping} \nWebSocket: {ws}")
     
     #about
-    @commands.command(aliases=["info", "bot", "ayaha"])
+    @commands.command(aliases=["info", "bot", "ayaha"], usage="about")
     async def about(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -45,7 +45,7 @@ class mido_bot(commands.Cog):
         await m.edit(content=None, embed=e)
     
     #report
-    @commands.command()
+    @commands.command(usage="report <content>")
     async def report(self, ctx, *, content: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -62,7 +62,7 @@ class mido_bot(commands.Cog):
         return await m.edit(content="> {}".format(d["report-submited"]))
     
     #request
-    @commands.command(name="request", aliases=["feature"])
+    @commands.command(name="request", aliases=["feature"], usage="request <content>")
     async def request(self, ctx, *, content: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -79,7 +79,7 @@ class mido_bot(commands.Cog):
         return await m.edit(content="> {}".format(d["request-submited"]))
     
     #invite
-    @commands.command()
+    @commands.command(usage="invite")
     async def invite(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
