@@ -80,7 +80,10 @@ class mido_guild_settings(commands.Cog):
                     msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id)
                     await msg.delete()
                     
-                    await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (msg.content, ctx.guild.id))
+                    if msg.content == "reset":
+                        await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (None, ctx.guild.id))
+                    else:
+                        await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (msg.content, ctx.guild.id))
                     gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
