@@ -4,6 +4,7 @@
     "description": "説明",
     "error": "エラー",
     "aliases": "エイリアス",
+    "bot-restart": "Botを再起動します...しばらくお待ちください...",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
