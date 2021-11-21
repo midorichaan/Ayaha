@@ -12,7 +12,7 @@ class mido_help(commands.Cog):
             self.bot.remove_command("help")
     
     #generate_help
-    def generate_help(self, ctx, data, *, command=None):
+    def generate_help(self, ctx, d, *, command=None):
         if command:
             e = discord.Embed(title=f"Help - {command}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
