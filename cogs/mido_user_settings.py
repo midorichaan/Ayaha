@@ -14,7 +14,7 @@ class mido_user_settings(commands.Cog):
         lang = await self.bot.langutil.get_lang(ctx.author.id, key="loading")
         m = await utils.reply_or_send(ctx, content=f"> {lang}")
         
-        e = discord.Embed(title=await self.bot.langutil.get_lang(ctx.author.id, key="usersetting"), 
+        e = discord.Embed(title=await self.bot.langutil.get_lang(ctx.author.id, key="usersettings"), 
                           description="",
                           color=self.bot.color,
                           timestamp=ctx.message.created_at
