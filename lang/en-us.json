@@ -57,8 +57,6 @@
     "report-submited": "Your report was submitted to the bot administrator. Thanks for reporting!",
     
     "guildsettings-toggle-baseprefix": "Toggle prefix「-」",
-    "guildsettings-set-prefix": "Guild prefix set to {REPLACE}",
-    "guildsettings-toggled-baseprefix": "Toggled prefix「-」to {REPLACE}",
     "guildsettings-no-prefix": "No prefix",
     "guildsettings-true": "On",
     "guildsettings-false": "Off",
