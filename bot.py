@@ -3,9 +3,9 @@ from discord.ext import commands
 
 import aiohttp
 import datetime
+import os
 import traceback
 
-import config
 from dotenv import load_dotenv
 from lib import database, utils, langutil
 
@@ -24,12 +24,11 @@ class Ayaha(commands.AutoShardedBot):
             command_prefix=_prefix_callable,
             intents=intents,
             status=discord.Status.idle,
-            shard_count=config.SHARD_COUNT
+            shard_count=os.environ["SHARD_COUNT"]
         )
         
         self.owner_id = None
-        self.owner_ids = config.OWNER_IDS
-        self.config = config
+        self.owner_ids = os.environ["OWNER_IDS"]
         self.db = database.Database()
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.resumes = dict()
@@ -127,7 +126,7 @@ class Ayaha(commands.AutoShardedBot):
     #run
     def run(self):
         try:
-            super().run(config.BOT_TOKEN)
+            super().run(os.environ["BOT_TOKEN"])
         except Exception as exc:
             print(f"[Error] {exc}")
         else:
