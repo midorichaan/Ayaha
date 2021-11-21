@@ -8,11 +8,11 @@ class LangUtil:
     #get_lang
     async def get_lang(self, author_id, *, key: str):
         db = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (author_id,))
-        lang = "jp"
+        lang = "ja-jp"
         keys = None
         
         if not db:
-            await self.bot.db.register_user(author_id, lang="jp")
+            await self.bot.db.register_user(author_id, lang="ja-jp")
         else:
             lang = db["lang"]
         
