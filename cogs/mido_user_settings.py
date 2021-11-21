@@ -82,6 +82,8 @@ class mido_user_settings(commands.Cog):
                     await self.bot.langutil.set_user_lang(ctx.author.id, lang=msg.content)
                     d = await self.bot.langutil.get_lang(msg.content)
                     await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
+                    await m.add_reaction("🏳")
+                    await m.add_reaction("❌")
                 elif r.emoji == "❌":
                     await self.clear_reactions(ctx, m)
                     break
