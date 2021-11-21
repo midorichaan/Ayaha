@@ -14,9 +14,13 @@ class LangUtil:
         return db
     
     #get_lang
-    async def get_lang(self, author_id: int, *, key: str):
-        lang = (await self.get_data(author_id))["lang"]
-        
+    async def get_lang(self, lang: str):
+        with open(f"./lang/{lang}.json", encoding="utf-8") as f:
+            js = json.load(f)
+            return js
+    
+    #get_key
+    async def get_key(self, lang: str, key: str):
         with open(f"./lang/{lang}.json", encoding="utf-8") as f:
             js = json.load(f)
         
