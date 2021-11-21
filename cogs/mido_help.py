@@ -7,6 +7,9 @@ class mido_help(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        
+        if isinstance(bot.get_command("help"), commands.help._HelpCommandImpl):
+            self.bot.remove_command("help")
     
     #generate_help
     def generate_help(self, ctx, data, *, command=None):
