@@ -76,7 +76,7 @@ class mido_user_settings(commands.Cog):
                 
                     i = await ctx.send("> {}".format(d["usersetting-select-lang"]))
                     msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id and m.content in self.available_lang)
-                    await i.delete()
+                    asyncio.gather(*[i.delete(), msg.delete()])
                     await self.bot.langutil.set_user_lang(ctx.author.id, lang=msg.content)
                     d = await self.bot.langutil.get_lang(msg.content)
                     await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
