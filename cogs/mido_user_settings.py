@@ -19,7 +19,7 @@ class mido_user_settings(commands.Cog):
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
                              )
-            e.description = f"🇯🇵: ja-jp \n🇺🇸: en-us"
+            e.description = "🇯🇵: ja-jp \n🇺🇸: en-us"
             return e
         else:
             e = discord.Embed(title=await self.bot.langutil.get_lang(ctx.author.id, key="usersettings"), 
@@ -48,7 +48,7 @@ class mido_user_settings(commands.Cog):
     @commands.group(name="usersettings", aliases=["usersetting", "us"], invoke_without_command=True)
     @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     async def usersettings(self, ctx):
-        m = await utils.reply_or_send(ctx, content=f"> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="loading")))
+        m = await utils.reply_or_send(ctx, content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="loading")))
         await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
         asyncio.gather(*[m.add_reaction("🏳"), m.add_reaction("❌")])
         
@@ -56,10 +56,10 @@ class mido_user_settings(commands.Cog):
             r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
         except asyncio.TimeoutError:
             await self.clear_reactions(ctx, m)
-            return await m.edit(content=f"> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="timeout")))
+            return await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="timeout")))
         else:
             if r.emoji == "🏳":
-                await m.edit(content=f"> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="usersetting-select-lang")), 
+                await m.edit(content="> {}".format(await self.bot.langutil.get_lang(ctx.author.id, key="usersetting-select-lang")), 
                              embed=await self.build_us_embed(ctx, 1)
                             )
                 
