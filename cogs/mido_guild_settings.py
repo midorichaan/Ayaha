@@ -22,14 +22,14 @@ class mido_guild_settings(commands.Cog):
                              )
             return e
         elif type == 2:
-            e = discord.Embed(title=d["guildsettings-toggle-base-prefix"], 
+            e = discord.Embed(title=d["guildsettings-toggle-baseprefix"], 
                               description=d["guildsettings-toggled-baseprefix"].replace("{REPLACE}", value),
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
                              )
             return e
         elif type == 3:
-            e = discord.Embed(title=d["guildsettings-toggle-base-prefix"], 
+            e = discord.Embed(title=d["guildsettings-prefix"], 
                               description=d["guildsettings-type-prefix"],
                               color=self.bot.color,
                               timestamp=ctx.message.created_at
