@@ -56,8 +56,6 @@
     "report-submited": "管理者に送信したよ！報告ありがとう！",
     
     "guildsettings-toggle-baseprefix": "Prefix「-」の切り替え",
-    "guildsettings-set-prefix": "サーバーprefixを {REPLACE} に変更したよ！",
-    "guildsettings-toggled-baseprefix": "Prefix「-」を {REPLACE} に変更したよ！",
     "guildsettings-no-prefix": "prefixなし",
     "guildsettings-true": "有効",
     "guildsettings-false": "無効",
