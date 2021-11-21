@@ -9,6 +9,8 @@
     "guilds": "導入数",
     "users": "ユーザー数",
     "invites": "招待URL",
+    "cancel": "キャンセル",
+    "language": "言語",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
