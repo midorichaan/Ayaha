@@ -10,6 +10,7 @@
     "cmd-disabled": "This command is disabled and cannot be used",
     "exc-badbool": "Invalid argument",
     "unknown-exc": "An unknown error has occurred",
+    "failed-loads": "Failed to load cogs",
     
     "help-toggle": "Toggle enable/disable command",
     "help-restart": "Restart the bot",
