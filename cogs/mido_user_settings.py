@@ -60,26 +60,29 @@ class mido_user_settings(commands.Cog):
         await m.add_reaction("🏳")
         await m.add_reaction("❌")
         
-        try:
-            r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
-        except asyncio.TimeoutError:
-            await self.clear_reactions(ctx, m)
-            return await m.edit(content="> {}".format(d["timeout"]))
-        else:
-            if ctx.channel.permissions_for(ctx.me).manage_messages:
-                await m.remove_reaction(str(r.emoji), ctx.author)
-                
-            if r.emoji == "🏳":
-                await m.edit(content="> {}".format(d["usersetting-select-lang"]), 
-                             embed=await self.build_us_embed(ctx, 1)
-                            )
-                
-                msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id and m.content in self.available_lang)
-                await self.bot.langutil.set_user_lang(ctx.author.id, lang=msg.content)
-                d = await self.bot.langutil.get_lang(msg.content)
-                await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
-            elif r.emoji == "❌":
+        while True:
+            try:
+                r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
+            except asyncio.TimeoutError:
                 await self.clear_reactions(ctx, m)
+                await m.edit(content="> {}".format(d["timeout"]))
+                break
+            else:
+                if ctx.channel.permissions_for(ctx.me).manage_messages:
+                    await m.remove_reaction(str(r.emoji), ctx.author)
+                
+                if r.emoji == "🏳":
+                    await m.edit(embed=await self.build_us_embed(ctx, 1))
+                
+                    i = await ctx.send("> {}".format(d["usersetting-select-lang"]))
+                    msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id and m.content in self.available_lang)
+                    await i.delete()
+                    await self.bot.langutil.set_user_lang(ctx.author.id, lang=msg.content)
+                    d = await self.bot.langutil.get_lang(msg.content)
+                    await m.edit(content=None, embed=await self.build_us_embed(ctx, 0))
+                elif r.emoji == "❌":
+                    await self.clear_reactions(ctx, m)
+                    break
         
 def setup(bot):
     bot.add_cog(mido_user_settings(bot))
