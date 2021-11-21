@@ -49,7 +49,7 @@ class mido_user_settings(commands.Cog):
             asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
 
     #usersettings
-    @commands.group(name="usersettings", aliases=["usersetting", "us"], invoke_without_command=True)
+    @commands.command(name="usersettings", aliases=["usersetting", "us"], usage="usersettings")
     @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     async def usersettings(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
