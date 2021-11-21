@@ -36,12 +36,15 @@ class Ayaha(commands.AutoShardedBot):
         self.db = database.Database(host=os.environ["DB_ADDRESS"], port=3306, user=os.environ["DB_USERNAME"], password=os.environ["DB_PASSWD"], db=os.environ["DB_NAME"])
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.resumes = dict()
-        self._ext = ["cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_user_settings", "cogs.mido_ticket", "jishaku"]
         self.uptime = datetime.datetime.now()
         self.tasks = dict()
         self.langutil = langutil.LangUtil(self)
         self.color = 0xb66767
         self.logger = logging.getLogger("discord")
+        self._ext = [
+            "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_user_settings", 
+            "cogs.mido_guild_settings", "cogs.mido_ticket", "jishaku"
+        ]
         
         for ext in self._ext:
             try:
