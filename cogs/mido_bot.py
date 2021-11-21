@@ -85,7 +85,7 @@ class mido_bot(commands.Cog):
         d = await self.bot.langutil.get_lang(lang)
 
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
-        return await m.edit(f"> {d['invites']} \n<https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot>")
+        return await m.edit(content=f"> {d['invites']} \n<https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot>")
     
 def setup(bot):
     bot.add_cog(mido_bot(bot))
