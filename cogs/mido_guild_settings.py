@@ -44,7 +44,7 @@ class mido_guild_settings(commands.Cog):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         
-        m = await utils.reply_or_send(ctx, content="> {}".format(d["loading"]))
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, lang=lang))
         await m.add_reaction("❌")
         
@@ -53,7 +53,7 @@ class mido_guild_settings(commands.Cog):
                 r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
             except asyncio.TimeoutError:
                 await self.clear_reactions(ctx, m)
-                await m.edit(content="> {}".format(d["timeout"]))
+                await m.edit(content=f"> {d['timeout']}")
                 break
             else:
                 if ctx.channel.permissions_for(ctx.me).manage_messages:
