@@ -16,14 +16,14 @@ class mido_help(commands.Cog):
         if command:
             e = discord.Embed(title=f"Help - {command}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
-            e.add_field(name=data["description"], value=d[f"cmd-{command}"])
+            e.add_field(name=data["description"], value=d[f"help-{command}"])
             e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]))
             return e
         else:
             e = discord.Embed(title=f"Help - Commands", color=self.bot.color, timestamp=ctx.message.created_at)
             
             for i in self.bot.commands:
-                e.add_field(name=i.name, value=d[f"cmd-{i.name}"])
+                e.add_field(name=i.name, value=d[f"help-{i.name}"])
             
             return e
     
