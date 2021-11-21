@@ -36,8 +36,8 @@ class mido_bot(commands.Cog):
                           color=self.bot.color, 
                           timestamp=ctx.message.created_at
                          )
-        e.add_field(name=d["guilds"]), value=str(len(self.bot.guilds)))
-        e.add_field(name=d["users"]), value=str(len(self.bot.users)))
+        e.add_field(name=d["guilds"], value=str(len(self.bot.guilds)))
+        e.add_field(name=d["users"], value=str(len(self.bot.users)))
         e.add_field(name=d["invites"], 
                     value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot", 
                     inline=False
