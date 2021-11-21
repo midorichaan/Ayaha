@@ -14,6 +14,7 @@
     "language": "Language",
     "usersettings": "User Settings",
     "timeout": "Timeouted",
+    "no-aliases": "No aliases",
     
     "notowner": "Only the bot administrator can use it",
     "cmd-notfound": "Command not found",
