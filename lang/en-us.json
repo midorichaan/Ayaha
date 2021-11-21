@@ -32,6 +32,13 @@
     "help-eval": "Evaluates a python code",
     "help-shell": "Runs a shell command",
     "help-sql": "Runs a sql command",
+    "help-request": "Submit the request to bot administrator",
+    "help-about": "Displays the about of bot",
+    "help-invite": "Displays the bot invite link",
+    "help-report": "Submit the report to bot administrator",
+    "help-ping": "Displays the ping",
+    "help-usersettings": "Change user setting",
+    "help-jishaku": "Runs jishaku",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
