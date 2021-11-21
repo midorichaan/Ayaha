@@ -24,6 +24,7 @@
     "exc-badbool": "Invalid argument",
     "unknown-exc": "An unknown error has occurred",
     "failed-loads": "Failed to load cogs",
+    "exc-nodm": "This command can't be used in private messages",
     
     "help-toggle": "Toggle enable/disable command",
     "help-restart": "Restart the bot",
