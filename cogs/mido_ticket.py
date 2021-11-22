@@ -1,12 +1,19 @@
 import discord
 from discord.ext import commands
 
-from lib import utils
+from lib import utils, ticketutil
 
 class mido_ticket(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        self.ticketutil = ticketutil.TicketUtil(bot)
+    
+    #cog_check
+    async def cog_check(self, ctx):
+        if ctx.guild:
+            return True
+        return False
     
     #generate_help
     def generate_help(self, ctx, data, *, command=None):
@@ -44,6 +51,6 @@ class mido_ticket(commands.Cog):
             return await m.edit(content=None, embed=self.generate_help(ctx, d))
         else:
             return await m.edit(content=None, embed=self.generate_help(ctx, d))
-
+    
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
