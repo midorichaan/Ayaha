@@ -37,8 +37,9 @@ class TicketUtil:
                 "ticketpanels(panel_id BIGINT PRIMARY KEY NOT NULL, guild_id BIGINT, channel_id BIGINT, author_id BIGINT, created_at TEXT)"
         ]
         
-        await self.bot.db.executemany(*query)
-    
+        for i in query:
+            await self.bot.db.execute(i)
+        
     #register_ticket
     async def register_ticket(self, *, channel_id: int=None, guild_id: int=None, author_id: int=None, created_at: str=None):
         await self.bot.db.execute(
