@@ -61,6 +61,15 @@
     "guildsettings-true": "有効",
     "guildsettings-false": "無効",
     "guildsettings-prefix": "サーバーPrefix",
-    "guildsettings-type-prefix": "設定したいprefixを入力してね！(reset と入力するとPrefixを無しにします)"
+    "guildsettings-type-prefix": "設定したいprefixを入力してね！(reset と入力するとPrefixを無しにします)",
+    
+    "profile-rank": "権限 (Bot)",
+    "profile-verify": "認証 (Bot)",
+    "profile-language": "言語",
+    "profile-rank-0": "メンバー",
+    "profile-rank-1": "VIP",
+    "profile-rank-2": "運営",
+    "profile-verify-0": "いいえ",
+    "profile=verify-1": "はい"
     
 }
