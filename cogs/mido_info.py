@@ -30,7 +30,7 @@ class mido_info(commands.Cog):
         else:
             e.add_field(name=d["profile-rank"], value=d[f"profile-rank-{db['rank']}"])
             e.add_field(name=d["profile-verify"], value=d[f"profile-verify-{db['verify']}"])
-            e.add_field(name=d["profile-language"], value=lang)
+            e.add_field(name=d["profile-language"], value=await self.bot.langutil.get_user_lang(target.id))
             
         return await m.edit(content=None, embed=e)
         
