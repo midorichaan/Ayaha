@@ -45,6 +45,7 @@
     "help-jishaku": "Runs jishaku",
     "help-ticket": "Ticket commands",
     "help-guildsettings": "Change guild setting",
+    "help-profile": "Displays the user profile",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
