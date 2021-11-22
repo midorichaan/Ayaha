@@ -32,9 +32,9 @@ class TicketUtil:
     async def db_init(self):
         query = [
             "CREATE TABLE IF NOT EXISTS " \
-                "tickets(ticket_id BIGINT PRIMARY KEY NOT NULL, guild_id BIGINT, author_id BIGINT, created_at TEXT, status INT, reason TEXT)",
+            "tickets(ticket_id BIGINT PRIMARY KEY NOT NULL, guild_id BIGINT, author_id BIGINT, created_at TEXT, status INT, reason TEXT)",
             "CREATE TABLE IF NOT EXISTS " \
-                "ticketpanels(panel_id BIGINT PRIMARY KEY NOT NULL, guild_id BIGINT, channel_id BIGINT, author_id BIGINT, created_at TEXT)"
+            "ticketpanels(panel_id BIGINT PRIMARY KEY NOT NULL, guild_id BIGINT, channel_id BIGINT, author_id BIGINT, created_at TEXT)"
         ]
         
         for i in query:
