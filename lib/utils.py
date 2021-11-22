@@ -1,5 +1,6 @@
 import asyncio
 import subprocess
+from discord.ext import commands
 
 #reply_or_send
 async def reply_or_send(ctx, *args, **kwargs):
