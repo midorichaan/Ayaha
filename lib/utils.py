@@ -43,3 +43,19 @@ async def is_staff(ctx):
     
     return db["rank"] >= 2
     
+#FetchUserConverter
+class FetchUserConverter(commands.Converter):
+    async def convert(self, ctx, argument):
+        try:
+            return await commands.MemberConverter().convert(ctx, argument)
+        except:
+            try:
+                return await commands.UserConverter().convert(ctx, argument)
+            except:
+                if argument.isdigit():
+                    try:
+                        return await ctx.bot.fetch_user(int(argument))
+                    except:
+                        return None
+                else:
+                    return None
