@@ -47,6 +47,7 @@
     "help-ticket": "チケット関連のコマンドだよ！",
     "help-guildsettings": "サーバー設定を変更するよ！",
     "help-profile": "ユーザーのプロファイルを表示するよ！",
+    "help-getlog": "エラーログを取得するよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
