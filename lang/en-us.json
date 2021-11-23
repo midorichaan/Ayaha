@@ -17,6 +17,7 @@
     "no-aliases": "No aliases",
     "guildsettings": "Guild Settings",
     "none": "none",
+    "error-id": "Error ID",
     
     "notowner": "Only the bot administrator can use it",
     "cmd-notfound": "Command not found",
