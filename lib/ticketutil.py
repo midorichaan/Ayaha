@@ -116,7 +116,7 @@ class TicketUtil:
         await self.bot.db.execute("DELETE FROM ticketpanels WHERE panel_id=%s", (panel_id,))
     
     #panel_exists
-    async def panel_exists(self, *, guild_id: int, panel_id: int):
+    async def panel_exists(self, *, panel_id: int):
         db = await self.bot.db.fetchone("SELECT * FROM ticketpanels WHERE panel_id=%s", (panel_id,))
         
         if db:
