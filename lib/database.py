@@ -64,8 +64,31 @@ class Database:
     
     #register_user
     async def register_user(self, author_id: int, *, lang: str):
-        await self.execute("INSERT INTO users VALUES(%s, %s, %s, %s)", (author_id, lang, 0, 0))
-    
+        await self.execute(
+            "INSERT INTO users VALUES(%s, %s, %s, %s)", 
+            (author_id, lang, 0, 0)
+        )
+        
     #register_guild
     async def register_guild(self, guild_id: int):
-        await self.execute("INSERT INTO guilds VALUES(%s, %s, %s, %s, %s)", (guild_id, None, 0, 0, 0))
+        await self.execute(
+            "INSERT INTO guilds VALUES(%s, %s, %s, %s, %s)", 
+            (guild_id, None, 0, 0, 0)
+        )
+        
+        await self.execute(
+            "INSERT INTO ticketconfig VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
+            (guild_id, 0, None, None, 0, 0, None, None)
+        )
+    
+    #unregister_guild
+    async def unregister_guild(self, guild_id: int):
+        await self.execute(
+            "DELETE FROM guilds WHERE guild_id=%s", 
+            (guild_id,)
+        )
+        
+        await self.execute(
+            "DELETE FROM ticketconfig WHERE guild_id=%s", 
+            (guild_id,)
+        )
