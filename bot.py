@@ -80,20 +80,20 @@ class Ayaha(commands.AutoShardedBot):
         d = await self.langutil.get_lang(lang)
         
         if isinstance(exc, commands.NotOwner):
-            await utils.reply_or_send(ctx, content=f"> {d['notowner']}")
+            await utils.reply_or_send(ctx, content=f"> {d['notowner']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.CommandNotFound):
-            await utils.reply_or_send(ctx, content=f"> {d['cmd-notfound']}")
+            await utils.reply_or_send(ctx, content=f"> {d['cmd-notfound']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.DisabledCommand):
-            await utils.reply_or_send(ctx, content=f"> {d['cmd-disabled']}")
+            await utils.reply_or_send(ctx, content=f"> {d['cmd-disabled']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.BadBoolArgument):
-            await utils.reply_or_send(ctx, content=f"> {d['exc-badbool']}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-badbool']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.NoPrivateMessage):
-            await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
-                await utils.reply_or_send(ctx, content=f"> unknown exception \n```py\n{exc}\n```")
+                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc}\n```")
             else:
-                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']}")
+                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n{d['error-id']}: {ctx.message.id}")
                 
     #on_command
     async def on_command(self, ctx):
