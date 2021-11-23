@@ -49,6 +49,8 @@ class Ayaha(commands.AutoShardedBot):
         self.langutil = langutil.LangUtil(self)
         self.color = 0xb66767
         self.logger = logging.getLogger("discord")
+        self._last_exc = None
+        
         self._ext = [
             "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_user_settings", 
             "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "jishaku"
@@ -76,6 +78,7 @@ class Ayaha(commands.AutoShardedBot):
                                   (ctx.message.id, ctx.author.id, ctx.channel.id, None, 
                                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc))
         
+        self._last_exc = exc
         lang = await self.langutil.get_user_lang(ctx.author.id)
         d = await self.langutil.get_lang(lang)
         
