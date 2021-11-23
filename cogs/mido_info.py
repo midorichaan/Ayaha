@@ -24,10 +24,12 @@ class mido_info(commands.Cog):
         
         db = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
         if not db:
+            e.add_field(name=d["profile-exists"], value=d["profile-exists-0"])
             e.add_field(name=d["profile-rank"], value=d["profile-rank-0"])
             e.add_field(name=d["profile-verify"], value=d["profile-verify-0"])
             e.add_field(name=d["profile-language"], value="ja-jp")
         else:
+            e.add_field(name=d["profile-exists"], value=d["profile-exists-1"])
             e.add_field(name=d["profile-rank"], value=d[f"profile-rank-{db['rank']}"])
             e.add_field(name=d["profile-verify"], value=d[f"profile-verify-{db['verify']}"])
             e.add_field(name=d["profile-language"], value=await self.bot.langutil.get_user_lang(target.id))
