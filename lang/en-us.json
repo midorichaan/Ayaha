@@ -49,6 +49,7 @@
     "help-guildsettings": "Change guild setting",
     "help-profile": "Displays the user profile",
     "help-getlog": "Get the error log",
+    "help-config": "Ticket config (Deprecated)",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
@@ -78,6 +79,8 @@
     "profile-verify-1": "true",
     "profile-exists": "Profile exists",
     "profile-exists-0": "false",
-    "profile-exists-1": "true"
+    "profile-exists-1": "true",
+    
+    "ticket-use-guildsetting": "`ticket config` is deprecated. use `guildsettings`！"
     
 }
