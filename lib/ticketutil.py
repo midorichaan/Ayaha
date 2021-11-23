@@ -54,6 +54,18 @@ class TicketUtil:
             (panel_id, guild_id, channel_id, author_id, created_at)
         )
     
+    #create_panel
+    async def create_panel(self, *, guild_id: int):
+        db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (guild_id,))
+        e = discord.Embed(color=self.bot.color)
+        
+        if db["ticket_panel_title"]:
+            e.title = db["ticket_panel_title"]
+        if db["ticket_panel_description"]:
+            e.description = db["ticket_panel_description"]
+        
+        return e
+    
     #get_tickets
     async def get_tickets(self):
         db = await self.bot.db.fetchall("SELECT * FROM tickets")
