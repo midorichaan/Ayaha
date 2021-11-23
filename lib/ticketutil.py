@@ -1,3 +1,5 @@
+import discord
+
 class DatabaseNotFound(Exception):
     pass
 
