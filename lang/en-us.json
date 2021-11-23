@@ -81,6 +81,10 @@
     "profile-exists-0": "false",
     "profile-exists-1": "true",
     
-    "ticket-use-guildsetting": "`ticket config` is deprecated. use `guildsettings`！"
+    "ticket-use-guildsetting": "`ticket config` is deprecated. use `guildsettings`！",
+    "ticket-unknown-exc": "An unknown error has occurred",
+    "ticket-panel-created": "Ticket panel created! \n{PANEL_URL}",
+    "ticket-panel-notexists": "Ticket panael was not found",
+    "ticket-panel-deleted": "Ticket panel deleted!"
     
 }
