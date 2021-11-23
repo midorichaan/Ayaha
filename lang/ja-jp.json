@@ -80,6 +80,10 @@
     "profile-exists-0": "いいえ",
     "profile-exists-1": "はい",
     
-    "ticket-use-guildsetting": "`ticket config` は非推奨です。 `guildsettings` を使用してね！"
+    "ticket-use-guildsetting": "`ticket config` は非推奨です。 `guildsettings` を使用してね！",
+    "ticket-unknown-exc": "エラーが発生したよ！",
+    "ticket-panel-created": "チケットパネルを作成したよ！ \n{PANEL_URL}",
+    "ticket-panel-notexists": "パネルが見つからなかったよ！",
+    "ticket-panel-deleted": "チケットパネルを削除したよ！"
     
 }
