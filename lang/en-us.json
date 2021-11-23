@@ -72,6 +72,9 @@
     "profile-rank-1": "VIP",
     "profile-rank-2": "Admin",
     "profile-verify-0": "false",
-    "profile-verify-1": "true"
+    "profile-verify-1": "true",
+    "profile-exists": "Profile exists",
+    "profile-exists-0": "false",
+    "profile-exists-1": "true"
     
 }
