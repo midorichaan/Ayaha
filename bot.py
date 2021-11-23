@@ -121,7 +121,7 @@ class Ayaha(commands.AutoShardedBot):
         print("[System] on_ready!")
         
         for i in self.guilds:
-            await self.db.check_guild_profile(i.id)
+            await utils.check_guild_profile(self, i.id)
         
         await self.change_presence(status=discord.Status.online, 
                                    activity=discord.Game(name=f"-help | Guilds: {len(self.guilds)} | Users: {len(self.users)}")
