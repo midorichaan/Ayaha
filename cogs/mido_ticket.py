@@ -52,5 +52,16 @@ class mido_ticket(commands.Cog):
         else:
             return await m.edit(content=None, embed=self.generate_help(ctx, d))
     
+    #config
+    @ticket.command(usage="config")
+    @commands.has_permissions(manage_guild=True)
+    async def config(self, ctx):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        return await m.edit(content=f"> {d['ticket-use-guildsetting']}")
+    
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
