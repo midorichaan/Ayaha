@@ -62,14 +62,14 @@ class mido_ticket(commands.Cog):
     #panel
     @ticket.group(usage="panel <args>")
     @commands.guild_only()
-    @commands.has_permission(manage_guild=True)
+    @commands.has_permissions(manage_guild=True)
     async def panel(self, ctx):
         pass
     
     #panel
     @panel.command(usage="create [channel]")
     @commands.guild_only()
-    @commands.has_permission(manage_guild=True)
+    @commands.has_permissions(manage_guild=True)
     async def create(self, ctx, channel=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -95,7 +95,7 @@ class mido_ticket(commands.Cog):
     #panel
     @panel.command(usage="delete [channel]")
     @commands.guild_only()
-    @commands.has_permission(manage_guild=True)
+    @commands.has_permissions(manage_guild=True)
     async def delete(self, ctx, panel_id=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
