@@ -59,7 +59,38 @@ class mido_ticket(commands.Cog):
         
         return await m.edit(content=f"> {d['ticket-use-guildsetting']}")
     
-    #
+    #panel
+    @ticket.group(usage="panel <args>")
+    @commands.guild_only()
+    @commands.has_permission(manage_guild=True)
+    async def panel(self, ctx):
+        pass
+    
+    #panel
+    @panel.command(usage="create [channel]")
+    @commands.guild_only()
+    @commands.has_permission(manage_guild=True)
+    async def panel(self, ctx, channel=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if channel:
+            try:
+                channel = await commands.TextChannelConverter().convert(ctx, str(channel))
+            except:
+                return await m.edit(content=f"> {d['channel-not-exists']}")
+        else:
+            channel = ctx.channel
+        
+        try:
+            panel = await self.ticketutil.create_panel(guild_id=ctx.guild.id)
+        except:
+            return await m.edit(content=f"> {d['ticket-unknown-exc']}")
+        else:
+            panel_obj = await channel.send(embed=panel)
+            msg = d['ticket-panel-created'].replace("{PANEL_URL}", panel_obj.jump_url)
+            return await m.edit(content=f"> {msg}")
     
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
