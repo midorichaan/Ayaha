@@ -16,6 +16,7 @@
     "no-aliases": "エイリアスなし",
     "guildsettings": "サーバー設定",
     "none": "なし",
+    "error-id": "エラーID",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
