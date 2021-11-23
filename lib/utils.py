@@ -33,6 +33,12 @@ async def run_process(ctx, command):
 
     return [output.decode() for output in result]
 
+#check_guild_profile
+async def check_guild_profile(bot, guild_id: int):
+    db = await bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (guild_id,))
+    if not db:
+        await bot.db.register_guild(guild_id)
+
 #is_staff
 async def is_staff(ctx):
     if ctx.author.id in ctx.bot.owner_ids:
