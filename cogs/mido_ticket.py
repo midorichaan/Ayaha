@@ -25,6 +25,13 @@ class mido_ticket(commands.Cog):
             
             return e
     
+    #try_delete
+    async def try_delete(self, msg):
+        try:
+            await msg.delete()
+        except:
+            pass
+    
     #ticket
     @commands.group(usage="ticket [args]", invoke_without_command=True)
     async def ticket(self, ctx):
@@ -112,11 +119,17 @@ class mido_ticket(commands.Cog):
             return await m.edit(content=f"> {d['ticket-panel-notexists']}")
         
         try:
-            panel = await self.ticketutil.delete_panel(panel_id)
+            p = await commands.MessageConverter().convert(ctx, f"{exists['channel_id']}-{exists['panel_id']}"))
         except:
-            return await m.edit(content=f"> {d['ticket-unknown-exc']}")
-        else:
-            return await m.edit(content=f"> {d['ticket-panel-deleted']}")
+            pass
+        finally:       
+            try:
+                panel = await self.ticketutil.delete_panel(panel_id)
+                await self.try_delete(p)
+            except:
+                return await m.edit(content=f"> {d['ticket-unknown-exc']}")
+            else:
+                return await m.edit(content=f"> {d['ticket-panel-deleted']}")
     
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
