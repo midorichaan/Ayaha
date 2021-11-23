@@ -122,5 +122,5 @@ class TicketUtil:
         db = await self.bot.db.fetchone("SELECT * FROM ticketpanels WHERE panel_id=%s", (panel_id,))
         
         if db:
-            return True
+            return db
         return False
