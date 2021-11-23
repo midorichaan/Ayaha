@@ -48,6 +48,7 @@
     "help-ticket": "Ticket commands",
     "help-guildsettings": "Change guild setting",
     "help-profile": "Displays the user profile",
+    "help-getlog": "Get the error log",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
