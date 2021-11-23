@@ -48,6 +48,7 @@
     "help-guildsettings": "サーバー設定を変更するよ！",
     "help-profile": "ユーザーのプロファイルを表示するよ！",
     "help-getlog": "エラーログを取得するよ！",
+    "help-config": "チケットの設定を変更するよ！ (非推奨)",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
@@ -77,6 +78,8 @@
     "profile-verify-1": "はい",
     "profile-exists": "プロファイル",
     "profile-exists-0": "いいえ",
-    "profile-exists-1": "はい"
+    "profile-exists-1": "はい",
+    
+    "ticket-use-guildsetting": "`ticket config` は非推奨です。 `guildsettings` を使用してね！"
     
 }
