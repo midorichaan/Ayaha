@@ -61,6 +61,8 @@ class TicketUtil:
         
         if db["ticket_panel_title"]:
             e.title = db["ticket_panel_title"]
+        else:
+            e.title = "Ticket Panel"
         if db["ticket_panel_description"]:
             e.description = db["ticket_panel_description"]
         
