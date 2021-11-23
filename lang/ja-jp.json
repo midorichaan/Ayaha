@@ -17,6 +17,7 @@
     "guildsettings": "サーバー設定",
     "none": "なし",
     "error-id": "エラーID",
+    "data-notfound": "データが見つからなかったよ！",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
