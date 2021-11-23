@@ -99,6 +99,7 @@ class mido_ticket(commands.Cog):
             await self.ticketutil.register_panel(
                 panel_id=panel_obj.id, guild_id=ctx.guild.id, channel_id=channel.id, author_id=ctx.author.id, created_at=str(panel_obj.created_at)
             )
+            await panel_obj.add_reaction("📩")
             msg = d['ticket-panel-created'].replace("{PANEL_URL}", panel_obj.jump_url)
             return await m.edit(content=f"> {msg}")
     
