@@ -149,9 +149,11 @@ class Ayaha(commands.AutoShardedBot):
     
     #on_guild_join
     async def on_guild_join(self, guild):
-        db = await self.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (guild.id,))
-        if not db:
-            await self.db.register_guild(guild.id)
+        await self.db.register_guild(guild.id)
+    
+    #on_guild_remove
+    async def on_guild_remove(self, guild):
+        await self.db.unregister_guild(guild.id)
 
     #status update
     @tasks.loop(minutes=10.0)
