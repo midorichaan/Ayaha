@@ -91,7 +91,7 @@ class Ayaha(commands.AutoShardedBot):
             await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
-                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc}\n```")
+                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
             else:
                 await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n{d['error-id']}: {ctx.message.id}")
                 
