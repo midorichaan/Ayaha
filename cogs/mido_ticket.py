@@ -107,12 +107,12 @@ class mido_ticket(commands.Cog):
         if not panel_id:
             return await m.edit(content=f"> {d['args-required']}")
         
-        exists = await self.ticketutil.panel_exists(panel_id)
+        exists = await self.ticketutil.panel_exists(panel_id=panel_id)
         if not exists:
             return await m.edit(content=f"> {d['ticket-panel-notexists']}")
         
         try:
-            panel = await self.ticketutil.delete_panel(panel_id=panel_id)
+            panel = await self.ticketutil.delete_panel(panel_id)
         except:
             return await m.edit(content=f"> {d['ticket-unknown-exc']}")
         else:
