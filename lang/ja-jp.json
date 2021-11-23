@@ -49,6 +49,7 @@
     "help-profile": "ユーザーのプロファイルを表示するよ！",
     "help-getlog": "エラーログを取得するよ！",
     "help-config": "チケットの設定を変更するよ！ (非推奨)",
+    "help-panel": "チケットパネルのコマンドだよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
