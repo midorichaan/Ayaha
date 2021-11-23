@@ -70,7 +70,7 @@ class mido_ticket(commands.Cog):
     @panel.command(usage="create [channel]")
     @commands.guild_only()
     @commands.has_permission(manage_guild=True)
-    async def panel(self, ctx, channel=None):
+    async def create(self, ctx, channel=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
@@ -91,6 +91,29 @@ class mido_ticket(commands.Cog):
             panel_obj = await channel.send(embed=panel)
             msg = d['ticket-panel-created'].replace("{PANEL_URL}", panel_obj.jump_url)
             return await m.edit(content=f"> {msg}")
+    
+    #panel
+    @panel.command(usage="delete [channel]")
+    @commands.guild_only()
+    @commands.has_permission(manage_guild=True)
+    async def delete(self, ctx, panel_id=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not panel_id:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        exists = await self.ticketutil.panel_exists(panel_id)
+        if not exists:
+            return await m.edit(content=f"> {d['ticket-panel-notexists']}")
+        
+        try:
+            panel = await self.ticketutil.delete_panel(panel_id=panel_id)
+        except:
+            return await m.edit(content=f"> {d['ticket-unknown-exc']}")
+        else:
+            return await m.edit(content=f"> {d['ticket-panel-deleted']}")
     
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
