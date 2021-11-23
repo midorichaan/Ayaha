@@ -9,12 +9,6 @@ class mido_ticket(commands.Cog):
         self.bot = bot
         self.ticketutil = ticketutil.TicketUtil(bot)
     
-    #cog_check
-    async def cog_check(self, ctx):
-        if ctx.guild:
-            return True
-        return False
-    
     #generate_help
     def generate_help(self, ctx, data, *, command=None):
         if command:
@@ -38,6 +32,7 @@ class mido_ticket(commands.Cog):
     
     #help
     @ticket.command(name="help", usage="help [cmd]")
+    @commands.guild_only()
     async def help(self, ctx, cmd=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -54,6 +49,7 @@ class mido_ticket(commands.Cog):
     
     #config
     @ticket.command(usage="config")
+    @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     async def config(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -62,6 +58,8 @@ class mido_ticket(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
         return await m.edit(content=f"> {d['ticket-use-guildsetting']}")
+    
+    #
     
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
