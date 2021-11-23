@@ -120,7 +120,7 @@ class mido_ticket(commands.Cog):
             return await m.edit(content=f"> {d['ticket-panel-notexists']}")
         
         try:
-            p = await commands.MessageConverter().convert(ctx, f"{exists['channel_id']}-{exists['panel_id']}"))
+            p = await commands.MessageConverter().convert(ctx, f"{exists['channel_id']}-{exists['panel_id']}")
         except:
             pass
         finally:       
