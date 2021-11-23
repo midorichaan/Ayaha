@@ -145,7 +145,7 @@ class mido_admins(commands.Cog):
         if not db:
             return await m.edit(content=f"> {d['data-notfound']}")
         
-        e = discord.Embed(description=f"```py\n{db['traceback']}", color=self.bot.color, timestamp=discord.utils.snowflake_time(error_id))
+        e = discord.Embed(description=f"```py\n{db['traceback']}\n```", color=self.bot.color, timestamp=discord.utils.snowflake_time(error_id))
         tar = await utils.FetchUserConverter().convert(ctx, str(db["author_id"]))
         if tar:
             e.set_author(name=f"{tar} ({db['author_id']})", icon_url=tar.avatar_url_as(static_format="png"))
