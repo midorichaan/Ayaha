@@ -50,6 +50,7 @@
     "help-profile": "Displays the user profile",
     "help-getlog": "Get the error log",
     "help-config": "Ticket config (Deprecated)",
+    "help-panel": "Ticket panel",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
