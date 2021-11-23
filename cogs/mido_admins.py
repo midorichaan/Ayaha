@@ -129,6 +129,31 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.failed)
             return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
     
+    #getlog
+    @commands.command(usage="getlog <error_id>")
+    @commands.is_owner()
+    async def getlog(self, ctx, error_id: int=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not error_id:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        db = await self.bot.db.fetchone("SELECT * FROM error_log WHERE log_id=%s", (error_id,))
+        if not db:
+            return await m.edit(content=f"> {d['data-notfound']}")
+        
+        e = discord.Embed(description=f"```py\n{db['traceback']}", color=self.bot.color, timestamp=discord.utils.snowflake_time(error_id))
+        tar = await utils.FetchUserConverter().convert(ctx, db["author_id"])
+        if tar:
+            e.set_author(name=f"{tar} ({db['author_id']})", icon_url=tar.avatar_url_as(static_format="png"))
+        else:
+            e.set_author(name=f"Unknown User ({db['author_id']})")
+        
+        return await m.edit(content=None, embed=e)
+    
     #system
     @commands.group(name="system", usage="system [args]", invoke_without_command=True)
     @commands.is_owner()
