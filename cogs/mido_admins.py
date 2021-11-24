@@ -34,6 +34,32 @@ class mido_admins(commands.Cog):
             
             return e
     
+    #rank
+    @commands.is_owner()
+    @commands.command(usage="rank <user/member> <rank>")
+    async def rank(self, ctx, target: utils.FetchUserConverter=None, rank: int=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not target:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        if not rank:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        try:
+            await self.bot.db.execute(
+                "UPDATE users SET rank=%s WHERE user_id=%s",
+                (rank, target.id)
+            )
+        except:
+            return await m.edit(content=f"> {d['unknown-exc']}")
+        else:
+            msg = d["rank-changed"].replace("{RANK}", d[f"profile-rank-{rank}"]).replace("{TARGET}", str(target))
+            await m.edit(content=f"> {msg}")
+    
     #eval
     @commands.is_owner()
     @commands.command(name="eval", usage="eval <code>")
