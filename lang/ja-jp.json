@@ -85,6 +85,8 @@
     "ticket-unknown-exc": "エラーが発生したよ！",
     "ticket-panel-created": "チケットパネルを作成したよ！ \n{PANEL_URL}",
     "ticket-panel-notexists": "パネルが見つからなかったよ！",
-    "ticket-panel-deleted": "チケットパネルを削除したよ！"
+    "ticket-panel-deleted": "チケットパネルを削除したよ！",
+    "ticket-panel-notfound": "パネルが見つからなかったよ！",
+    "ticket-panel-refreshed": "パネルを再読み込みしたよ！"
     
 }
