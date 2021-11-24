@@ -46,7 +46,7 @@ class mido_admins(commands.Cog):
         if not target:
             return await m.edit(content=f"> {d['args-required']}")
         
-        if not rank:
+        if not rank in [0, 1, 2]:
             return await m.edit(content=f"> {d['args-required']}")
         
         try:
