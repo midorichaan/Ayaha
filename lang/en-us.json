@@ -86,6 +86,8 @@
     "ticket-unknown-exc": "An unknown error has occurred",
     "ticket-panel-created": "Ticket panel created! \n{PANEL_URL}",
     "ticket-panel-notexists": "Ticket panael was not found",
-    "ticket-panel-deleted": "Ticket panel deleted!"
+    "ticket-panel-deleted": "Ticket panel deleted!",
+    "ticket-panel-notfound": "Ticket panael was not found",
+    "ticket-panel-refreshed": "Ticket panel refreshed successfully"
     
 }
