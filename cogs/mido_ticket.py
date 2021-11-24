@@ -153,7 +153,7 @@ class mido_ticket(commands.Cog):
         except:
             return await m.edit(content=f"> {d['ticket-panel-notfound']}")
         else:
-            embed = await self.ticketutil.refresh_panel(panel_id=panel_id)
+            embed = await self.ticketutil.create_panel(guild_id=ctx.guild.id)
             await msg.edit(embed=embed)
             await m.edit(content=f"> {d['ticket-panel-refreshed']}")
     
