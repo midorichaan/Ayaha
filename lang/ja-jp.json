@@ -50,6 +50,7 @@
     "help-getlog": "エラーログを取得するよ！",
     "help-config": "チケットの設定を変更するよ！ (非推奨)",
     "help-panel": "チケットパネルのコマンドだよ！",
+    "help-rank": "ユーザーの権限を変更するよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
