@@ -88,6 +88,8 @@
     "ticket-panel-notexists": "Ticket panael was not found",
     "ticket-panel-deleted": "Ticket panel deleted!",
     "ticket-panel-notfound": "Ticket panael was not found",
-    "ticket-panel-refreshed": "Ticket panel refreshed successfully"
+    "ticket-panel-refreshed": "Ticket panel refreshed successfully",
+    
+    "rank-changed": "{TARGET} rank changed to {RANK}"
     
 }
