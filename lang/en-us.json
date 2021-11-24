@@ -51,6 +51,7 @@
     "help-getlog": "Get the error log",
     "help-config": "Ticket config (Deprecated)",
     "help-panel": "Ticket panel",
+    "help-rank": "Change user rank",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
