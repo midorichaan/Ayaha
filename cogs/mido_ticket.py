@@ -136,7 +136,7 @@ class mido_ticket(commands.Cog):
     @panel.command(usage="refresh [panel_id]", aliases=["ref"])
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
-    async def delete(self, ctx, panel_id=None):
+    async def refresh(self, ctx, panel_id=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
