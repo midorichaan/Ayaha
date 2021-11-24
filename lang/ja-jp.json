@@ -87,6 +87,8 @@
     "ticket-panel-notexists": "パネルが見つからなかったよ！",
     "ticket-panel-deleted": "チケットパネルを削除したよ！",
     "ticket-panel-notfound": "パネルが見つからなかったよ！",
-    "ticket-panel-refreshed": "パネルを再読み込みしたよ！"
+    "ticket-panel-refreshed": "パネルを再読み込みしたよ！",
+    
+    "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！"
     
 }
