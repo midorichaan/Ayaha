@@ -30,6 +30,26 @@ class TicketUtil:
        created_at : パネルの作成日時
     """
     
+    #create_ticket
+    async def create_ticket(self, guild_id: int, author_id: int, ticket_id: int, *, reason: str=None):
+        if not reason:
+            status = 2
+        else:
+            status = 1
+        
+        await self.db.execute(
+            "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s)",
+            (ticket_id, guild_id, author_id, datetime.datetime.now(), status, reason)
+        )
+    
+    #delete_ticket
+    async def delete_ticket(self, ticket_id: int):
+        data = await self.get_ticket(ticket_id)
+        if not data:
+            raise DatabaseNotFound(f"ticket_id {ticket_id} was not found")
+        
+        await self.db.execute("DELETE FROM tickets WHERE ticket_id=%s", (ticket_id,))
+    
     #db_init
     async def db_init(self):
         query = [
