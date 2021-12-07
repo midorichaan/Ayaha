@@ -37,7 +37,7 @@ class TicketUtil:
         else:
             status = 1
         
-        await self.db.execute(
+        await self.bot.db.execute(
             "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s)",
             (ticket_id, guild_id, author_id, datetime.datetime.now(), status, reason)
         )
@@ -48,7 +48,7 @@ class TicketUtil:
         if not data:
             raise DatabaseNotFound(f"ticket_id {ticket_id} was not found")
         
-        await self.db.execute("DELETE FROM tickets WHERE ticket_id=%s", (ticket_id,))
+        await self.bot.db.execute("DELETE FROM tickets WHERE ticket_id=%s", (ticket_id,))
     
     #db_init
     async def db_init(self):
