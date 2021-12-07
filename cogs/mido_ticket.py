@@ -157,5 +157,117 @@ class mido_ticket(commands.Cog):
             await msg.edit(embed=embed)
             await m.edit(content=f"> {d['ticket-panel-refreshed']}")
     
+    #create
+    @ticket.command(usage="create [reason]")
+    @commands.guild_only()
+    async def create(self, ctx, *, reason: str=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        tickets = [i for i in ctx.guild.channels if str(ctx.author.id) in str(i)]
+        ow = {
+            ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            ctx.guild.me: discord.PermissionOverwrite(
+                manage_channels=True, 
+                manage_messages=True, 
+                embed_links=True, 
+                attach_files=True, 
+                read_message_history=True,
+                external_emojis=True,
+                use_external_emojis=True
+            )
+        }
+        ch = None
+        status = 0
+        config = await self.ticketutil.get_config(ctx.guild.id)
+        if config["open_category_id"]:
+            try:
+                ch = await ctx.guild.get_channel(config["open_category_id"]).create_text_channel(
+                    name=f"ticket-{ctx.author.id}-{len(tickets) + 1}",
+                    overwrites=ow
+                    reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
+                )
+            except Exception as exc:
+                print(f"[Error] {exc}")
+                return await m.edit(content=f"> {d['ticket-cant-create']}")
+        else:
+            try:
+                ch = await ctx.guild.create_text_channel(
+                    name=f"ticket-{ctx.author.id}-{len(tickets) + 1}",
+                    overwrites=ow
+                    reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
+                )
+            except Exception as exc:
+                print(f"[Error] {exc}")
+                return await m.edit(content=f"> {d['ticket-cant-create']}")
+            
+        e = discord.Embed(
+                title=f"Ticket - {ctx.author}",
+                color=self.bot.color
+            )
+        
+        if not reason:
+            status = 2
+            e.add_field(name="チケット作成理由 / Reason", value=f"```\nnone\n```", inline=False)
+            e.add_field(name="ステータス / Status", value=f"```\n理由待ち / Wait for reason\n```", inline=False)
+        else:
+            status = 1
+            e.add_field(name="チケット作成理由 / Reason", value=f"```\n{reason}\n```", inline=False)
+            e.add_field(name="ステータス / Status", value=f"```\nオープン / Open\n```", inline=False)
+        panel = await ch.send(embed=e)
+        await panel.add_reaction("🔒")
+        
+        await self.ticketutil.create_ticket(
+            ctx.guild.id,
+            panel.id,
+            ctx.author.id,
+            ch.id,
+            status=status
+            reason=reason
+        )
+    
+    #delete
+    @ticket.command(usage="delete <ticket>")
+    @commands.guild_only()
+    async def delete(self, ctx, ticket: commands.TextChannelConverter=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not ticket:
+            return await m.edit(content=f"> {d['ticket-notfound']}")
+        
+        ow = {
+            ctx.author: discord.PermissionOverwrite(send_message=False, add_reactions=False),
+            ctx.guild.me: discord.PermissionOverwrite(
+                manage_channels=True, 
+                manage_messages=True, 
+                embed_links=True, 
+                attach_files=True, 
+                read_message_history=True,
+                external_emojis=True,
+                use_external_emojis=True
+            )
+        }
+        
+        ticket = await self.ticketutil.get_ticket(ticket.id)
+        if not ticket:
+            return await m.edit(content=f"> {d['ticket-notfound']}")
+        
+        config = await self.ticketutil.get_config(ctx.guild.id)
+        if config["delete_after_closed"]:
+            await m.edit(content=f"> {d['ticket-delete-after']}")
+            await asyncio.sleep(5)
+            return await ticket.delete()
+
+        if config["move_after_closed"]:
+            await m.edit(content=f"> {d['ticket-closed']}")
+            await ticket.edit(
+                name=ticket.name.replace("ticket", "close"),
+                category=ctx.guild.get_channel(config["close_category_id"]),
+                overwrites=ow
+            )
+            
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
