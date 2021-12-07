@@ -95,6 +95,11 @@ class TicketUtil:
         db = await self.bot.db.fetchall("SELECT * FROM tickets")
         return db
     
+    #get_config
+    async def get_config(self, guild_id: int):
+        db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (guild_id,))
+        return db
+    
     #get_panels
     async def get_panels(self):
         db = await self.bot.db.fetchall("SELECT * FROM ticketpanels")
