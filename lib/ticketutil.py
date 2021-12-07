@@ -1,4 +1,5 @@
 import discord
+import datetime
 
 class DatabaseNotFound(Exception):
     pass
@@ -16,6 +17,7 @@ class TicketUtil:
     
     ・tickets - チケットチャンネルの情報
        ticket_id : チケットチャンネルのID
+       panel_id: チケット操作パネルのID
        guild_id : サーバーID
        author_id : 作成者のID
        created_at : チケットの作成日時
@@ -31,15 +33,10 @@ class TicketUtil:
     """
     
     #create_ticket
-    async def create_ticket(self, guild_id: int, author_id: int, ticket_id: int, *, reason: str=None):
-        if not reason:
-            status = 2
-        else:
-            status = 1
-        
+    async def create_ticket(self, guild_id: int, panel_id: int, author_id: int, ticket_id: int, *, status: int=None, reason: str=None):
         await self.bot.db.execute(
             "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s)",
-            (ticket_id, guild_id, author_id, datetime.datetime.now(), status, reason)
+            (ticket_id, panel_id, guild_id, author_id, datetime.datetime.now(), status, reason)
         )
     
     #delete_ticket
@@ -61,13 +58,6 @@ class TicketUtil:
         
         for i in query:
             await self.bot.db.execute(i)
-        
-    #register_ticket
-    async def register_ticket(self, *, channel_id: int=None, guild_id: int=None, author_id: int=None, created_at: str=None):
-        await self.bot.db.execute(
-            "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s)", 
-            (channel_id, guild_id, author_id, created_at, 2, None)
-        )
     
     #register_panel
     async def register_panel(self, *, panel_id: int=None, guild_id: int=None, channel_id: int=None, author_id: int=None, created_at: str=None):
