@@ -9,6 +9,11 @@ class mido_ticket(commands.Cog):
         self.bot = bot
         self.ticketutil = ticketutil.TicketUtil(bot)
     
+    #raw_reaction
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        pass
+    
     #on_msg
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -97,6 +102,23 @@ class mido_ticket(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     async def panel(self, ctx):
         pass
+    
+    #panel
+    @panel.command(usage="help")
+    @commands.guild_only()
+    async def panel_help(self, ctx):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if cmd:
+            c = self.bot.get_command("ticket panel").get_command(cmd)
+            if c:
+                return await m.edit(content=None, embed=self.generate_help(ctx, d, command=c))
+            return await m.edit(content=None, embed=self.generate_help(ctx, d))
+        else:
+            return await m.edit(content=None, embed=self.generate_help(ctx, d))
     
     #panel
     @panel.command(usage="create [channel]")
