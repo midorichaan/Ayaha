@@ -15,6 +15,9 @@ class mido_ticket(commands.Cog):
         db = await self.ticketutil.get_ticket(msg.channel.id)
         if db:
             if db["status"] == 2:
+                if not msg.author.id == int(db["author_id"]):
+                    return
+                
                 ctx = await self.bot.get_context(msg)
                 lang = await self.bot.langutil.get_user_lang(ctx.author.id)
                 d = await self.bot.langutil.get_lang(lang)
