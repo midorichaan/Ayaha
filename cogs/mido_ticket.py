@@ -238,7 +238,7 @@ class mido_ticket(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
         if not ticket:
-            return await m.edit(content=f"> {d['ticket-notfound']}")
+            ticket = ctx.channel
         
         ow = {
             ctx.author: discord.PermissionOverwrite(send_messages=False, add_reactions=False),
