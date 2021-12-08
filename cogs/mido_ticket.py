@@ -241,6 +241,7 @@ class mido_ticket(commands.Cog):
             ticket = ctx.channel
         
         ow = {
+            ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False)
             ctx.author: discord.PermissionOverwrite(send_messages=False, add_reactions=False),
             ctx.guild.me: discord.PermissionOverwrite(
                 manage_channels=True, 
