@@ -35,7 +35,7 @@ class TicketUtil:
     #create_ticket
     async def create_ticket(self, guild_id: int, panel_id: int, author_id: int, ticket_id: int, *, status: int=None, reason: str=None):
         await self.bot.db.execute(
-            "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s)",
+            "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s, %s)",
             (ticket_id, panel_id, guild_id, author_id, datetime.datetime.now(), status, reason)
         )
     
