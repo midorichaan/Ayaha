@@ -107,7 +107,7 @@ class TicketUtil:
         if not db:
             raise NotTicket("ID {} is not ticket id".format(ticket_id))
         
-        await self.bot.db.execute("UPDATE tickets SET reason=%s WHERE ticket_id=%s", (reason, ticket_id))
+        await self.bot.db.execute("UPDATE tickets SET reason=%s, status=%s WHERE ticket_id=%s", (reason, 1, ticket_id))
     
     #delete_ticket
     async def delete_ticket(self, ticket_id: int):
