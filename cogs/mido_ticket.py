@@ -271,5 +271,7 @@ class mido_ticket(commands.Cog):
                 overwrites=ow
             )
         
+        await m.edit(content=f"> {d['ticket-closed']}")
+        
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
