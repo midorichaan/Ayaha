@@ -26,7 +26,7 @@ class mido_ticket(commands.Cog):
                     return await utils.reply_or_send(ctx, content=f"> {d['ticket-cant-fetch-panel']}")
                 else:
                     e = panel.embeds[0]
-                    e.set_field_at(0, value=f"```\n{msg.content}\n```")
+                    e.set_field_at(0, name="チケット作成理由 / Reason", value=f"```\n{msg.content}\n```", inline=False)
                     await panel.edit(embed=e)
                     await self.ticketutil.edit_reason(msg.channel.id, reason=msg.content)
     
