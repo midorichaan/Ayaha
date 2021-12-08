@@ -253,6 +253,7 @@ class mido_ticket(commands.Cog):
             )
         }
         
+        ticketch = ticket
         ticket = await self.ticketutil.get_ticket(ticket.id)
         if not ticket:
             return await m.edit(content=f"> {d['ticket-notfound']}")
@@ -267,15 +268,15 @@ class mido_ticket(commands.Cog):
         if config["move_after_closed"]:
             if config.get("close_category_id", None):
                 await m.edit(content=f"> {d['ticket-closed']}")
-                await ticket.edit(
-                    name=ticket.name.replace("ticket", "close"),
+                await ticketch.edit(
+                    name=ticketch.name.replace("ticket", "close"),
                     category=ctx.guild.get_channel(config["close_category_id"]),
                     overwrites=ow
                 )
                 return await m.edit(content=f"> {d['ticket-closed']}")
         
-        await ticket.edit(
-            name=ticket.name.replace("ticket", "close"),
+        await ticketch.edit(
+            name=ticketch.name.replace("ticket", "close"),
             overwrites=ow,
         )
         await m.edit(content=f"> {d['ticket-closed']}")
