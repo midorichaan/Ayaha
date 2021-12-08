@@ -226,11 +226,13 @@ class mido_ticket(commands.Cog):
             status=status,
             reason=reason
         )
+        
+        await m.edit(content=f"> {d['ticket-created']} \n→ {ch.mention}")
     
-    #delete
-    @ticket.command(usage="delete <ticket>")
+    #close
+    @ticket.command(usage="close <ticket>")
     @commands.guild_only()
-    async def delete(self, ctx, ticket: commands.TextChannelConverter=None):
+    async def close(self, ctx, ticket: commands.TextChannelConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
@@ -268,6 +270,6 @@ class mido_ticket(commands.Cog):
                 category=ctx.guild.get_channel(config["close_category_id"]),
                 overwrites=ow
             )
-            
+        
 def setup(bot):
     bot.add_cog(mido_ticket(bot))
