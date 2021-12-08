@@ -63,6 +63,8 @@
     "help-delete": "指定された番号の曲をキューから削除するよ！",
     "help-search": "YouTubeのAPIから曲を検索するよ！",
     "help-close": "チケットをクローズするよ！",
+    "help-create": "チケット/パネルを作成するよ！",
+    "help-refresh": "パネルを再作成するよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
