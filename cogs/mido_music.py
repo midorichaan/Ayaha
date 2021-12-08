@@ -10,10 +10,9 @@ import random
 
 from dotenv import load_dotenv
 from apiclient.discovery import build
-
-import config
 from lib import utils as util, paginator
 
+#load .env file
 load_dotenv()
 
 youtube_dl.utils.bug_reports_message = lambda: ''
