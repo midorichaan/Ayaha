@@ -3,14 +3,18 @@ import functools
 from discord.ext import commands
 
 import asyncio
+import os
 import youtube_dl
 import datetime
 import random
 
+from dotenv import load_dotenv
 from apiclient.discovery import build
 
 import config
-from lib import paginator, bot_util as util
+from lib import utils as util, paginator
+
+load_dotenv()
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 ytdl_format_options = {
@@ -41,7 +45,7 @@ class mido_music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
-        self.youtube = build("youtube", "v3", developerKey=config.YOUTUBE_KEY)
+        self.youtube = build("youtube", "v3", developerKey=os.environ["YOUTUBE_KEY"])
     
     #get_data
     async def get_data(self, ctx, key, download=False):
