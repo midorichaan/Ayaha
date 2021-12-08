@@ -241,7 +241,7 @@ class mido_ticket(commands.Cog):
             return await m.edit(content=f"> {d['ticket-notfound']}")
         
         ow = {
-            ctx.author: discord.PermissionOverwrite(send_message=False, add_reactions=False),
+            ctx.author: discord.PermissionOverwrite(send_messages=False, add_reactions=False),
             ctx.guild.me: discord.PermissionOverwrite(
                 manage_channels=True, 
                 manage_messages=True, 
@@ -264,12 +264,13 @@ class mido_ticket(commands.Cog):
             return await ticket.delete()
 
         if config["move_after_closed"]:
-            await m.edit(content=f"> {d['ticket-closed']}")
-            await ticket.edit(
-                name=ticket.name.replace("ticket", "close"),
-                category=ctx.guild.get_channel(config["close_category_id"]),
-                overwrites=ow
-            )
+            if config.get("close_category_id", None):
+                await m.edit(content=f"> {d['ticket-closed']}")
+                await ticket.edit(
+                    name=ticket.name.replace("ticket", "close"),
+                    category=ctx.guild.get_channel(config["close_category_id"]),
+                    overwrites=ow
+                )
         
         await m.edit(content=f"> {d['ticket-closed']}")
         
