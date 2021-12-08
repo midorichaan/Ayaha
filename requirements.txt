@@ -1,4 +1,7 @@
 aiomysql
 discord.py[voice]
+ffmpeg
 jishaku
+psutil
 python-dotenv
+youtube-dl
