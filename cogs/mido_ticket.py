@@ -271,7 +271,12 @@ class mido_ticket(commands.Cog):
                     category=ctx.guild.get_channel(config["close_category_id"]),
                     overwrites=ow
                 )
+                return await m.edit(content=f"> {d['ticket-closed']}")
         
+        await ticket.edit(
+            name=ticket.name.replace("ticket", "close"),
+            overwrites=ow,
+        )
         await m.edit(content=f"> {d['ticket-closed']}")
         
 def setup(bot):
