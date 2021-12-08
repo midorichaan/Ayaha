@@ -40,9 +40,19 @@ class Ayaha(commands.AutoShardedBot):
         )
         
         self.owner_id = None
-        self.owner_ids = [546682137240403984]
-        self.db = database.Database(host=os.environ["DB_ADDRESS"], port=3306, user=os.environ["DB_USERNAME"], password=os.environ["DB_PASSWD"], db=os.environ["DB_NAME"])
-        self.session = aiohttp.ClientSession(loop=self.loop)
+        self.owner_ids = [
+            546682137240403984
+        ]
+        self.db = database.Database(
+            host=os.environ["DB_ADDRESS"], 
+            port=3306, 
+            user=os.environ["DB_USERNAME"], 
+            password=os.environ["DB_PASSWD"], 
+            db=os.environ["DB_NAME"]
+        )
+        self.session = aiohttp.ClientSession(
+            loop=self.loop
+        )
         self.resumes = dict()
         self.uptime = datetime.datetime.now()
         self.tasks = dict()
@@ -53,7 +63,7 @@ class Ayaha(commands.AutoShardedBot):
         
         self._ext = [
             "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_user_settings", 
-            "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "jishaku"
+            "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "cogs.mido_music", "jishaku"
         ]
         
         for ext in self._ext:
