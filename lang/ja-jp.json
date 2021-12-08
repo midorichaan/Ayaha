@@ -60,7 +60,7 @@
     "help-nowplaying": "再生中の音楽の情報を表示するよ！",
     "help-queue": "キューの中身を表示するよ！",
     "help-loop": "音楽のループを切り替えるよ！",
-    "help-delete": "指定された番号の曲をキューから削除するよ！",
+    "help-delete": "指定された番号の曲/パネルを削除するよ！",
     "help-search": "YouTubeのAPIから曲を検索するよ！",
     "help-close": "チケットをクローズするよ！",
     "help-create": "チケット/パネルを作成するよ！",
