@@ -285,6 +285,15 @@ class mido_ticket(commands.Cog):
             return await m.edit(content=f"> {d['ticket-notfound']}")
         
         await self.ticketutil.close_ticket(ticketch.id)
+        try:
+            panel = await commands.MessageConverter().convert(ctx, f"{ticketch.id}-{ticketdb['panel_id']}")
+        except Exception as exc:
+            print(f"[Error] {exc}")
+        else:
+            e = panel.embeds[0]
+            e.set_field_at(1, name="ステータス / Status", value=f"```\nクローズ / Close\n```", inline=False)
+            await panel.edit(embed=e)
+        
         config = await self.ticketutil.get_config(ctx.guild.id)
         if config["delete_after_closed"]:
             await m.edit(content=f"> {d['ticket-delete-after']}")
