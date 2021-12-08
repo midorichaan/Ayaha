@@ -9,6 +9,27 @@ class mido_ticket(commands.Cog):
         self.bot = bot
         self.ticketutil = ticketutil.TicketUtil(bot)
     
+    #on_msg
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        db = await self.ticketutil.get_ticket(msg.channel.id)
+        if db:
+            if db["status"] == 2:
+                ctx = await self.bot.get_context(msg)
+                lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+                d = await self.bot.langutil.get_lang(lang)
+                
+                try:
+                    panel = await commands.MessageConverter().convert(ctx, f"{msg.channel.id}-{db['panel_id']}")
+                except Exception as exc:
+                    print(f"[Error] {exc}")
+                    return await utils.reply_or_send(ctx, content=f"> {d['ticket-cant-fetch-panel']}")
+                else:
+                    e = panel.embeds[0]
+                    e.set_field_at(0, value=f"```\n{msg.content}\n```")
+                    await panel.edit(embed=e)
+                    await self.ticketutil.edit_reason(msg.channel.id, reason=msg.content)
+    
     #generate_help
     def generate_help(self, ctx, data, *, command=None):
         if command:
