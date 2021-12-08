@@ -27,6 +27,7 @@ class mido_ticket(commands.Cog):
                 else:
                     e = panel.embeds[0]
                     e.set_field_at(0, name="チケット作成理由 / Reason", value=f"```\n{msg.content}\n```", inline=False)
+                    e.set_field_at(1, name="ステータス / Status", value=f"```\nオープン / Open\n```", inline=False)
                     await panel.edit(embed=e)
                     await self.ticketutil.edit_reason(msg.channel.id, reason=msg.content)
     
