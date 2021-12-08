@@ -1,6 +1,7 @@
 aiomysql
 discord.py[voice]
 ffmpeg
+google-api-python-client
 jishaku
 psutil
 python-dotenv
