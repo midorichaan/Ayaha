@@ -93,7 +93,7 @@
     "ticket-created": "チケットを作成したよ！",
     "ticket-notfound": "チケットが見つからなかったよ！",
     "ticket-delete-after": "チケットを5秒後に削除するよ！",
-    "ticket-closed": "チケットをクローズしたよ！"
+    "ticket-closed": "チケットをクローズしたよ！",
     
     "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！"
     
