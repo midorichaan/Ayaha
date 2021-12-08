@@ -17,7 +17,6 @@ load_dotenv()
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 ytdl_format_options = {
-    'proxy': f'{config.PROXY_URL}:{config.PROXY_PORT}',
     'format': 'bestaudio/best',
     'extractaudio': True,
     'audioformat': 'mp3',
