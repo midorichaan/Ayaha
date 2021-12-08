@@ -104,7 +104,7 @@ class mido_ticket(commands.Cog):
         pass
     
     #panel
-    @panel.command(usage="help")
+    @panel.command(name="help", usage="help")
     @commands.guild_only()
     async def panel_help(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -112,13 +112,7 @@ class mido_ticket(commands.Cog):
         
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
-        if cmd:
-            c = self.bot.get_command("ticket panel").get_command(cmd)
-            if c:
-                return await m.edit(content=None, embed=self.generate_help(ctx, d, command=c))
-            return await m.edit(content=None, embed=self.generate_help(ctx, d))
-        else:
-            return await m.edit(content=None, embed=self.generate_help(ctx, d))
+        return await m.edit(content=None, embed=self.generate_help(ctx, d))
     
     #panel
     @panel.command(usage="create [channel]")
