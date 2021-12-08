@@ -223,7 +223,7 @@ class mido_ticket(commands.Cog):
             panel.id,
             ctx.author.id,
             ch.id,
-            status=status
+            status=status,
             reason=reason
         )
     
