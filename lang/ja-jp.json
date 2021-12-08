@@ -89,6 +89,11 @@
     "ticket-panel-deleted": "チケットパネルを削除したよ！",
     "ticket-panel-notfound": "パネルが見つからなかったよ！",
     "ticket-panel-refreshed": "パネルを再読み込みしたよ！",
+    "ticket-cant-create": "チケットを作成できなかったよ！",
+    "ticket-created": "チケットを作成したよ！",
+    "ticket-notfound": "チケットが見つからなかったよ！",
+    "ticket-delete-after": "チケットを5秒後に削除するよ！",
+    "ticket-closed": "チケットをクローズしたよ！"
     
     "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！"
     
