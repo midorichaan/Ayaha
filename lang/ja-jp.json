@@ -105,6 +105,7 @@
     "ticket-notfound": "チケットが見つからなかったよ！",
     "ticket-delete-after": "チケットを5秒後に削除するよ！",
     "ticket-closed": "チケットをクローズしたよ！",
+    "ticket-cant-fetch-panel": "チケット管理パネルを取得できなかったよ！",
     
     "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！"
     
