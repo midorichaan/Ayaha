@@ -397,7 +397,8 @@ class mido_music(commands.Cog):
                 if not ctx.guild.voice_client.channel == ctx.author.voice.channel:
                     return await msg.edit(content="> 私と同じチャンネルに接続している必要があるよ！")
                 
-                if (q := self.bot.queue.get(ctx.guild.id, None)) is not None:
+                q = self.bot.queue.get(ctx.guild.id, None)
+                if q is not None:
                     index = index - 1
                     
                     if len(q) <= index:
