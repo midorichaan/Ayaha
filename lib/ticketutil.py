@@ -118,6 +118,14 @@ class TicketUtil:
         
         await self.bot.db.execute("DELETE FROM tickets WHERE ticket_id=%s", (ticket_id,))
     
+    #close_ticket
+    async def close_ticket(self, ticket_id: int):
+        db = await self.get_ticket(ticket_id)
+        if not db:
+            raise DatabaseNotFound("Ticket {} was not found".format(ticket_id))
+        
+        await self.bot.db.execute("UPDATE tickets SET status=0 WHERE ticket_id=%s", (ticket_id,))
+    
     #get_panel
     async def get_panel(self, panel_id: int):
         db = await self.bot.db.fetchone("SELECT * FROM ticketpanels WHERE panel_id=%s", (panel_id,))
