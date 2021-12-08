@@ -40,7 +40,7 @@ class mido_ticket(commands.Cog):
                     await self.ticketutil.edit_reason(msg.channel.id, reason=msg.content)
     
     #generate_help
-    def generate_help(self, ctx, data, *, command=None):
+    def generate_help(self, ctx, data, *, command=None, gen_cmd=None):
         if command:
             e = discord.Embed(title=f"Help - {command.name}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
@@ -50,7 +50,7 @@ class mido_ticket(commands.Cog):
         else:
             e = discord.Embed(title=f"Help - ticket", color=self.bot.color, timestamp=ctx.message.created_at)
             
-            for i in self.bot.get_command("ticket").commands:
+            for i in self.bot.get_command(gen_cmd).commands:
                 e.add_field(name=i.name, value=data[f"help-{i.name}"])
             
             return e
@@ -79,10 +79,10 @@ class mido_ticket(commands.Cog):
         if cmd:
             c = self.bot.get_command("ticket").get_command(cmd)
             if c:
-                return await m.edit(content=None, embed=self.generate_help(ctx, d, command=c))
-            return await m.edit(content=None, embed=self.generate_help(ctx, d))
+                return await m.edit(content=None, embed=self.generate_help(ctx, d, command=c, gen_cmd="ticket"))
+            return await m.edit(content=None, embed=self.generate_help(ctx, d, gen_cmd="ticket"))
         else:
-            return await m.edit(content=None, embed=self.generate_help(ctx, d))
+            return await m.edit(content=None, embed=self.generate_help(ctx, d, gen_cmd="ticket"))
     
     #config
     @ticket.command(usage="config")
@@ -112,7 +112,7 @@ class mido_ticket(commands.Cog):
         
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
-        return await m.edit(content=None, embed=self.generate_help(ctx, d))
+        return await m.edit(content=None, embed=self.generate_help(ctx, d, gen_cmd="ticket panel"))
     
     #panel
     @panel.command(usage="create [channel]")
