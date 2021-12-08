@@ -257,7 +257,7 @@ class mido_ticket(commands.Cog):
         if not ticket:
             return await m.edit(content=f"> {d['ticket-notfound']}")
         
-        await self.tickteutil.close_ticket(ticket.id)
+        await self.ticketutil.close_ticket(ticket.id)
         config = await self.ticketutil.get_config(ctx.guild.id)
         if config["delete_after_closed"]:
             await m.edit(content=f"> {d['ticket-delete-after']}")
