@@ -254,16 +254,16 @@ class mido_ticket(commands.Cog):
         }
         
         ticketch = ticket
-        ticket = await self.ticketutil.get_ticket(ticket.id)
-        if not ticket:
+        ticketdb = await self.ticketutil.get_ticket(ticket.id)
+        if not ticketdb:
             return await m.edit(content=f"> {d['ticket-notfound']}")
         
-        await self.ticketutil.close_ticket(ticket.id)
+        await self.ticketutil.close_ticket(ticketch.id)
         config = await self.ticketutil.get_config(ctx.guild.id)
         if config["delete_after_closed"]:
             await m.edit(content=f"> {d['ticket-delete-after']}")
             await asyncio.sleep(5)
-            return await ticket.delete()
+            return await ticketch.delete()
 
         if config["move_after_closed"]:
             if config.get("close_category_id", None):
