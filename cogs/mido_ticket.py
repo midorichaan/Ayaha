@@ -185,7 +185,7 @@ class mido_ticket(commands.Cog):
             try:
                 ch = await ctx.guild.get_channel(config["open_category_id"]).create_text_channel(
                     name=f"ticket-{ctx.author.id}-{len(tickets) + 1}",
-                    overwrites=ow
+                    overwrites=ow,
                     reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
                 )
             except Exception as exc:
@@ -195,7 +195,7 @@ class mido_ticket(commands.Cog):
             try:
                 ch = await ctx.guild.create_text_channel(
                     name=f"ticket-{ctx.author.id}-{len(tickets) + 1}",
-                    overwrites=ow
+                    overwrites=ow,
                     reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
                 )
             except Exception as exc:
