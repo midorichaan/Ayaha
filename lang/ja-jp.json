@@ -62,6 +62,7 @@
     "help-loop": "音楽のループを切り替えるよ！",
     "help-delete": "指定された番号の曲をキューから削除するよ！",
     "help-search": "YouTubeのAPIから曲を検索するよ！",
+    "help-close": "チケットをクローズするよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
