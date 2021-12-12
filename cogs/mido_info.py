@@ -69,7 +69,6 @@ class mido_info(commands.Cog):
         line = self.lines.get(line, None)
         if not line:
             return await m.edit(content="> 路線が見つからなかったよ！")
-        await ctx.send(line)
         
         try:
             ret = urllib.request.urlopen(f"https://www.train-guide.westjr.co.jp/api/v3/{line}.json")
@@ -80,8 +79,10 @@ class mido_info(commands.Cog):
             p = None
             data = {}
             
+            print("a")
             for s in r_st["stations"]:
                 data[s["info"]["code"]] = s["info"]["name"]
+            print("b")
             for i in r["trains"]:
                 if i["delayMinutes"] > 0:
                     st = i["pos"].split("_")
@@ -93,6 +94,7 @@ class mido_info(commands.Cog):
                 
                     e.add_field(name=f"{i['displayType']} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
             
+            print("c")
             if not bool([]):
                 e.add_field(name="列車遅延", value="なし")
             return await m.edit(content=None, embed=e)
