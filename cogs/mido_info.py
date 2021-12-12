@@ -79,11 +79,9 @@ class mido_info(commands.Cog):
             p = None
             data = {}
             
-            print("a")
-            for s in r_st["stations"]:
+            for s in ret_st["stations"]:
                 data[s["info"]["code"]] = s["info"]["name"]
-            print("b")
-            for i in r["trains"]:
+            for i in ret["trains"]:
                 if i["delayMinutes"] > 0:
                     st = i["pos"].split("_")
                     
@@ -93,8 +91,7 @@ class mido_info(commands.Cog):
                         p = "不明"
                 
                     e.add_field(name=f"{i['displayType']} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
-            
-            print("c")
+
             if not bool([]):
                 e.add_field(name="列車遅延", value="なし")
             return await m.edit(content=None, embed=e)
