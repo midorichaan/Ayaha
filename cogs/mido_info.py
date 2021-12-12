@@ -92,7 +92,7 @@ class mido_info(commands.Cog):
                 
                     e.add_field(name=f"{i['displayType']} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
 
-            if not bool([]):
+            if not bool(e.fields):
                 e.add_field(name="列車遅延", value="なし")
             return await m.edit(content=None, embed=e)
         except Exception as exc:
