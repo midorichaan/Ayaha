@@ -69,6 +69,7 @@ class mido_info(commands.Cog):
         line = self.lines.get(line, None)
         if not line:
             return await m.edit(content="> 路線が見つからなかったよ！")
+        await ctx.send(line)
         
         try:
             ret = urllib.request.urlopen(f"https://www.train-guide.westjr.co.jp/api/v3/{line}.json")
