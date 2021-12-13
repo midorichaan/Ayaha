@@ -114,7 +114,13 @@ class mido_info(commands.Cog):
                     except KeyError:
                         p = "不明"
                 
-                    e.add_field(name=f"{self.jrwrapids.get(i['displayType'], i['displayType'])} {self.jrwdesti.get(i['dest']['text'], i['dest']['text'])}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
+                    type = self.jrwrapids.get(i['displayType'], i['displayType'])
+                    if type == "特急":
+                        type = type + f" {i['nickname']}"
+                    e.add_field(
+                        name=f"{type} {self.jrwdesti.get(i['dest']['text'], i['dest']['text'])}行き", 
+                        value=f"約{i['delayMinutes']}分遅れ (走行位置: {p})"
+                    )
 
             if not bool(e.fields):
                 e.add_field(name="列車遅延", value="なし")
