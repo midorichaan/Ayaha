@@ -55,10 +55,18 @@ class mido_info(commands.Cog):
         
         self.jrwrapids = {
             "大和路快": "大和路快速",
-            "快": "快速",
             "丹波路快": "丹波路快速",
             "みやこ路快": "みやこ路快速",
-            "新快": "新快速"
+            "関空紀州": "関空・紀州路快速",
+            "関空快": "関空快速",
+            "紀州路快": "紀州路快速",
+            "快": "快速",
+            "区快": "区間快速",
+            "新快": "新快速",
+        }
+        
+        self.jrwdesti = {
+            "関西空港/和歌山方面": "関西空港・和歌山"
         }
         
     #delaymaps
@@ -106,7 +114,7 @@ class mido_info(commands.Cog):
                     except KeyError:
                         p = "不明"
                 
-                    e.add_field(name=f"{self.jrwrapids.get(i['displayType'], i['displayType'])} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
+                    e.add_field(name=f"{self.jrwrapids.get(i['displayType'], i['displayType'])} {self.jrwdesti.get(i['dest']['text'], i['dest']['text'])}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
 
             if not bool(e.fields):
                 e.add_field(name="列車遅延", value="なし")
