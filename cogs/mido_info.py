@@ -116,7 +116,7 @@ class mido_info(commands.Cog):
                         p = "不明"
                 
                     type = self.jrwrapids.get(i['displayType'], i['displayType'])
-                    if type == "特急":
+                    if "特急" in type:
                         type = type + f" {i['nickname']}"
                     e.add_field(
                         name=f"{type} {self.jrwdesti.get(i['dest']['text'], i['dest']['text'])}行き", 
