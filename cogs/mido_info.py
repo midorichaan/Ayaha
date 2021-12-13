@@ -10,7 +10,7 @@ class mido_info(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.lines = {
+        self.jrwlines = {
             "北陸線": "hokuriku",
             "琵琶湖線": "hokurikubiwako",
             "京都線": "kyoto",
@@ -52,13 +52,13 @@ class mido_info(commands.Cog):
             "山陰4線": "sanin4",
             "伯備2線": "hakubi2"
         }
-    
+        
     #delaymaps
     @commands.command(name="delaymaps", usage="delaymaps", description="delayの路線一覧を表示します")
     async def delaymaps(self, ctx):
         m = await utils.reply_or_send(ctx, content="> 処理中...")
         
-        d = ", ".join([f"`{r}`" for r in self.lines.keys()])
+        d = ", ".join([f"`{r}`" for r in self.jrwlines.keys()])
         e = discord.Embed(title="路線一覧", description=d, color=self.bot.color, timestamp=ctx.message.created_at)
         return await m.edit(content=None, embed=e)
     #delay
@@ -74,7 +74,7 @@ class mido_info(commands.Cog):
         
         _ = line
         e = discord.Embed(title=f"{_}の遅延情報", color=self.bot.color, timestamp=ctx.message.created_at)
-        line = self.lines.get(line, None)
+        line = self.jrwlines.get(line, None)
         if not line:
             return await m.edit(content="> 路線が見つからなかったよ！")
         
