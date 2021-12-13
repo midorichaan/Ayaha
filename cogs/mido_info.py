@@ -77,6 +77,7 @@ class mido_info(commands.Cog):
         d = ", ".join([f"`{r}`" for r in self.jrwlines.keys()])
         e = discord.Embed(title="路線一覧", description=d, color=self.bot.color, timestamp=ctx.message.created_at)
         return await m.edit(content=None, embed=e)
+    
     #delay
     @commands.command(name="delay", usage="delay <line>", description="JR西日本の運行状況を表示します")
     async def delay(self, ctx, line: str=None):
