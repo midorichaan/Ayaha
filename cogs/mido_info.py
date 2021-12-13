@@ -53,6 +53,14 @@ class mido_info(commands.Cog):
             "伯備2線": "hakubi2"
         }
         
+        self.jrwrapids = {
+            "大和路快": "大和路快速",
+            "快": "快速",
+            "丹波路快": "丹波路快速",
+            "みやこ路快": "みやこ路快速"
+            "新快": "新快速",
+        }
+        
     #delaymaps
     @commands.command(name="delaymaps", usage="delaymaps", description="delayの路線一覧を表示します")
     async def delaymaps(self, ctx):
@@ -98,7 +106,7 @@ class mido_info(commands.Cog):
                     except KeyError:
                         p = "不明"
                 
-                    e.add_field(name=f"{i['displayType']} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
+                    e.add_field(name=f"{self.jrwrapids.get(i['displayType'], i['displayType'])} {i['dest']['text']}行き", value=f"約{i['delayMinutes']}分遅れ (現在地: {p})")
 
             if not bool(e.fields):
                 e.add_field(name="列車遅延", value="なし")
