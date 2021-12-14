@@ -16,7 +16,7 @@ class mido_help(commands.Cog):
         if command:
             e = discord.Embed(title=f"Help - {command}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
-            e.add_field(name=data["description"], value=data[f"help-{command}"])
+            e.add_field(name=data["description"], value=data.get(f"help-{command.name}", "なし"))
             e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]) or data["no-aliases"])
             return e
         else:
@@ -24,10 +24,10 @@ class mido_help(commands.Cog):
             
             for i in self.bot.commands:
                 if ctx.author.id in self.bot.owner_ids or userdb["rank"] >= 2:
-                    e.add_field(name=i.name, value=data[f"help-{i.name}"])
+                    e.add_field(name=i.name, value=data.get(f"help-{command.name}", "なし"))
                 else:
                     if not isinstance(i.cog, type(self.bot.cogs["mido_admins"])) or i.name == "jishaku":
-                        e.add_field(name=i.name, value=data[f"help-{i.name}"])
+                        e.add_field(name=i.name, value=data.get(f"help-{i.name}", "なし"))
             
             return e
     
