@@ -23,14 +23,14 @@ class mido_admins(commands.Cog):
         if command:
             e = discord.Embed(title=f"Help - {command.name}", color=self.bot.color, timestamp=ctx.message.created_at)
             e.add_field(name=data["usage"], value=command.usage)
-            e.add_field(name=data["description"], value=data[f"help-{command.name}"])
+            e.add_field(name=data["description"], value=data.get(f"help-{command.name}", "なし"))
             e.add_field(name=data["aliases"], value=", ".join([f"`{row}`" for row in command.aliases]) or data["no-aliases"])
             return e
         else:
             e = discord.Embed(title=f"Help - system", color=self.bot.color, timestamp=ctx.message.created_at)
             
             for i in self.bot.get_command("system").commands:
-                e.add_field(name=i.name, value=data[f"help-{i.name}"])
+                e.add_field(name=i.name, value=data.get(f"help-{i.name}", "なし"))
             
             return e
     
