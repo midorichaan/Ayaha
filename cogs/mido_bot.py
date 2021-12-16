@@ -9,6 +9,21 @@ class mido_bot(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        
+        if not hasattr(bot, "wait_for_reply"):
+            bot.wait_for_reply = {}
+    
+    #on_msg
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        if isinstance(msg.channel, discord.DMChannel):
+            if msg.author.id == 546682137240403984:
+                if msg.reference.resolved:
+                    m = self.bot.wait_for_reply[msg.reference.resolved.message_id]["message"]
+                    try:
+                        await m.reply(content=f"> 運営からの回答 \n```\n{msg.content}\n```")
+                    except:
+                        await m.send(content=f"> 運営からの回答 \n```\n{msg.content}\n``` \n→ <{m.jump_url}>")
     
     #ping
     @commands.command(usage="ping")
@@ -31,17 +46,25 @@ class mido_bot(commands.Cog):
 
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
-        e = discord.Embed(title=d["about-ayaha"], 
-                          description=d["about-ayaha-description"], 
-                          color=self.bot.color, 
-                          timestamp=ctx.message.created_at
-                         )
-        e.add_field(name=d["guilds"], value=str(len(self.bot.guilds)))
-        e.add_field(name=d["users"], value=str(len(self.bot.users)))
-        e.add_field(name=d["invites"], 
-                    value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot", 
-                    inline=False
-                   )
+        e = discord.Embed(
+            title=d["about-ayaha"], 
+            description=d["about-ayaha-description"], 
+            color=self.bot.color, 
+            timestamp=ctx.message.created_at
+        )
+        e.add_field(
+            name=d["guilds"], 
+            value=str(len(self.bot.guilds))
+        )
+        e.add_field(
+            name=d["users"], 
+            value=str(len(self.bot.users))
+        )
+        e.add_field(
+            name=d["invites"], 
+            value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot", 
+            inline=False
+        )
         await m.edit(content=None, embed=e)
     
     #report
@@ -57,7 +80,12 @@ class mido_bot(commands.Cog):
         
         e = discord.Embed(description=f"__**Report**__ \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
-        await self.bot.get_user(546682137240403984).send(embed=e)
+        dm = await self.bot.get_user(546682137240403984).send(embed=e)
+        
+        self.bot.wait_for_reply[dm.id] = {
+            "message": m,
+            "reply": False
+        }
         
         return await m.edit(content="> {}".format(d["report-submited"]))
     
@@ -74,7 +102,12 @@ class mido_bot(commands.Cog):
         
         e = discord.Embed(description=f"__**Request**__ \n```\n{content}\n```", color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
-        await self.bot.get_user(546682137240403984).send(embed=e)
+        dm = await self.bot.get_user(546682137240403984).send(embed=e)
+        
+        self.bot.wait_for_reply[dm.id] = {
+            "message": m,
+            "reply": False
+        }
         
         return await m.edit(content="> {}".format(d["request-submited"]))
     
