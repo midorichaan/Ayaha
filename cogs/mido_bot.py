@@ -23,6 +23,7 @@ class mido_bot(commands.Cog):
                     if not m:
                         return
                     
+                    m["resolved"] = True
                     try:
                         await m["message"].reply(content=f"> 運営からの回答 \n```\n{msg.content}\n```")
                     except:
@@ -87,7 +88,7 @@ class mido_bot(commands.Cog):
         
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
-            "reply": False
+            "resolved": False
         }
         
         return await m.edit(content="> {}".format(d["report-submited"]))
