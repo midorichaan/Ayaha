@@ -39,7 +39,7 @@ class Ayaha(commands.AutoShardedBot):
             shard_count=int(os.environ["SHARD_COUNT"])
         )
         
-        self.bannned = []
+        self.banned = []
         self.owner_id = None
         self.owner_ids = [
             546682137240403984
