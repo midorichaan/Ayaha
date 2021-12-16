@@ -19,7 +19,7 @@ class mido_bot(commands.Cog):
         if isinstance(msg.channel, discord.DMChannel):
             if msg.author.id == 546682137240403984:
                 if msg.reference:
-                    m = self.bot.wait_for_reply[msg.reference.resolved.message_id]["message"]
+                    m = self.bot.wait_for_reply[msg.reference.resolved.id]["message"]
                     try:
                         await m.reply(content=f"> 運営からの回答 \n```\n{msg.content}\n```")
                     except:
