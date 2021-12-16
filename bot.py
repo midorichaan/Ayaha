@@ -39,6 +39,7 @@ class Ayaha(commands.AutoShardedBot):
             shard_count=int(os.environ["SHARD_COUNT"])
         )
         
+        self.bannned = []
         self.owner_id = None
         self.owner_ids = [
             546682137240403984
@@ -124,6 +125,9 @@ class Ayaha(commands.AutoShardedBot):
         if message.author.bot:
             return
         
+        if message.author.id in self.banned:
+            return
+        
         await self.process_commands(message)
     
     #on_ready
@@ -144,6 +148,14 @@ class Ayaha(commands.AutoShardedBot):
         else:
             self.tasks["status_updater"] = self.status_update
             print("[System] Status updater start")
+        
+        try:
+            db = await self.db.fetchall("SELECT * FROM banned")
+        except Exception as exc:
+            print(f"[Error] {exc}")
+        else:
+            self.banned = [i["user_id"] for i in db]
+            print("[System] set prohibit users")
         
         print("[System] enabled midori-dbot!")
     
