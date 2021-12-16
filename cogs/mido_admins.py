@@ -34,6 +34,25 @@ class mido_admins(commands.Cog):
             
             return e
     
+    #prohibit
+    @commands.is_owner()
+    @commands.command(usage="prohibit <user/member> [reason]")
+    async def prohibit(self, ctx, target: utils.FetchUserConverter=None, *, reason: str=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+        
+        if not target:
+            return await m.edit(content=f"> {d['args-required']}")
+        
+        try:
+            await self.bot.db.ban_user(target.id, reason=reason)
+        except Exception as exc:
+            return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
+        else:
+            await m.edit(content=f"> {d['prohibit-banned'].replace('{TARGET}', {target})}")
+    
     #rank
     @commands.is_owner()
     @commands.command(usage="rank <user/member> <rank>")
