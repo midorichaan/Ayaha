@@ -92,3 +92,17 @@ class Database:
             "DELETE FROM ticketconfig WHERE guild_id=%s", 
             (guild_id,)
         )
+    
+    #ban_user
+    async def ban_user(self, target_id: int, banned_by: int, *, reason: str=None):
+        await self.execute(
+            "INSERT INTO banned VALUES (%s, %s, %s)",
+            (target_id, banned_by, reason)
+        )
+    
+    #unban_user
+    async def unban_user(self, target_id: int):
+        await self.execute(
+            "DELETE FROM banned WHERE user_id=%s",
+            (target_id,)
+        )
