@@ -22,6 +22,8 @@ class mido_bot(commands.Cog):
                     m = self.bot.wait_for_reply.get(msg.reference.resolved.id, None)
                     if not m:
                         return
+                    if m["resolved"]:
+                        return
                     
                     m["resolved"] = True
                     try:
