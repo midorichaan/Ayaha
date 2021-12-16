@@ -48,6 +48,9 @@ class mido_admins(commands.Cog):
         
         try:
             await self.bot.db.ban_user(target.id, ctx.author.id, reason=reason)
+            
+            if not target.id in self.bot.banned:
+                self.bot.banned.append(target.id)
         except Exception as exc:
             return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
         else:
@@ -67,6 +70,9 @@ class mido_admins(commands.Cog):
         
         try:
             await self.bot.db.unban_user(target.id)
+            
+            if target.id in self.bot.banned:
+                self.bot.banned.remove(target.id)
         except Exception as exc:
             return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
         else:
