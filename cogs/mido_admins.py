@@ -59,7 +59,7 @@ class mido_admins(commands.Cog):
     #unprohibit
     @commands.is_owner()
     @commands.command(usage="unprohibit <user/member>")
-    async def prohibit(self, ctx, target: utils.FetchUserConverter=None):
+    async def unprohibit(self, ctx, target: utils.FetchUserConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         
