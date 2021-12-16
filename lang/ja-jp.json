@@ -65,6 +65,8 @@
     "help-close": "チケットをクローズするよ！",
     "help-create": "チケット/パネルを作成するよ！",
     "help-refresh": "パネルを再作成するよ！",
+    "help-prohibit": "ユーザーを使用禁止にするよ！",
+    "help-unprohibit": "ユーザーの使用禁止を解除するよ！",
     
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "ぽんぐっ！🏓",
@@ -110,6 +112,8 @@
     "ticket-closed": "チケットをクローズしたよ！",
     "ticket-cant-fetch-panel": "チケット管理パネルを取得できなかったよ！",
     
-    "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！"
+    "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！",
+    "prohibit-unbanned": "{TARGET}の使用禁止を解除したよ！",
+    "prohibit-banned": "{TARGET}を使用禁止にしたよ！"
     
 }
