@@ -142,7 +142,7 @@ class mido_info(commands.Cog):
                 if r.status != 200:
                     return await msg.edit(content="> データを取得できなかったよ...")
                 
-                e = discord.Embed(title=f"Shadowban Status ({twitter_id!r})", description="", color=self.bot.color, timestamp=ctx.message.created_at)
+                e = discord.Embed(title=f"Shadowban Status ({twitter_id})", description="", color=self.bot.color, timestamp=ctx.message.created_at)
                 predicate = lambda i: "✅ " if i else "❌ "
                 data = await r.json()
                 
@@ -158,9 +158,9 @@ class mido_info(commands.Cog):
                     return await msg.edit(content=None, embed=e)
                 
                 dates = [
-                    f"{predicate(not profile['exists'])}Account Exists\n", f"{predicate(not profile['protected'])}Account Protected\n",
+                    f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile['protected'])}Account Protected\n",
                     f"{predicate(not banned['ghost']['ban'])}Ghost Ban\n", f"{predicate(banned['search'])}Search Ban\n",
-                    f"{predicate(not banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
+                    f"{predicate(banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
                 ]
                 
                 for i in dates:
