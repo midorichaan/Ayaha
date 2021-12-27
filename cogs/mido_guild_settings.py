@@ -168,7 +168,7 @@ class mido_guild_settings(commands.Cog):
                     for i in emojis:
                         await m.add_reaction(i)
                     
-                    await self.ticket_config(ctx, m)
+                    await self.ticket_config(ctx, m, d)
                     
                     gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
