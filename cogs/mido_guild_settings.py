@@ -82,7 +82,7 @@ class mido_guild_settings(commands.Cog):
             else:
                 if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]:
                     if ctx.channel.permissions_for(ctx.me).manage_messages:
-                        await m.remove_reaction(str(r), ctx.author)
+                        await message.remove_reaction(str(r), ctx.author)
                 
                 if r.emoji == "❗":
                     pass
