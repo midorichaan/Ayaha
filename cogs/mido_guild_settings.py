@@ -15,22 +15,47 @@ class mido_guild_settings(commands.Cog):
             lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         if type == 1:
-            e = discord.Embed(title=d["guildsettings-prefix"], 
-                              description=d["guildsettings-type-prefix"],
-                              color=self.bot.color,
-                              timestamp=ctx.message.created_at
-                             )
+            e = discord.Embed(
+                title=d["guildsettings-prefix"], 
+                description=d["guildsettings-type-prefix"],
+                color=self.bot.color,
+                timestamp=ctx.message.created_at
+            )
+            return e
+        elif type == 2:
+            e = discord.Embed(
+                title=d["guildsettings-ticket-settings"], 
+                description="",
+                color=self.bot.color,
+                timestamp=ctx.message.created_at
+            )
+            
+            val = [
+                "❗: {} ({})\n".format(d["guildsettings-ticket-adminmention"], d["guildsettings-true"] if db["admin_role_mention"] else d["guildsettings-false"]),
+                "📄: {} ({})\n".format(d["guildsettings-ticket-opencategory"], ctx.guild.get_channel(db["open_category_id"]) if db["open_category_id"] else d["guildsettings-false"]),
+                "📑: {} ({})\n".format(d["guildsettings-ticket-closecategory"], ctx.guild.get_channel(db["close_category_id"]) if db["close_category_id"] else d["guildsettings-false"]),
+                "🗑: {} ({})\n".format(d["guildsettings-ticket-deleteticket"], d["guildsettings-true"] if db["delete_after_closed"] else d["guildsettings-false"]),
+                "📩: {} ({})\n".format(d["guildsettings-ticket-moveclosed"], d["guildsettings-true"] if db["move_after_closed"] else d["guildsettings-false"]),
+                "📝: {} ({})\n".format(d["guildsettings-ticket-paneltitle"], db["ticket_panel_title"] if db["ticket_panel_title"] else d["none"]),
+                "📖: {} ({})\n".format(d["guildsettings-ticket-paneldescription"], db["ticket_panel_description"] if db["ticket_panel_description"] else d["none"]),
+            ]
+            
+            for i in val:
+                e.description += i
+            
             return e
         else:
-            e = discord.Embed(title=d["guildsettings"], 
-                              description="",
-                              color=self.bot.color,
-                              timestamp=ctx.message.created_at
-                             )
+            e = discord.Embed(
+                title=d["guildsettings"], 
+                description="",
+                color=self.bot.color,
+                timestamp=ctx.message.created_at
+            )
             
             settings = [
                 "📝: {} ({})\n".format(d["guildsettings-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
                 "📚: {} ({})\n".format(d["guildsettings-toggle-baseprefix"], d["guildsettings-false"] if db["disable_base_prefix"] else d["guildsettings-true"]),
+                "✉: {}\n".format(d["guildsettings-ticket-settings"]),
                 "❌: {}".format(d["cancel"])
             ]
         
@@ -46,6 +71,34 @@ class mido_guild_settings(commands.Cog):
         else:
             asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
     
+    #ticket_config
+    async def ticket_config(ctx, message, lang):
+        while True:
+            try:
+                r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == message.id, timeout=30.0)
+            except asyncio.TimeoutError:
+                await self.clear_reactions(ctx, m)
+                break
+            else:
+                if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]:
+                    if ctx.channel.permissions_for(ctx.me).manage_messages:
+                        await m.remove_reaction(str(r), ctx.author)
+                
+                if r.emoji == "❗":
+                    pass
+                elif r.emoji == "📄":
+                    pass
+                elif r.emoji == "📑":
+                    pass
+                elif r.emoji == "🗑":
+                    pass
+                elif r.emoji == "📩":
+                    pass
+                elif r.emoji == "📝":
+                    pass
+                elif r.emoji == "📖":
+                    pass
+    
     #guildsettings
     @commands.command(name="guildsettings", aliases=["guildsetting", "gs", "config"], usage="guildsettings")
     @commands.guild_only()
@@ -60,6 +113,7 @@ class mido_guild_settings(commands.Cog):
         await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs, lang=lang))
         await m.add_reaction("📝")
         await m.add_reaction("📚")
+        await m.add_reaction("✉")
         await m.add_reaction("❌")
         
         while True:
@@ -88,6 +142,7 @@ class mido_guild_settings(commands.Cog):
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
+                    await m.add_reaction("✉")
                     await m.add_reaction("❌")
                 elif r.emoji == "📚":
                     await self.clear_reactions(ctx, m)
@@ -102,6 +157,23 @@ class mido_guild_settings(commands.Cog):
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
                     await m.add_reaction("📚")
+                    await m.add_reaction("✉")
+                    await m.add_reaction("❌")
+                elif r.emoji == "✉":
+                    await self.clear_reactions(ctx, m)
+                    await m.edit(embed=await self.build_gs_embed(ctx, 2, gs))
+                    
+                    emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]
+                    for i in emojis:
+                        await m.add_reaction(i)
+                    
+                    await self.ticket_config(ctx, m)
+                    
+                    gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
+                    await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
+                    await m.add_reaction("📝")
+                    await m.add_reaction("📚")
+                    await m.add_reaction("✉")
                     await m.add_reaction("❌")
                 elif r.emoji == "❌":
                     await self.clear_reactions(ctx, m)
