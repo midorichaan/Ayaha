@@ -77,7 +77,7 @@ class mido_guild_settings(commands.Cog):
             try:
                 r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == message.id, timeout=30.0)
             except asyncio.TimeoutError:
-                await self.clear_reactions(ctx, m)
+                await self.clear_reactions(ctx, message)
                 break
             else:
                 if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]:
