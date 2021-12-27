@@ -161,7 +161,8 @@ class mido_guild_settings(commands.Cog):
                     await m.add_reaction("❌")
                 elif r.emoji == "✉":
                     await self.clear_reactions(ctx, m)
-                    await m.edit(embed=await self.build_gs_embed(ctx, 2, gs))
+                    db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (ctx.guild.id,))
+                    await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
                     
                     emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]
                     for i in emojis:
