@@ -91,9 +91,7 @@ class mido_ticket(commands.Cog):
     async def config(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-        
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
-        
         return await m.edit(content=f"> {d['ticket-use-guildsetting']}")
     
     #panel
@@ -109,9 +107,7 @@ class mido_ticket(commands.Cog):
     async def panel_help(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-        
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
-        
         return await m.edit(content=None, embed=self.generate_help(ctx, d, gen_cmd="ticket panel"))
     
     #panel
