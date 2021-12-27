@@ -72,7 +72,7 @@ class mido_guild_settings(commands.Cog):
             asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
     
     #ticket_config
-    async def ticket_config(ctx, message, lang):
+    async def ticket_config(self, ctx, message, lang):
         while True:
             try:
                 r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == message.id, timeout=30.0)
