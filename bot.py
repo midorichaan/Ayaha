@@ -61,7 +61,7 @@ class Ayaha(commands.AutoShardedBot):
         self._last_exc = None
 
         self.vars = {
-            "uptime": datetime.datetime.now()
+            "uptime": datetime.datetime.now(),
             "voice": {
                 "read": False,
                 "openjtalk": {
