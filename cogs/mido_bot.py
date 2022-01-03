@@ -42,7 +42,7 @@ class mido_bot(commands.Cog):
 
         ws = round(self.bot.latency * 1000, 2)
         ping = round(time.perf_counter() - msg_time, 3) * 1000
-        await m.edit(content=f"> {d['ping-pong']} \nPing: {ping} \nWebSocket: {ws}")
+        await m.edit(content=f"> {d['ping-pong']} \nPing: {ping}ms \nWebSocket: {ws}ms")
 
     #about
     @commands.command(aliases=["info", "bot", "ayaha"], usage="about")
