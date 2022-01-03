@@ -54,7 +54,7 @@ class mido_admins(commands.Cog):
         except Exception as exc:
             return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
         else:
-            r = d['prohibit-banned'].replace('{TARGET}', target)
+            r = d['prohibit-banned'].replace('{TARGET}', str(target))
             await m.edit(content=f"> {r}")
     
     #unprohibit
@@ -77,7 +77,7 @@ class mido_admins(commands.Cog):
         except Exception as exc:
             return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
         else:
-            r = d['prohibit-unbanned'].replace('{TARGET}', target)
+            r = d['prohibit-unbanned'].replace('{TARGET}', str(target))
             await m.edit(content=f"> {r}")
     
     #rank
