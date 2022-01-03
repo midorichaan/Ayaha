@@ -27,6 +27,7 @@
     "failed-loads": "読み込めなかったCog",
     "exc-nodm": "DMでは使えないよ！",
     
+    "help-ban": "指定メンバーをBanするよ！",
     "help-toggle": "コマンドの有効/無効を変更するよ！",
     "help-restart": "Botを再起動するよ！",
     "help-reload": "ファイルを再読み込みするよ！",
@@ -122,6 +123,9 @@
     
     "rank-changed": "{TARGET} の権限を {RANK} に変更したよ！",
     "prohibit-unbanned": "{TARGET}の使用禁止を解除したよ！",
-    "prohibit-banned": "{TARGET}を使用禁止にしたよ！"
+    "prohibit-banned": "{TARGET}を使用禁止にしたよ！",
+    
+    "ban-noreason": "理由なし",
+    "ban-cannot-self": "自分自身は指定できないよ！"
     
 }
