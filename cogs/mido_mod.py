@@ -28,7 +28,7 @@ class mido_mod(commands.Cog):
             return await m.edit(content=f"> {d['member-required']}")
 
         if target.id == ctx.author.id:
-            return await m.edit(content=f"> {d['ban-cannot-self']}")
+            return await m.edit(content=f"> {d['punish-cannot-self']}")
 
         if not self.check_hierarchy(ctx, ctx.author, target):
             return await m.edit(content="> {d['ban-cannot_ban']}")
@@ -52,7 +52,7 @@ class mido_mod(commands.Cog):
             return await m.edit(content=f"> {d['member-required']}")
 
         if target.id == ctx.author.id:
-            return await m.edit(content=f"> {d['kick-cannot-self']}")
+            return await m.edit(content=f"> {d['punish-cannot-self']}")
 
         if not self.check_hierarchy(ctx, ctx.author, target):
             return await m.edit(content="> {d['kick-cannot_kick']}")
