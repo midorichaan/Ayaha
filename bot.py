@@ -83,7 +83,7 @@ class Ayaha(commands.AutoShardedBot):
         }
 
         self._ext = [
-            "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_user_settings", 
+            "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_mod", "cogs.mido_user_settings", 
             "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "cogs.mido_music", "jishaku"
         ]
 
