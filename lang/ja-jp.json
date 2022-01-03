@@ -18,6 +18,7 @@
     "none": "なし",
     "error-id": "エラーID",
     "data-notfound": "データが見つからなかったよ！",
+    "member-required": "メンバーを指定してね！",
     
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
