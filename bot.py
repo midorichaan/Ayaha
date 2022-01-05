@@ -140,10 +140,10 @@ class Ayaha(commands.AutoShardedBot):
             await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.UserNotFound):
             m = d['exc-usernotfound'].replace("{TARGET}", str(exc.argument))
-            await utils.reply_or_send(ctx, content=f"> {} \n{d['error-id']}: {ctx.message.id}")
+            await utils.reply_or_send(ctx, content=f"> {m} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.MemberNotFound):
             m = d['exc-membernotfound'].replace("{TARGET}", str(exc.argument))
-            await utils.reply_or_send(ctx, content=f"> {} \n{d['error-id']}: {ctx.message.id}")
+            await utils.reply_or_send(ctx, content=f"> {m} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
                 await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
