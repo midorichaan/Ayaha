@@ -22,7 +22,7 @@
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
     "punish-cannot-self": "自分自身は指定できないよ！",
-    "punish-successfully": "{TARGET}を{TYPE}したよ！",
+    "pusish-successfully": "{TARGET}を{TYPE}したよ！",
     "punish-cannot-run": "{TYPE}できなかったよ！",
     
     "data-notfound": "データが見つからなかったよ！",
