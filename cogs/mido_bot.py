@@ -29,7 +29,7 @@ class mido_bot(commands.Cog):
                     try:
                         await m["message"].reply(content=f"> 運営からの回答 \n```\n{msg.content}\n```")
                     except:
-                        await m["message"].send(content=f"> 運営からの回答 \n```\n{msg.content}\n``` \n→ <{m.jump_url}>")
+                        await m["message"].send(content=f"> 運営からの回答 \n```\n{msg.content}\n``` \n→ <{msg.jump_url}>")
 
     #ping
     @commands.command(usage="ping")
@@ -65,6 +65,10 @@ class mido_bot(commands.Cog):
         e.add_field(
             name=d["users"], 
             value=str(len(self.bot.users))
+        )
+        e.add_field(
+            name=d["name"],
+            value="-- 彩葉 / Ayaha --"
         )
         e.add_field(
             name=d["invites"], 
