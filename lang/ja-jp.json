@@ -33,6 +33,8 @@
     "unknown-exc": "エラーが発生したよ！",
     "failed-loads": "読み込めなかったCog",
     "exc-nodm": "DMでは使えないよ！",
+    "exc-membernotfound": "メンバー {TARGET} は見つからなかったよ！",
+    "exc-usernotfound": "ユーザー {TARGET} は見つからなかったよ！",
     
     "help-ban": "指定メンバーをBanするよ！",
     "help-kick": "指定メンバーをKickするよ！",
