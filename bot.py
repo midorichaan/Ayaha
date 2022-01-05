@@ -74,11 +74,13 @@ class Ayaha(commands.AutoShardedBot):
             },
             "pattern": {
                 "emoji": r"<:[a-zA-Z0-9_]+:[0-9]+>",
-                "discordtoken": r"[a-zA-Z_0-9]{5,}\.[a-zA-Z_0-9]{3,}\.[a-zA-Z_0-9]{5,}"
+                "discordtoken": r"[a-zA-Z0-9]{24}\.[a-zA-Z0-9]{6}\.[a-zA-Z0-9_\-]{27}|mfa\.[a-zA-Z0-9_\-]{84}"
             },
             "resumes": {
             },
             "tasks": {
+            },
+            "exc": {
             }
         }
 
@@ -119,7 +121,10 @@ class Ayaha(commands.AutoShardedBot):
                 )
             )
 
-        self._last_exc = exc
+        self.vars["exc"] = {
+            "exc": exc,
+            "traceback": traceback_exc
+        }
         lang = await self.langutil.get_user_lang(ctx.author.id)
         d = await self.langutil.get_lang(lang)
 
@@ -133,6 +138,12 @@ class Ayaha(commands.AutoShardedBot):
             await utils.reply_or_send(ctx, content=f"> {d['exc-badbool']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.NoPrivateMessage):
             await utils.reply_or_send(ctx, content=f"> {d['exc-nodm']} \n{d['error-id']}: {ctx.message.id}")
+        elif isinstance(exc, commands.UserNotFound):
+            m = d['exc-usernotfound'].replace("{TARGET}", str(exc.argument))
+            await utils.reply_or_send(ctx, content=f"> {} \n{d['error-id']}: {ctx.message.id}")
+        elif isinstance(exc, commands.MemberNotFound):
+            m = d['exc-membernotfound'].replace("{TARGET}", str(exc.argument))
+            await utils.reply_or_send(ctx, content=f"> {} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
                 await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
