@@ -18,6 +18,7 @@
     "guildsettings": "サーバー設定",
     "none": "なし",
     "error-id": "エラーID",
+    "name": "名前",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
