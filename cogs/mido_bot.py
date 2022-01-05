@@ -68,7 +68,7 @@ class mido_bot(commands.Cog):
         )
         e.add_field(
             name=d["name"],
-            value="-- 彩葉 / Ayaha --"
+            value="桜井 彩葉 / Ayaha Sakurai"
         )
         e.add_field(
             name=d["invites"], 
