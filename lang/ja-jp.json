@@ -1,4 +1,5 @@
 {
+    
     "args-required": "引数が足りないよ！",
     "usage": "使用法",
     "description": "説明",
@@ -17,11 +18,14 @@
     "guildsettings": "サーバー設定",
     "none": "なし",
     "error-id": "エラーID",
-    "data-notfound": "データが見つからなかったよ！",
-    "member-required": "メンバーを指定してね！",
+    
+    "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
     "punish-cannot-self": "自分自身は指定できないよ！",
+    "punish-successfully": "{TARGET}を{TYPE}したよ！",
+    "punish-cannot-run": "{TYPE}できなかったよ！",
     
+    "data-notfound": "データが見つからなかったよ！",
     "notowner": "管理者のみが使用できるよ！",
     "cmd-notfound": "そのコマンドは見つからなかったよ！",
     "cmd-disabled": "そのコマンドは無効化されているよ！",
