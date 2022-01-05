@@ -25,17 +25,20 @@ class mido_mod(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         if not target:
-            return await m.edit(content=f"> {d['member-required']}")
+            return await m.edit(content=f"> {d['punish-member-required']}")
 
         if target.id == ctx.author.id:
             return await m.edit(content=f"> {d['punish-cannot-self']}")
 
         if not self.check_hierarchy(ctx, ctx.author, target):
-            return await m.edit(content="> {d['ban-cannot_ban']}")
+            s = d['punish-cannot-run'].replace("{TYPE}", "Ban")
+            return await m.edit(content="> {s}")
 
         if not reason:
             reason = d["punish-noreason"]
 
+        s = d["pusish-successfully"].replace("{TYPE}", "Ban").replace("{TARGET}", str(target))
+        await m.edit(content=f"> {s}")
         await ctx.guild.ban(target, reason=reason)
 
     #kick
@@ -49,13 +52,14 @@ class mido_mod(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         if not target:
-            return await m.edit(content=f"> {d['member-required']}")
+            return await m.edit(content=f"> {d['punish-member-required']}")
 
         if target.id == ctx.author.id:
             return await m.edit(content=f"> {d['punish-cannot-self']}")
 
         if not self.check_hierarchy(ctx, ctx.author, target):
-            return await m.edit(content="> {d['kick-cannot_kick']}")
+            s = d['punish-cannot-run'].replace("{TYPE}", "Ban")
+            return await m.edit(content="> {s}")
 
         if not reason:
             reason = d["punish-noreason"]
