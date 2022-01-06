@@ -7,7 +7,7 @@ import urllib.request
 from lib import utils
 
 class mido_info(commands.Cog):
-    
+
     def __init__(self, bot):
         self.bot = bot
         self.jrwlines = {
@@ -52,7 +52,7 @@ class mido_info(commands.Cog):
             "山陰4線": "sanin4",
             "伯備2線": "hakubi2"
         }
-        
+
         self.jrwrapids = {
             "大和路快": "大和路快速",
             "丹波路快": "丹波路快速",
@@ -64,57 +64,50 @@ class mido_info(commands.Cog):
             "区快": "区間快速",
             "新快": "新快速",
         }
-        
+
         self.jrwdesti = {
             "関西空港/和歌山方面": "関西空港・和歌山"
         }
-        
-    #delaymaps
-    @commands.command(name="delaymaps", usage="delaymaps", description="delayの路線一覧を表示します")
-    async def delaymaps(self, ctx):
-        m = await utils.reply_or_send(ctx, content="> 処理中...")
-        
-        d = ", ".join([f"`{r}`" for r in self.jrwlines.keys()])
-        e = discord.Embed(title="路線一覧", description=d, color=self.bot.color, timestamp=ctx.message.created_at)
-        return await m.edit(content=None, embed=e)
-    
+
     #delay
-    @commands.command(name="delay", usage="delay <line>", description="JR西日本の運行状況を表示します")
+    @commands.command(name="delay", usage="delay <line>")
     async def delay(self, ctx, line: str=None):
-        m = await utils.reply_or_send(ctx, content="> 処理中...")
-        
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
         if not line:
-            return await m.edit(content="> 路線を指定してね！")
-        
+            return await m.edit(content="> {d['args-required']}")
+
         if not line.endswith("線"):
             line = f"{line}線"
-        
+
         _ = line
         e = discord.Embed(title=f"{_}の遅延情報", color=self.bot.color, timestamp=ctx.message.created_at)
         line = self.jrwlines.get(line, None)
         if not line:
             return await m.edit(content="> 路線が見つからなかったよ！")
-        
+
         try:
             ret = urllib.request.urlopen(f"https://www.train-guide.westjr.co.jp/api/v3/{line}.json")
             ret_st = urllib.request.urlopen(f"https://www.train-guide.westjr.co.jp/api/v3/{line}_st.json")
             ret = json.loads(ret.read().decode("utf-8"))
             ret_st = json.loads(ret_st.read().decode("utf-8"))
-            
+
             p = None
             data = {}
-            
+
             for s in ret_st["stations"]:
                 data[s["info"]["code"]] = s["info"]["name"]
             for i in ret["trains"]:
                 if i["delayMinutes"] > 0:
                     st = i["pos"].split("_")
-                    
+
                     try:
                         p = data[st[0]] + "辺り"
                     except KeyError:
                         p = "不明"
-                
+
                     type = self.jrwrapids.get(i['displayType'], i['displayType'])
                     if "特急" in type:
                         type = type + f" {i['nickname']}"
@@ -124,66 +117,68 @@ class mido_info(commands.Cog):
                     )
 
             if not bool(e.fields):
-                e.add_field(name="列車遅延", value="なし")
+                e.add_field(name="列車遅延", value=d["none"])
             return await m.edit(content=None, embed=e)
         except Exception as exc:
-            return await m.edit(conetent=f"> エラー \n```py\n{exc}\n```")
-    
+            return await m.edit(conetent=f"> {d['error']} \n```py\n{exc}\n```")
+
     #shadowban
     @commands.command(aliases=["sb"], usage="shadowban <twitter_id>")
     async def shadowban(self, ctx, twitter_id=None):
-        msg = await utils.reply_or_send(ctx, content="> 処理中...")
-        
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
         if not twitter_id:
-            return await msg.edit(content="> ユーザーIDを入力してね！")
-        
+            return await msg.edit(content=f"> {d['twitter-id-required']}")
+
         try:
             async with self.bot.session.request("GET", f"https://shadowban.hmpf.club/{twitter_id}") as r:
                 if r.status != 200:
-                    return await msg.edit(content="> データを取得できなかったよ...")
-                
+                    return await msg.edit(content=f"> {d['exc-cant_fetch-data']}")
+
                 e = discord.Embed(title=f"Shadowban Status ({twitter_id})", description="", color=self.bot.color, timestamp=ctx.message.created_at)
                 predicate = lambda i: "✅ " if i else "❌ "
                 data = await r.json()
-                
+
                 profile = data["profile"]
-                
+
                 if not profile["exists"]:
                     e.description = f"{predicate(profile['exists'])} Account Exists"
                     return await msg.edit(content=None, embed=e)
-                
+
                 banned = data.get("tests", None)
                 if not banned:
                     e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile['protected'])}Account Protected"
                     return await msg.edit(content=None, embed=e)
-                
+
                 dates = [
                     f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile['protected'])}Account Protected\n",
                     f"{predicate(not banned['ghost']['ban'])}Ghost Ban\n", f"{predicate(banned['search'])}Search Ban\n",
                     f"{predicate(banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
                 ]
-                
+
                 for i in dates:
                     e.description += i
-                
+
                 return await msg.edit(content=None, embed=e)
         except Exception as exc:
-            return await msg.edit(content=f"> エラー \n```py\n{exc}\n```")
-    
+            return await msg.edit(content=f"> d['error'] \n```py\n{exc}\n```")
+
     #profile
     @commands.command(usage="profile [user/member]")
     async def profile(self, ctx, target: utils.FetchUserConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
-        
+
         if not target:
             target = ctx.author
-        
+
         e = discord.Embed(color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{target} ({target.id})", icon_url=target.avatar_url_as(static_format="png"))
         e.set_footer(text=f"Requested by {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
-        
+
         db = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
         if not db:
             e.add_field(name=d["profile-exists"], value=d["profile-exists-0"])
@@ -195,8 +190,8 @@ class mido_info(commands.Cog):
             e.add_field(name=d["profile-rank"], value=d[f"profile-rank-{db['rank']}"])
             e.add_field(name=d["profile-verify"], value=d[f"profile-verify-{db['verify']}"])
             e.add_field(name=d["profile-language"], value=await self.bot.langutil.get_user_lang(target.id))
-            
+
         return await m.edit(content=None, embed=e)
-        
+
 def setup(bot):
     bot.add_cog(mido_info(bot))
