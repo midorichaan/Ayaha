@@ -20,6 +20,7 @@
     "error-id": "エラーID",
     "name": "名前",
     "admin-reply": "運営からの回答",
+    "userid-required": "ユーザーIDを入力してね！",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
@@ -138,6 +139,8 @@
     "prohibit-banned": "{TARGET}を使用禁止にしたよ！",
     
     "ban-cannot_ban": "Banできないよ！",
-    "kick-cannot-self": "Kickできないよ！"
+    "kick-cannot-self": "Kickできないよ！",
+    
+    "twitter-id-required": "TwitterIDを入力してね！"
     
 }
