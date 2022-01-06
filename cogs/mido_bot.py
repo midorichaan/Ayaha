@@ -67,6 +67,10 @@ class mido_bot(commands.Cog):
             value=str(len(self.bot.users))
         )
         e.add_field(
+            name=d["library"],
+            value=f"discord.py v{discord.__version__}"
+        )
+        e.add_field(
             name=d["name"],
             value="桜井 彩葉 / Ayaha Sakurai"
         )
