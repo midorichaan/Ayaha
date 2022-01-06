@@ -21,6 +21,7 @@
     "name": "name",
     "admin-reply": "Reply from the staff",
     "user-id-required": "UserID was a required argument",
+    "library": "Library",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
