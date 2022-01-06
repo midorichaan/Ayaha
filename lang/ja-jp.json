@@ -19,6 +19,7 @@
     "none": "なし",
     "error-id": "エラーID",
     "name": "名前",
+    "admin-reply": "運営からの回答",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
