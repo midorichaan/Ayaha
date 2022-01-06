@@ -50,7 +50,6 @@ class mido_bot(commands.Cog):
     async def about(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         e = discord.Embed(
@@ -83,7 +82,6 @@ class mido_bot(commands.Cog):
     async def report(self, ctx, *, content: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         if not content:
@@ -113,7 +111,6 @@ class mido_bot(commands.Cog):
     async def request(self, ctx, *, content: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         if not content:
@@ -128,14 +125,13 @@ class mido_bot(commands.Cog):
             name=f"{ctx.author} ({ctx.author.id})", 
             icon_url=ctx.author.avatar_url_as(static_format="png")
         )
-        dm = await self.bot.get_user(546682137240403984).send(embed=e)
 
+        dm = await self.bot.get_user(546682137240403984).send(embed=e)
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
             "userlang": lang,
             "reply": False
         }
-
         return await m.edit(content="> {}".format(d["request-submited"]))
 
     #invite
@@ -143,8 +139,8 @@ class mido_bot(commands.Cog):
     async def invite(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
         return await m.edit(content=f"> {d['invites']} \n<https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot>")
 
 def setup(bot):
