@@ -20,6 +20,7 @@
     "error-id": "Error ID",
     "name": "name",
     "admin-reply": "Reply from the staff",
+    "user-id-required": "UserID was a required argument",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
@@ -138,6 +139,8 @@
     "prohibit-banned": "Banned {TARGET} from useing bot!",
     
     "ban-cannot_ban": "Cannot ban!",
-    "kick-cannot-self": "Cannot kick!"
+    "kick-cannot-self": "Cannot kick!",
+    
+    "twitter-id-required": "Twitter ID was a required argument"
 
 }
