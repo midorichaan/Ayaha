@@ -1,5 +1,5 @@
 {
-    
+
     "args-required": "Not enough arguments",
     "usage": "Usage",
     "description": "Description",
@@ -18,8 +18,15 @@
     "guildsettings": "Guild Settings",
     "none": "none",
     "error-id": "Error ID",
+    "name": "name",
+
+    "punish-member-required": "Please specify the object member.",
+    "punish-noreason": "No reason provided.",
+    "punish-cannot-self": "Cannot specify yourself!",
+    "pusish-successfully": "{TYPE} {TARGET} successfully!",
+    "punish-cannot-run": "Cannot {TYPE}...",
+
     "data-notfound": "Data not found",
-    
     "notowner": "Only the bot administrator can use it",
     "cmd-notfound": "Command not found",
     "cmd-disabled": "This command is disabled and cannot be used",
@@ -27,7 +34,11 @@
     "unknown-exc": "An unknown error has occurred",
     "failed-loads": "Failed to load cogs",
     "exc-nodm": "This command can't be used in private messages",
+    "exc-membernotfound": "Member \"{TARGET}\" was not found!",
+    "exc-usernotfound": "User \"{TARGET}\" was not found!",
     
+    "help-ban": "Ban specified member",
+    "help-kick": "Kick specified member",
     "help-toggle": "Toggle enable/disable command",
     "help-restart": "Restart the bot",
     "help-reload": "Reload the file",
@@ -52,25 +63,49 @@
     "help-config": "Ticket config (Deprecated)",
     "help-panel": "Ticket panel",
     "help-rank": "Change user rank",
-    
+    "help-shuffle": "Shuffle the music queue",
+    "help-stop": "Stop music playing",
+    "help-play": "Play music",
+    "help-skip": "Skip playing music",
+    "help-pause": "Pause playing",
+    "help-volume": "Set music volume",
+    "help-nowplaying": "Display now playing music",
+    "help-queue": "Display music queue",
+    "help-loop": "Toggle queue loop",
+    "help-delete": "Delete spetified music / panel",
+    "help-search": "Search music with YouTube API",
+    "help-close": "Close ticket",
+    "help-create": "Create ticket / panel",
+    "help-refresh": "Regenerate panel",
+    "help-prohibit": "Ban spetified user from useing bot",
+    "help-unprohibit": "Unban spetified user from useing bot",
+
     "ping-pinging": "Pinging... please wait...",
     "ping-pong": "Pong！🏓",
-    
+
     "about-ayaha": "About of 「彩葉 -Ayaha-」",
     "about-ayaha-description": "DiscordBot 「彩葉 -Ayaha-」 was created mainly for the ticket function. It aims to be a bot that is easier to use than conventional bots!",
-    
+
     "usersetting-select-lang": "Please select a language",
-    
+
     "request-submited": "Your request was submitted to the bot administrator. Thanks for requesting!",
     "report-submited": "Your report was submitted to the bot administrator. Thanks for reporting!",
-    
+
     "guildsettings-toggle-baseprefix": "Toggle prefix「-」",
     "guildsettings-no-prefix": "No prefix",
     "guildsettings-true": "On",
     "guildsettings-false": "Off",
     "guildsettings-prefix": "Guild Prefix",
     "guildsettings-type-prefix": "Enter the prefix you want to set (type 'reset' to set none)",
-    
+    "guildsettings-ticket-settings": "Ticket System Configuration",
+    "guildsettings-ticket-adminmention": "Mention for spetified role",
+    "guildsettings-ticket-opencategory": "Category for new ticket",
+    "guildsettings-ticket-closecategory": "Category for closed ticket",
+    "guildsettings-ticket-deleteticket": "Delete closed ticket",
+    "guildsettings-ticket-moveclosed": "Move closed ticket",
+    "guildsettings-ticket-paneltitle": "Title of ticket panel",
+    "guildsettings-ticket-paneldescription": "Description of ticket panel",
+
     "profile-rank": "Permission (Bot)",
     "profile-verify": "Verify (Bot)",
     "profile-language": "Language",
@@ -82,7 +117,7 @@
     "profile-exists": "Profile exists",
     "profile-exists-0": "false",
     "profile-exists-1": "true",
-    
+
     "ticket-use-guildsetting": "`ticket config` is deprecated. use `guildsettings`！",
     "ticket-unknown-exc": "An unknown error has occurred",
     "ticket-panel-created": "Ticket panel created! \n{PANEL_URL}",
@@ -90,7 +125,18 @@
     "ticket-panel-deleted": "Ticket panel deleted!",
     "ticket-panel-notfound": "Ticket panael was not found",
     "ticket-panel-refreshed": "Ticket panel refreshed successfully",
+    "ticket-cant-create": "Cannot create ticket",
+    "ticket-created": "Created ticket successfully!",
+    "ticket-notfound": "ticket not found",
+    "ticket-delete-after": "ticket will be deleted after 5 seconds...",
+    "ticket-closed": "Closed ticket successfully!",
+    "ticket-cant-fetch-panel": "Cannot get ticket panel data.",
+
+    "rank-changed": "{TARGET} rank changed to {RANK}",
+    "prohibit-unbanned": "Unbanned {TARGET} from useing bot!",
+    "prohibit-banned": "Banned {TARGET} from useing bot!",
     
-    "rank-changed": "{TARGET} rank changed to {RANK}"
-    
+    "ban-cannot_ban": "Cannot ban!",
+    "kick-cannot-self": "Cannot kick!"
+
 }
