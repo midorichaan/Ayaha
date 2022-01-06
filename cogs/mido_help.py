@@ -26,8 +26,9 @@ class mido_help(commands.Cog):
                 if ctx.author.id in self.bot.owner_ids or userdb["rank"] >= 2:
                     e.add_field(name=i.name, value=data.get(f"help-{i.name}", data["none"]))
                 else:
-                    if not isinstance(i.cog, type(self.bot.cogs["mido_admins"])) or not "jishaku" in i.name:
-                        e.add_field(name=i.name, value=data.get(f"help-{i.name}", data["none"]))
+                    if not isinstance(i.cog, type(self.bot.cogs["mido_admins"])):
+                        if not "jishaku" in i.name:
+                            e.add_field(name=i.name, value=data.get(f"help-{i.name}", data["none"]))
             
             return e
     
