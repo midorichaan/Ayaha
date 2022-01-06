@@ -38,6 +38,7 @@
     "exc-nodm": "This command can't be used in private messages",
     "exc-membernotfound": "Member \"{TARGET}\" was not found!",
     "exc-usernotfound": "User \"{TARGET}\" was not found!",
+    "exc-cant_fetch-data": "Cannot fetching data...",
     
     "help-ban": "Ban specified member",
     "help-kick": "Kick specified member",
