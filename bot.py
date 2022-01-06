@@ -186,6 +186,8 @@ class Ayaha(commands.AutoShardedBot):
         for i in self.guilds:
             await utils.check_guild_profile(self, i.id)
 
+        self.owner_ids = [i["user_id"] for i in await self.db.fetchall("SELECT * FROM users WHERE rank=2")]
+
         await self.change_presence(
             status=discord.Status.online, 
             activity=discord.Game(
