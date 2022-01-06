@@ -130,40 +130,38 @@ class mido_info(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         if not twitter_id:
-            return await msg.edit(content=f"> {d['twitter-id-required']}")
+            return await m.edit(content=f"> {d['twitter-id-required']}")
 
         try:
             async with self.bot.session.request("GET", f"https://shadowban.hmpf.club/{twitter_id}") as r:
                 if r.status != 200:
-                    return await msg.edit(content=f"> {d['exc-cant_fetch-data']}")
+                    return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
                 e = discord.Embed(title=f"Shadowban Status ({twitter_id})", description="", color=self.bot.color, timestamp=ctx.message.created_at)
                 predicate = lambda i: "✅ " if i else "❌ "
                 data = await r.json()
-
                 profile = data["profile"]
 
                 if not profile["exists"]:
                     e.description = f"{predicate(profile['exists'])} Account Exists"
-                    return await msg.edit(content=None, embed=e)
+                    return await m.edit(content=None, embed=e)
 
                 banned = data.get("tests", None)
                 if not banned:
                     e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile['protected'])}Account Protected"
-                    return await msg.edit(content=None, embed=e)
+                    return await m.edit(content=None, embed=e)
 
                 dates = [
                     f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile['protected'])}Account Protected\n",
                     f"{predicate(not banned['ghost']['ban'])}Ghost Ban\n", f"{predicate(banned['search'])}Search Ban\n",
                     f"{predicate(banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
                 ]
-
                 for i in dates:
                     e.description += i
 
-                return await msg.edit(content=None, embed=e)
+                return await m.edit(content=None, embed=e)
         except Exception as exc:
-            return await msg.edit(content=f"> d['error'] \n```py\n{exc}\n```")
+            return await m.edit(content=f"> d['error'] \n```py\n{exc}\n```")
 
     #profile
     @commands.command(usage="profile [user/member]")
