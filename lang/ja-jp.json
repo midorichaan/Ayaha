@@ -38,6 +38,7 @@
     "exc-nodm": "DMでは使えないよ！",
     "exc-membernotfound": "メンバー {TARGET} は見つからなかったよ！",
     "exc-usernotfound": "ユーザー {TARGET} は見つからなかったよ！",
+    "exc-cant_fetch-data": "データを取得できなかったよ...",
     
     "help-ban": "指定メンバーをBanするよ！",
     "help-kick": "指定メンバーをKickするよ！",
