@@ -19,6 +19,7 @@
     "none": "none",
     "error-id": "Error ID",
     "name": "name",
+    "admin-reply": "Reply from the staff",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
