@@ -25,11 +25,12 @@ class mido_bot(commands.Cog):
                     if m["resolved"]:
                         return
 
+                    lang = await self.bot.langutil.get_lang(m["userlang"])
                     m["resolved"] = True
                     try:
-                        await m["message"].reply(content=f"> 運営からの回答 \n```\n{msg.content}\n```")
+                        await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n```")
                     except:
-                        await m["message"].send(content=f"> 運営からの回答 \n```\n{msg.content}\n``` \n→ <{msg.jump_url}>")
+                        await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n→ <{msg.jump_url}>")
 
     #ping
     @commands.command(usage="ping")
@@ -101,6 +102,7 @@ class mido_bot(commands.Cog):
 
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
+            "userlang": lang,
             "resolved": False
         }
 
@@ -130,6 +132,7 @@ class mido_bot(commands.Cog):
 
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
+            "userlang": lang,
             "reply": False
         }
 
