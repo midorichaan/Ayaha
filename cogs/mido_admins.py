@@ -36,7 +36,7 @@ class mido_admins(commands.Cog):
             return e
 
     #prohibit
-    @commands.is_owner()
+    @utils.is_staff()
     @commands.command(usage="prohibit <user/member> [reason]")
     async def prohibit(self, ctx, target: utils.FetchUserConverter=None, *, reason: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -58,7 +58,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {r}")
 
     #unprohibit
-    @commands.is_owner()
+    @utils.is_staff()
     @commands.command(usage="unprohibit <user/member>")
     async def unprohibit(self, ctx, target: utils.FetchUserConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -197,8 +197,8 @@ class mido_admins(commands.Cog):
             return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
 
     #getlog
+    @utils.is_staff()
     @commands.command(usage="getlog <error_id>")
-    @commands.is_owner()
     async def getlog(self, ctx, error_id: int=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -221,13 +221,13 @@ class mido_admins(commands.Cog):
         return await m.edit(content=None, embed=e)
 
     #system
+    @utils.is_staff()
     @commands.group(name="system", usage="system [args]", invoke_without_command=True)
-    @commands.is_owner()
     async def system(self, ctx):
         pass
 
     #help
-    @commands.is_owner()
+    @utils.is_staff()
     @system.command(name="help", usage="help [cmd]")
     async def help(self, ctx, cmd=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -330,7 +330,7 @@ class mido_admins(commands.Cog):
             os.execl(sys.executable, sys.executable, *sys.argv)
 
     #toggle
-    @commands.is_owner()
+    @utils.is_staff()
     @system.command(name="toggle", usage="toggle <command>")
     async def toggle(self, ctx, command=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
