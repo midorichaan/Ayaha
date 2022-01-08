@@ -131,7 +131,7 @@ class Ayaha(commands.AutoShardedBot):
         if isinstance(exc, commands.NotOwner):
             await utils.reply_or_send(ctx, content=f"> {d['exc-notowner']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, utils.NotStaff):
-            await utils.reply_or_send(ctx, content=f"> {d['exc-notstaff']}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-notstaff']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.CommandNotFound):
             await utils.reply_or_send(ctx, content=f"> {d['exc-cmd-notfound']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.DisabledCommand):
