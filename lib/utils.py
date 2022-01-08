@@ -44,7 +44,7 @@ async def check_guild_profile(bot, guild_id: int):
         await bot.db.register_guild(guild_id)
 
 #is_staff
-async def is_staff(ctx):
+async def is_staff():
     async def predicate(ctx):
         if ctx.author.id in ctx.bot.owner_ids:
             return True
