@@ -22,6 +22,8 @@
     "admin-reply": "Reply from the staff",
     "user-id-required": "UserID was a required argument",
     "library": "Library",
+    "data-notfound": "Data not found",
+    "failed-loads": "Failed to load cogs",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
@@ -29,13 +31,12 @@
     "pusish-successfully": "{TYPE} {TARGET} successfully!",
     "punish-cannot-run": "Cannot {TYPE}...",
 
-    "data-notfound": "Data not found",
-    "notowner": "Only the bot administrator can use it",
-    "cmd-notfound": "Command not found",
-    "cmd-disabled": "This command is disabled and cannot be used",
+    "exc-notowner": "Only the bot administrator can use it",
+    "exc-notstaff": "Only the bot staff can use it"
+    "exc-cmd-notfound": "Command not found",
+    "exc-cmd-disabled": "This command is disabled and cannot be used",
     "exc-badbool": "Invalid argument",
-    "unknown-exc": "An unknown error has occurred",
-    "failed-loads": "Failed to load cogs",
+    "exc-unknown": "An unknown error has occurred",
     "exc-nodm": "This command can't be used in private messages",
     "exc-membernotfound": "Member \"{TARGET}\" was not found!",
     "exc-usernotfound": "User \"{TARGET}\" was not found!",
