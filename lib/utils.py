@@ -2,6 +2,10 @@ import asyncio
 import subprocess
 from discord.ext import commands
 
+#Error while check failed
+class NotStaff(commands.CheckFailure):
+    pass
+
 #reply_or_send
 async def reply_or_send(ctx, *args, **kwargs):
     try:
@@ -41,14 +45,15 @@ async def check_guild_profile(bot, guild_id: int):
 
 #is_staff
 async def is_staff(ctx):
-    if ctx.author.id in ctx.bot.owner_ids:
-        return True
-    
-    db = await ctx.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (ctx.author.id,))
-    if not db:
-        return False
-    
-    return db["rank"] >= 2
+    async def predicate(ctx):
+        if ctx.author.id in ctx.bot.owner_ids:
+            return True
+
+        db = await ctx.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (ctx.author.id,))
+        if not db:
+            raise NotStaff("Staff rank was required")
+        return db["rank"] >= 2
+    return commands.check(predicate)
     
 #FetchUserConverter
 class FetchUserConverter(commands.Converter):
