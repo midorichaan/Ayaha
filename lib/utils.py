@@ -52,7 +52,10 @@ def is_staff():
         db = await ctx.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (ctx.author.id,))
         if not db:
             raise NotStaff("Staff rank was required")
-        return db["rank"] >= 2
+        else:
+            if db["rank"] >= 2:
+                return True
+            raise NotStaff("Staff rank was required")
     return commands.check(predicate)
     
 #FetchUserConverter
