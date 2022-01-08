@@ -3,7 +3,7 @@ import subprocess
 from discord.ext import commands
 
 #Error while check failed
-class NotStaff(commands.CheckFailure):
+class NotStaff(commands.errors.CheckFailure):
     pass
 
 #reply_or_send
