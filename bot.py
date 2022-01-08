@@ -129,7 +129,9 @@ class Ayaha(commands.AutoShardedBot):
         d = await self.langutil.get_lang(lang)
 
         if isinstance(exc, commands.NotOwner):
-            await utils.reply_or_send(ctx, content=f"> {d['notowner']} \n{d['error-id']}: {ctx.message.id}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-notowner']} \n{d['error-id']}: {ctx.message.id}")
+        elif isinstance(exc, utils.NotStaff):
+            await utils.reply_or_send(ctx, content=f"> {d['exc-notstaff']}")
         elif isinstance(exc, commands.CommandNotFound):
             await utils.reply_or_send(ctx, content=f"> {d['cmd-notfound']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.DisabledCommand):
@@ -146,9 +148,9 @@ class Ayaha(commands.AutoShardedBot):
             await utils.reply_or_send(ctx, content=f"> {m} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
-                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
+                await utils.reply_or_send(ctx, content=f"> {d['exc-unknown']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
             else:
-                await utils.reply_or_send(ctx, content=f"> {d['unknown-exc']} \n{d['error-id']}: {ctx.message.id}")
+                await utils.reply_or_send(ctx, content=f"> {d['exc-unknown']} \n{d['error-id']}: {ctx.message.id}")
 
     #on_command
     async def on_command(self, ctx):
