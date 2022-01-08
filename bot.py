@@ -133,9 +133,9 @@ class Ayaha(commands.AutoShardedBot):
         elif isinstance(exc, utils.NotStaff):
             await utils.reply_or_send(ctx, content=f"> {d['exc-notstaff']}")
         elif isinstance(exc, commands.CommandNotFound):
-            await utils.reply_or_send(ctx, content=f"> {d['cmd-notfound']} \n{d['error-id']}: {ctx.message.id}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-cmd-notfound']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.DisabledCommand):
-            await utils.reply_or_send(ctx, content=f"> {d['cmd-disabled']} \n{d['error-id']}: {ctx.message.id}")
+            await utils.reply_or_send(ctx, content=f"> {d['exc-cmd-disabled']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.BadBoolArgument):
             await utils.reply_or_send(ctx, content=f"> {d['exc-badbool']} \n{d['error-id']}: {ctx.message.id}")
         elif isinstance(exc, commands.NoPrivateMessage):
