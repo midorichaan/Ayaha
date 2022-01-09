@@ -41,7 +41,12 @@ class Ayaha(commands.AutoShardedBot):
 
         self.banned = []
         self.owner_id = None
-        self.owner_ids = config.OWNER_IDS
+        self.owner_ids = [
+            449867036558884866, 
+            546682137240403984, 
+            606693289566928900, 
+            635002934907895826
+        ]
         self.db = database.Database(
             host=os.environ["DB_ADDRESS"], 
             port=3306, 
