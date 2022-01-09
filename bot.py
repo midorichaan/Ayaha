@@ -84,6 +84,9 @@ class Ayaha(commands.AutoShardedBot):
             "tasks": {
             },
             "exc": {
+            },
+            "fonts": {
+                "mushin": "./fonts/mushin.otf"
             }
         }
 
