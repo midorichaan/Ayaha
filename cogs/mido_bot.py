@@ -76,7 +76,7 @@ class mido_bot(commands.Cog):
         )
         e.add_field(
             name=d["invites"], 
-            value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot", 
+            value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot+applications.commands", 
             inline=False
         )
         await m.edit(content=None, embed=e)
