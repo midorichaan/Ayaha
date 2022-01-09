@@ -87,6 +87,17 @@ class Ayaha(commands.AutoShardedBot):
             },
             "fonts": {
                 "mushin": "./fonts/mushin.otf"
+            },
+            "logs": {
+                "command": 929845363240747069,
+                "error": 929845420425871410,
+                "traceback": 929846234599010344,
+                "join": 929845441720361011,
+                "left": 929845459583905842
+            },
+            "support": {
+                "id": 929780341382725643,
+                "invite": "https://discord.gg/H6u69mt6U9"
             }
         }
 
@@ -110,7 +121,35 @@ class Ayaha(commands.AutoShardedBot):
         )
         print(f"[Error] {ctx.author} → {exc}")
 
+        trace = discord.Embed(
+            timestamp=ctx.message.created_at,
+            color=self.color
+            description=f"```py\n{traceback_exc}\n```"
+        )
+
+        guild = self.get_guild(self.vars["support"]["id"])
+        tracelog = guild.get_channel(self.vars["logs"]["traceback"])
+
+        log = discord.Embed(
+            timestamp=ctx.message.created_at,
+            color=self.color
+            description=f"```py\n{exc}\n```"
+        )
+        log.add_field(
+            name="traceback_id",
+            value=f"```\n{tracelog.id}\n```",
+            inline=False
+        )
+        log.set_author(
+            name=f"{ctx.author} ({ctx.author.id})", 
+            icon_url=ctx.author.avatar_url_as(static_format="png")
+        )
+
         if ctx.guild:
+            log.set_footer(
+                text=f"{ctx.guild} | {ctx.channel}", 
+                icon_url=ctx.guild.icon_url_as(static_format="png")
+            )
             await self.db.execute(
                 "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                 (
@@ -119,6 +158,9 @@ class Ayaha(commands.AutoShardedBot):
                 )
             )
         else:
+            log.set_footer(
+                text=f"DM | {ctx.author}", 
+            )
             await self.db.execute(
                 "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
                 (
@@ -126,6 +168,9 @@ class Ayaha(commands.AutoShardedBot):
                     ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
                 )
             )
+
+        exclog = guild.get_channel(self.vars["logs"]["error"])
+        await exclog.send(embed=log)
 
         self.vars["exc"] = {
             "exc": exc,
