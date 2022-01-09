@@ -32,7 +32,7 @@
     "punish-cannot-run": "Cannot {TYPE}...",
 
     "exc-notowner": "Only the bot administrator can use it",
-    "exc-notstaff": "Only the bot staff can use it"
+    "exc-notstaff": "Only the bot staff can use it",
     "exc-cmd-notfound": "Command not found",
     "exc-cmd-disabled": "This command is disabled and cannot be used",
     "exc-badbool": "Invalid argument",
