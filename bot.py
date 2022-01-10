@@ -130,6 +130,7 @@ class Ayaha(commands.AutoShardedBot):
 
         guild = self.get_guild(self.vars["support"]["id"])
         tracelog = guild.get_channel(self.vars["logs"]["traceback"])
+        await tracelog.send(embed=trace)
 
         log = discord.Embed(
             timestamp=ctx.message.created_at,
