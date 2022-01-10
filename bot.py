@@ -93,7 +93,8 @@ class Ayaha(commands.AutoShardedBot):
                 "error": 929845420425871410,
                 "traceback": 929846234599010344,
                 "join": 929845441720361011,
-                "left": 929845459583905842
+                "left": 929845459583905842,
+                "request": 929890393573720154
             },
             "support": {
                 "id": 929780341382725643,
@@ -205,7 +206,21 @@ class Ayaha(commands.AutoShardedBot):
 
     #on_command
     async def on_command(self, ctx):
+        guild = self.get_guild(self.vars["support"]["id"])
+        log = discord.Embed(
+            color=self.color,
+            timestamp=ctx.message.created_at
+        )
+        log.set_author(
+            name=f"{ctx.author} ({ctx.author.id})",
+            icon_url=ctx.author.avatar_url_as(static_format="png")
+        )
+
         if ctx.guild:
+            log.set_footer(
+                text=f"{ctx.guild} | {ctx.channel}",
+                icon_url=ctx.guild.icon_url_as(static_format="png")
+            )
             print(f"[Log] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
             await self.db.execute(
                 "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
@@ -214,6 +229,9 @@ class Ayaha(commands.AutoShardedBot):
                 )
             )
         else:
+            log.set_footer(
+                text=f"DM | {ctx.author}",
+            )
             print(f"[Log] {ctx.author} → {ctx.message.content} | @DM")
             await self.db.execute(
                 "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
@@ -221,6 +239,21 @@ class Ayaha(commands.AutoShardedBot):
                     ctx.message.id, ctx.author.id, ctx.channel.id, None, ctx.message.created_at, ctx.message.content
                 )
             )
+
+        log.add_field(
+            name="実行時刻",
+            value=f"```\n{ctx.message.created_at}\n```"
+        )
+        log.add_field(
+            name="ログID",
+            value=f"```\n{ctx.message.id}\n```"
+        )
+        log.add_field(
+            name="実行コマンド",
+            value=f"```\n{ctx.message.content}\n```",
+            inline=False
+        )
+        await guild.get_channel(self.vars["logs"]["command"]).send(embed=log)
 
     #on_message
     async def on_message(self, message):
@@ -283,9 +316,69 @@ class Ayaha(commands.AutoShardedBot):
     async def on_guild_join(self, guild):
         await self.db.register_guild(guild.id)
 
+        log = discord.Embed(
+            title="Guild Join Log",
+            color=self.color,
+            timestamp=datetime.datetime.now()
+        )
+        log.add_field(
+            name="サーバー名",
+            value=f"```\n{guild.name}\n```"
+        )
+        log.add_field(
+            name="サーバーオーナー",
+            value=f"```\n{guild.owner} ({guild.owner.id})\n```"
+        )
+        log.add_field(
+            name="サーバー作成日時",
+            value=f"```\n{guild.created_at}\n```"
+        )
+        members = len(guild.members)
+        channels = len(guild.channels)
+        text = len([i for i in guild.channels if isinstance(i, discord.TextChannel)])
+        voice = len([i for i in guild.channels if isinstance(i, discord.VoiceChannel)])
+        log.add_field(
+            name="その他",
+            value=f"```\nメンバー数: {members}\nチャンネル数: {channels}\nテキストチャンネル: {text}\nボイスチャンネル: {voice}\n```"
+        )
+
+        guild = self.get_guild(self.vars["support"]["id"])
+        channel = guild.get_channel(self.vars["logs"]["join"])
+        await channel.send(embed=log)
+
     #on_guild_remove
     async def on_guild_remove(self, guild):
         await self.db.unregister_guild(guild.id)
+
+        log = discord.Embed(
+            title="Guild Left Log",
+            color=self.color,
+            timestamp=datetime.datetime.now()
+        )
+        log.add_field(
+            name="サーバー名",
+            value=f"```\n{guild.name}\n```"
+        )
+        log.add_field(
+            name="サーバーオーナー",
+            value=f"```\n{guild.owner} ({guild.owner.id})\n```"
+        )
+        log.add_field(
+            name="サーバー作成日時",
+            value=f"```\n{guild.created_at}\n```"
+        )
+        members = len(guild.members)
+        channels = len(guild.channels)
+        text = len([i for i in guild.channels if isinstance(i, discord.TextChannel)])
+        voice = len([i for i in guild.channels if isinstance(i, discord.VoiceChannel)])
+        log.add_field(
+            name="その他",
+            value=f"```\nメンバー数: {members}\nチャンネル数: {channels}\nテキストチャンネル: {text}\nボイスチャンネル: {voice}\n```"
+        )
+
+        guild = self.get_guild(self.vars["support"]["id"])
+        channel = guild.get_channel(self.vars["logs"]["join"])
+        await channel.send(embed=log)
 
     #status update
     @tasks.loop(minutes=10.0)
