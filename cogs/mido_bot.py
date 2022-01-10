@@ -16,21 +16,26 @@ class mido_bot(commands.Cog):
     #on_msg
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if isinstance(msg.channel, discord.DMChannel):
-            if msg.author.id == 546682137240403984:
-                if msg.reference:
-                    m = self.bot.wait_for_reply.get(msg.reference.resolved.id, None)
-                    if not m:
-                        return
-                    if m["resolved"]:
-                        return
+        if not msg.guild:
+            return
 
-                    lang = await self.bot.langutil.get_lang(m["userlang"])
-                    m["resolved"] = True
-                    try:
-                        await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n```")
-                    except:
-                        await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n→ <{msg.jump_url}>")
+        if msg.guild.id == self.bot.vars["support"]["id"]:
+            if msg.channel.id == self.bot.vars["logs"]["request"]:
+                admin_ids = [i.id for i in msg.guild.get_role(929780897052516392).members]
+                if msg.author.id in admin_ids:
+                    if msg.reference:
+                        m = self.bot.wait_for_reply.get(msg.reference.resolved.id, None)
+                        if not m:
+                            return
+                        if m["resolved"]:
+                            return
+
+                        lang = await self.bot.langutil.get_lang(m["userlang"])
+                        m["resolved"] = True
+                        try:
+                            await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n\n{msg.author}\n```")
+                        except:
+                            await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n\n{msg.author}\n``` \n→ <{msg.jump_url}>")
 
     #ping
     @commands.command(usage="ping")
@@ -75,6 +80,11 @@ class mido_bot(commands.Cog):
             value="桜井 彩葉 / Ayaha Sakurai"
         )
         e.add_field(
+            name=d["supportsrv"],
+            value=self.bot.vars["support"]["invite"],
+            inline=False
+        )
+        e.add_field(
             name=d["invites"], 
             value="https://discord.com/oauth2/authorize?client_id=911139204531122257&scope=bot+applications.commands", 
             inline=False
@@ -100,7 +110,9 @@ class mido_bot(commands.Cog):
             name=f"{ctx.author} ({ctx.author.id})", 
             icon_url=ctx.author.avatar_url_as(static_format="png")
         )
-        dm = await self.bot.get_user(546682137240403984).send(embed=e)
+
+        guild = self.bot.get_guild(self.bot.vars["support"]["id"])
+        dm = await guild.get_channel(self.bot.vars["logs"]["request"]).send(embed=e)
 
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
@@ -130,7 +142,9 @@ class mido_bot(commands.Cog):
             icon_url=ctx.author.avatar_url_as(static_format="png")
         )
 
-        dm = await self.bot.get_user(546682137240403984).send(embed=e)
+        guild = self.bot.get_guild(self.bot.vars["support"]["id"])
+        dm = await guild.get_channel(self.bot.vars["logs"]["request"]).send(embed=e)
+
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
             "userlang": lang,
