@@ -24,6 +24,7 @@
     "library": "ライブラリ",
     "failed-loads": "読み込めなかったCog",
     "data-notfound": "データが見つからなかったよ！",
+    "supportsrv": "サポートサーバー",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
