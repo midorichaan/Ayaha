@@ -124,7 +124,7 @@ class Ayaha(commands.AutoShardedBot):
 
         trace = discord.Embed(
             timestamp=ctx.message.created_at,
-            color=self.color
+            color=self.color,
             description=f"```py\n{traceback_exc}\n```"
         )
 
@@ -133,7 +133,7 @@ class Ayaha(commands.AutoShardedBot):
 
         log = discord.Embed(
             timestamp=ctx.message.created_at,
-            color=self.color
+            color=self.color,
             description=f"```py\n{exc}\n```"
         )
         log.add_field(
