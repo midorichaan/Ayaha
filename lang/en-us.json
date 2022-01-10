@@ -24,6 +24,7 @@
     "library": "Library",
     "data-notfound": "Data not found",
     "failed-loads": "Failed to load cogs",
+    "supportsrv": "Support Server",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
