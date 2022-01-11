@@ -148,7 +148,7 @@ class mido_bot(commands.Cog):
         self.bot.wait_for_reply[dm.id] = {
             "message": m,
             "userlang": lang,
-            "reply": False
+            "resolved": False
         }
         return await m.edit(content="> {}".format(d["request-submited"]))
 
