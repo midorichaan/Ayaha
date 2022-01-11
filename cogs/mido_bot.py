@@ -33,9 +33,9 @@ class mido_bot(commands.Cog):
                         lang = await self.bot.langutil.get_lang(m["userlang"])
                         m["resolved"] = True
                         try:
-                            await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n\n{msg.author}\n```")
+                            await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n{msg.author}")
                         except:
-                            await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n\n{msg.author}\n``` \n→ <{msg.jump_url}>")
+                            await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n{msg.author} \n→ <{msg.jump_url}>")
 
     #ping
     @commands.command(usage="ping")
