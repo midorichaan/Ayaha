@@ -7,10 +7,9 @@ from discord_slash import SlashCommand, SlashContext
 
 class mido_test(commands.Cog):
 
-    slash = SlashCommand(bot, sync_commands=True)
-
     def __init__(self, bot):
         self.bot = bot
+        self.slash = SlashCommand(bot, sync_commands=True)
 
     #test slash
     @slash.slash(name="slash")
