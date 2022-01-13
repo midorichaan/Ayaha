@@ -3,7 +3,7 @@ from discord.ext import commands
 
 import time
 
-from discord_slash import SlashCommand, SlashContext, cog_ext
+from discord_slash import SlashCommand, SlashContext
 
 class mido_test(commands.Cog):
 
