@@ -25,6 +25,7 @@
     "data-notfound": "Data not found",
     "failed-loads": "Failed to load cogs",
     "supportsrv": "Support Server",
+    "require-perms": "Permission(s) Required",
 
     "punish-member-required": "Please specify the object member.",
     "punish-noreason": "No reason provided.",
@@ -42,6 +43,8 @@
     "exc-membernotfound": "Member \"{TARGET}\" was not found!",
     "exc-usernotfound": "User \"{TARGET}\" was not found!",
     "exc-cant_fetch-data": "Cannot fetching data...",
+    "exc-missingperm": "You are missing some permission(s) to run this command",
+    "exc-botmissingperm": "Bot are missing some permission(s) to run this command",
     
     "help-ban": "Ban specified member",
     "help-kick": "Kick specified member",
