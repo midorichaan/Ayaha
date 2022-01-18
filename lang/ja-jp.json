@@ -43,8 +43,8 @@
     "exc-membernotfound": "メンバー {TARGET} は見つからなかったよ！",
     "exc-usernotfound": "ユーザー {TARGET} は見つからなかったよ！",
     "exc-cant_fetch-data": "データを取得できなかったよ...",
-    "exc-botmissingperms": "Botに必要な権限",
-    "exc-missingperms": "必要な権限",
+    "exc-botmissingperm": "Botに必要な権限",
+    "exc-missingperm": "必要な権限",
     
     "help-ban": "指定メンバーをBanするよ！",
     "help-kick": "指定メンバーをKickするよ！",
