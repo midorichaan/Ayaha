@@ -199,6 +199,12 @@ class Ayaha(commands.AutoShardedBot):
         elif isinstance(exc, commands.MemberNotFound):
             m = d['exc-membernotfound'].replace("{TARGET}", str(exc.argument))
             await utils.reply_or_send(ctx, content=f"> {m} \n{d['error-id']}: {ctx.message.id}")
+        elif isinstance(exc, commands.MissingPermissions):
+            perms = ", ".join(exc.missing_perms)
+            await utils.reply_or_send(ctx, content=f"> {d['exc-missingperm']} \n{d['require-perms']}: {perms} \n{d['error-id']}: {ctx.message.id}")
+        elif isinstance(exc, commands.BotMissingPermissions):
+            perms = ", ".join(exc.missing_perms)
+            await utils.reply_or_send(ctx, content=f"> {d['exc-botmissingperm']} \n{d['require-perms']}: {perms} \n{d['error-id']}: {ctx.message.id}")
         else:
             if ctx.author.id in self.owner_ids:
                 await utils.reply_or_send(ctx, content=f"> {d['exc-unknown']} \n```py\n{exc} \nattrs: {dir(exc)}\n```")
