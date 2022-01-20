@@ -6,6 +6,20 @@ from discord.ext import commands
 class NotStaff(commands.errors.CheckFailure):
     pass
 
+#get_status
+def get_status(member, *, db=None):
+    status = str(member.status)
+    if status == "online":
+        return f"💚{db['status-online']}"
+    elif status == "idle":
+        return f"🧡{db['status-idle']}"
+    elif status == "dnd":
+        return f"❤{db['status-dnd']}"
+    elif status == "offline":
+        return f"🖤{db['status-offline']}"
+    else:
+        return f"💔{db['status-unknown']}"
+
 #reply_or_send
 async def reply_or_send(ctx, *args, **kwargs):
     try:
