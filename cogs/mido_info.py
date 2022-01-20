@@ -220,7 +220,7 @@ class mido_info(commands.Cog):
         if is_member:
             e.add_field(name=d["userinfo-joined_at"], value=target.joined_at.strftime('%Y/%m/%d %H:%M:%S'))
             e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
-            e.add_field(name=d["userinfo-status"], value=utils.get_status(target, db=userdb))
+            e.add_field(name=d["userinfo-status"], value=utils.get_status(target, db=d))
 
         e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
         e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
