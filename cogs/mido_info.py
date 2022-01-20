@@ -201,6 +201,7 @@ class mido_info(commands.Cog):
         if not target:
             target = ctx.author
 
+        is_member = isinstance(target, discord.Member)
         userdb = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
         if not userdb:
             await self.bot.db.register_user(target.id, lang="ja-jp")
@@ -216,10 +217,12 @@ class mido_info(commands.Cog):
         e.add_field(name=d["userinfo-id"], value=str(target.id))
         e.add_field(name=d["userinfo-created_at"], value=target.created_at.strftime('%Y/%m/%d %H:%M:%S'))
 
-        if isinstance(target, discord.Member):
+        if is_member:
             e.add_field(name=d["userinfo-joined_at"], value=target.joined_at.strftime('%Y/%m/%d %H:%M:%S'))
             e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
+            e.add_field(name=d["userinfo-status"], value=utils.get_status(target, db=userdb))
 
+        e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
         e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
         e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
         e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
