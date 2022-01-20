@@ -191,5 +191,32 @@ class mido_info(commands.Cog):
 
         return await m.edit(content=None, embed=e)
 
+    #userinfo
+    @commands.command(name="userinfo", aliases=["user", "ui"])
+    async def userinfo(self, ctx, target: utils.FetchUserConverter=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
+        if not target:
+            target = ctx.author
+
+        e = discord.Embed(
+            title=f"{target} ({target.id})",
+            color=self.bot.color,
+            timestamp=ctx.message.created_at
+        )
+        e.add_field(name=d["userinfo-username"], value=f"{target}")
+        e.add_field(name=d["userinfo-id"], value=str(target.id))
+        e.add_field(name=d["userinfo-created_at"], value=target.created_at.strftime('%Y/%m/%d %H:%M:%S'))
+
+        if isinstance(target, discord.Member):
+            e.add_field(name=d["userinfo-joined_at"], value=target.joined_at.strftime('%Y/%m/%d %H:%M:%S'))
+            e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
+
+        e.add_field(name=d["userinfo-bot"], value=d[f"userinfo-bot-{target.bot}"])
+
+        return await m.edit(content=None, embed=e)
+
 def setup(bot):
     bot.add_cog(mido_info(bot))
