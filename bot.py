@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 
 import aiohttp
 import datetime
+import json
 import logging
 import os
 import traceback
@@ -101,6 +102,9 @@ class Ayaha(commands.AutoShardedBot):
                 "invite": "https://discord.gg/H6u69mt6U9"
             }
         }
+
+        with open("./lib/publicflags.json", "r") as pf:
+            self.vars["publicflags"] = json.loads(pf)
 
         self._ext = [
             "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_mod", "cogs.mido_user_settings", 
