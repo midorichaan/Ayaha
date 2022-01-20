@@ -28,6 +28,12 @@
     "require-perms": "必要な権限",
     "true": "はい",
     "false": "いいえ",
+
+    "status-online": "オンライン",
+    "status-idle": "退席中",
+    "status-dnd": "取り込み中",
+    "status-offline": "オフライン",
+    "status-unknown": "取得不可",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
@@ -162,6 +168,8 @@
     "userinfo-rank-0": "デフォルト",
     "userinfo-rank-1": "VIP",
     "userinfo-rank-2": "運営",
-    "userinfo-verified": "認証"
+    "userinfo-verified": "認証",
+    "userinfo-mutual_guilds": "共通サーバー",
+    "userinfo-status": "ステータス"
     
 }
