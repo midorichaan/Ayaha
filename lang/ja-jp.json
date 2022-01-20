@@ -170,6 +170,11 @@
     "userinfo-rank-2": "運営",
     "userinfo-verified": "認証",
     "userinfo-mutual_guilds": "共通サーバー",
-    "userinfo-status": "ステータス"
+    "userinfo-status": "ステータス",
+    "userinfo-roles": "ロール",
+    "userinfo-permissions": "サーバー内権限",
+    "userinfo-public_flags": "所持バッジ",
+    
+    
     
 }
