@@ -223,7 +223,7 @@ class mido_info(commands.Cog):
             e.add_field(name=d["userinfo-status"], value=utils.get_status(target, db=d))
             e.add_field(
                 name=f"{d['userinfo-public_flags']} ({target.public_flags.value})",
-                value=utils.get_public_flags(target)
+                value=utils.get_public_flags(ctx, target)
             )
             e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
             e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
@@ -242,7 +242,7 @@ class mido_info(commands.Cog):
         else:
             e.add_field(
                 name=f"{d['userinfo-public_flags']} ({target.public_flags.value})",
-                value=utils.get_public_flags(target)
+                value=utils.get_public_flags(ctx, target)
             )
             e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
             e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
