@@ -220,7 +220,7 @@ class mido_info(commands.Cog):
             e.add_field(name=d["userinfo-joined_at"], value=target.joined_at.strftime('%Y/%m/%d %H:%M:%S'))
             e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
 
-        e.add_field(name=d["userinfo-bot"], value=d[f"userinfo-bot-{target.bot}"])
+        e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
         e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
         e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
 
