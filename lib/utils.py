@@ -6,6 +6,17 @@ from discord.ext import commands
 class NotStaff(commands.errors.CheckFailure):
     pass
 
+#get_public_flags
+def get_public_flags(ctx, user):
+    flags = dict(user.public_flags)
+    result = []
+
+    func = lambda key, value: value and ctx.bot.vars["badges"].get(str(key))
+    for k, v in flags.items():
+        if func(k, v):
+            result.append(ctx.bot.vars["badges"].get(str(key)))
+    return " ".join(i for i in result)
+
 #get_status
 def get_status(member, *, db=None):
     status = str(member.status)
