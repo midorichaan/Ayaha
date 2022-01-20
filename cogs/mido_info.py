@@ -201,11 +201,17 @@ class mido_info(commands.Cog):
         if not target:
             target = ctx.author
 
+        userdb = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
+        if not userdb:
+            await self.bot.db.register_user(target.id, lang="ja-jp")
+            userdb = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
+
         e = discord.Embed(
             title=f"{target} ({target.id})",
             color=self.bot.color,
             timestamp=ctx.message.created_at
         )
+        e.set_thumbnail(url=target.avatar_url_as(static_format="png"))
         e.add_field(name=d["userinfo-username"], value=f"{target}")
         e.add_field(name=d["userinfo-id"], value=str(target.id))
         e.add_field(name=d["userinfo-created_at"], value=target.created_at.strftime('%Y/%m/%d %H:%M:%S'))
@@ -215,6 +221,8 @@ class mido_info(commands.Cog):
             e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
 
         e.add_field(name=d["userinfo-bot"], value=d[f"userinfo-bot-{target.bot}"])
+        e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
+        e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
 
         return await m.edit(content=None, embed=e)
 
