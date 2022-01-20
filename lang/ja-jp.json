@@ -26,6 +26,8 @@
     "data-notfound": "データが見つからなかったよ！",
     "supportsrv": "サポートサーバー",
     "require-perms": "必要な権限",
+    "true": "はい",
+    "false": "いいえ",
     
     "punish-member-required": "メンバーを指定してね！",
     "punish-noreason": "理由なし",
@@ -148,6 +150,18 @@
     "ban-cannot_ban": "Banできないよ！",
     "kick-cannot-self": "Kickできないよ！",
     
-    "twitter-id-required": "TwitterIDを入力してね！"
+    "twitter-id-required": "TwitterIDを入力してね！",
+    
+    "userinfo-username": "ユーザー名",
+    "userinfo-nickname": "ニックネーム",
+    "userinfo-id": "ユーザーID",
+    "userinfo-created_at": "アカウント作成日",
+    "userinfo-joined_at": "サーバー参加日",
+    "userinfo-bot": "Botか",
+    "userinfo-rank": "ユーザーランク",
+    "userinfo-rank-0": "デフォルト",
+    "userinfo-rank-1": "VIP",
+    "userinfo-rank-2": "運営",
+    "userinfo-verified": "認証"
     
 }
