@@ -221,11 +221,33 @@ class mido_info(commands.Cog):
             e.add_field(name=d["userinfo-joined_at"], value=target.joined_at.strftime('%Y/%m/%d %H:%M:%S'))
             e.add_field(name=d["userinfo-nickname"], value=target.nick or target.name)
             e.add_field(name=d["userinfo-status"], value=utils.get_status(target, db=d))
-
-        e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
-        e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
-        e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
-        e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
+            e.add_field(
+                name=f"{d['userinfo-public_flags']} ({target.public_flags.value})",
+                value=utils.get_public_flags(target)
+            )
+            e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
+            e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
+            e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
+            e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
+            e.add_field(name=d["userinfo-roles"], value=", ".join(r.mention for r in target.roles.reverse()), inline=False)
+            e.add_field(
+                name=f"d['userinfo-permissions'] ({target.guild_permissions.value})", 
+                value=", ".join(
+                    "`{}`".format(
+                        d.get(k, str(k)) for k, v in dict(target.guild_permissions).items() if v
+                    )
+                ), 
+                inline=False
+            )
+        else:
+            e.add_field(
+                name=f"{d['userinfo-public_flags']} ({target.public_flags.value})",
+                value=utils.get_public_flags(target)
+            )
+            e.add_field(name=d["userinfo-mutual_guilds"], value=len(target.mutual_guilds))
+            e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
+            e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
+            e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
 
         return await m.edit(content=None, embed=e)
 
