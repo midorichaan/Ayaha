@@ -91,7 +91,7 @@ class mido_bot(commands.Cog):
 
         if commit:
             return await m.edit(content=None, embed=self.github_cache["embed"])
-        else
+        else:
             return await m.edit(content=None, embed=self.github_cache["embed"])
 
     #ping
