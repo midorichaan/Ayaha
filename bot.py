@@ -104,7 +104,7 @@ class Ayaha(commands.AutoShardedBot):
         }
 
         with open("./lib/publicflags.json", "r") as pf:
-            self.vars["publicflags"] = json.loads(pf)
+            self.vars["publicflags"] = dict(json.loads(pf))
 
         self._ext = [
             "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_mod", "cogs.mido_user_settings", 
