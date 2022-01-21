@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+import datetime
 import time
 
 from lib import utils
@@ -36,6 +37,47 @@ class mido_bot(commands.Cog):
                             await m["message"].reply(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n{msg.author}")
                         except:
                             await m["message"].send(content=f"> {lang['admin-reply']} \n```\n{msg.content}\n``` \n{msg.author} \n→ <{msg.jump_url}>")
+
+    #github
+    @commands.command(name="github", usage="github [commit hash]")
+    async def github(self, ctx, commit: str=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
+        logch = self.bot.get_channel(self.bot.vars["github_channel_id"])
+        if not logch:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+
+        try:
+            logs = await logch..history(limit=25).flatten()
+            logs.reverse()
+        except Exception as exc:
+            print(f"[Error] {exc}")
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+        else:
+            e = discord.Embed(
+                title="Github Commits",
+                color=self.bot.color,
+                timestamp=ctx.message.created_at
+            )
+
+            for i in logs:
+                if i.author.id = self.bot.vars["github_webhook_id"]:
+                    e.add_field(
+                        name="**{}**".format(i.embeds[0].title),
+                        value="{} {}".format(
+                            i.embeds[0].description, 
+                            datetime.datetime.fromtimestamp(
+                                msg2.created_at.timestamp(), 
+                                self.bot.vars["time_jst"]
+                            ).strftime("%Y/%m/%d %H:%M:%S")
+                        )
+                    )
+            logs.reverse()
+            e.set_footer(text=d["github-latest-commit"])
+            e.timestamp = logs[0].created_at
+            return await m.edit(content=None, embed=e)
 
     #ping
     @commands.command(usage="ping")
