@@ -100,7 +100,10 @@ class Ayaha(commands.AutoShardedBot):
             "support": {
                 "id": 929780341382725643,
                 "invite": "https://discord.gg/H6u69mt6U9"
-            }
+            },
+            "github_channel_id": 929794199061143552,
+            "github_webhook_id": 929799610560573501,
+            "time_jst": datetime.timezone(datetime.timedelta(hours=+9), 'JST')
         }
 
         with open("./lib/publicflags.json", "r") as pf:
