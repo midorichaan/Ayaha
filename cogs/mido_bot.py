@@ -90,9 +90,15 @@ class mido_bot(commands.Cog):
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
         if commit:
-            return await m.edit(content=None, embed=self.bot.github_cache["embed"])
+            e = self.bot.github_cache.get("embed", None)
+            if not e:
+                return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+            return await m.edit(content=None, embed=e)
         else:
-            return await m.edit(content=None, embed=self.bot.github_cache["embed"])
+            e = self.bot.github_cache.get("embed", None)
+            if not e:
+                return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+            return await m.edit(content=None, embed=e)
 
     #ping
     @commands.command(usage="ping")
