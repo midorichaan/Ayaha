@@ -50,7 +50,7 @@ class mido_bot(commands.Cog):
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
         try:
-            logs = await logch..history(limit=25).flatten()
+            logs = await logch.history(limit=25).flatten()
             logs.reverse()
         except Exception as exc:
             print(f"[Error] {exc}")
