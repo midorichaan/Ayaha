@@ -63,7 +63,7 @@ class mido_bot(commands.Cog):
             )
 
             for i in logs:
-                if i.author.id = self.bot.vars["github_webhook_id"]:
+                if i.author.id == self.bot.vars["github_webhook_id"]:
                     e.add_field(
                         name="**{}**".format(i.embeds[0].title),
                         value="{} {}".format(
