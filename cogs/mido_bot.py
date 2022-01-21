@@ -14,6 +14,46 @@ class mido_bot(commands.Cog):
         if not hasattr(bot, "wait_for_reply"):
             bot.wait_for_reply = {}
 
+        self.github_cache = {}
+
+    #github_cache
+    @commands.Cog.listener("on_message")
+    async def github_cache_creator(self, msg):
+        if msg.channel.id == self.bot.vars["github_channel_id"]:
+            if msg.author.id != self.bot.vars["github_webhook_id"]:
+                pass
+
+            try:
+                logs = await logch.history(limit=25).flatten()                 
+                logs.reverse()
+            except Exception as exc:
+                print(f"[Error] failed to create github cache → {exc}")
+            else:
+                e = discord.Embed(
+                    title="Github Commits",
+                    color=self.bot.color,
+                    timestamp=ctx.message.created_at
+                )
+
+                for i in logs:
+                    if i.author.id == self.bot.vars["github_webhook_id"]:
+                        e.add_field(
+                            name="**{}**".format(i.embeds[0].title),
+                            value="{} \n{}".format(
+                                i.embeds[0].description, 
+                                datetime.datetime.fromtimestamp(
+                                    i.created_at.timestamp(), 
+                                    self.bot.vars["time_jst"]
+                                ).strftime("%Y/%m/%d %H:%M:%S")
+                            )
+                        )
+                logs.reverse()
+                e.set_footer(text="Last Commit")
+                e.timestamp = logs[0].created_at
+
+                self.github_cache["embed"] = e
+                self.github_cache["message_data"] = logs
+
     #on_msg
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -49,35 +89,10 @@ class mido_bot(commands.Cog):
         if not logch:
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
-        try:
-            logs = await logch.history(limit=25).flatten()
-            logs.reverse()
-        except Exception as exc:
-            print(f"[Error] {exc}")
-            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
-        else:
-            e = discord.Embed(
-                title="Github Commits",
-                color=self.bot.color,
-                timestamp=ctx.message.created_at
-            )
-
-            for i in logs:
-                if i.author.id == self.bot.vars["github_webhook_id"]:
-                    e.add_field(
-                        name="**{}**".format(i.embeds[0].title),
-                        value="{} \n{}".format(
-                            i.embeds[0].description, 
-                            datetime.datetime.fromtimestamp(
-                                i.created_at.timestamp(), 
-                                self.bot.vars["time_jst"]
-                            ).strftime("%Y/%m/%d %H:%M:%S")
-                        )
-                    )
-            logs.reverse()
-            e.set_footer(text=d["github-latest-commit"])
-            e.timestamp = logs[0].created_at
-            return await m.edit(content=None, embed=e)
+        if commit:
+            return await m.edit(content=None, embed=self.github_cache["embed"])
+        else
+            return await m.edit(content=None, embed=self.github_cache["embed"])
 
     #ping
     @commands.command(usage="ping")
