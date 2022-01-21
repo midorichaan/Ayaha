@@ -16,7 +16,39 @@ class mido_bot(commands.Cog):
         if not hasattr(bot, "github_cache"):
             bot.github_cache = {}
 
-    #github_cache_create
+    #force_create_github_cache
+    async def force_create_github_cache(self):
+        try:
+            logs = await logch.history(limit=25).flatten()                 
+            logs.reverse()
+        except Exception as exc:
+            print(f"[Error] failed to create github cache → {exc}")
+        else:
+            e = discord.Embed(
+                title="Github Commits",
+                color=self.bot.color,
+                timestamp=None
+            )
+
+            for i in logs:
+                if i.author.id == self.bot.vars["github_webhook_id"]:
+                    e.add_field(
+                        name="**{}**".format(i.embeds[0].title),
+                        value="{} \n{}".format(
+                            i.embeds[0].description, 
+                            datetime.datetime.fromtimestamp(
+                                i.created_at.timestamp(), 
+                                self.bot.vars["time_jst"]
+                            ).strftime("%Y/%m/%d %H:%M:%S")
+                        )
+                    )
+            logs.reverse()
+            e.set_footer(text="Last Commit")
+            e.timestamp = logs[0].created_at
+            self.bot.github_cache["embed"] = e
+            self.bot.github_cache["message_data"] = logs
+
+    #create_github_cache
     async def create_github_cache(self, msg):
         if msg.channel.id == self.bot.vars["github_channel_id"]:
             if msg.author.id != self.bot.vars["github_webhook_id"]:
@@ -31,7 +63,7 @@ class mido_bot(commands.Cog):
                 e = discord.Embed(
                     title="Github Commits",
                     color=self.bot.color,
-                    timestamp=ctx.message.created_at
+                    timestamp=None
                 )
 
                 for i in logs:
