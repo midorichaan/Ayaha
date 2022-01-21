@@ -19,6 +19,7 @@ class mido_bot(commands.Cog):
     #force_create_github_cache
     async def force_create_github_cache(self):
         try:
+            logch = self.bot.get_channel(self.bot.vars["github_channel_id"])
             logs = await logch.history(limit=25).flatten()                 
             logs.reverse()
         except Exception as exc:
@@ -55,6 +56,7 @@ class mido_bot(commands.Cog):
                 pass
 
             try:
+                logch = self.bot.get_channel(self.bot.vars["github_channel_id"])
                 logs = await logch.history(limit=25).flatten()                 
                 logs.reverse()
             except Exception as exc:
