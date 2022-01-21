@@ -50,8 +50,8 @@ class mido_bot(commands.Cog):
                 e.set_footer(text="Last Commit")
                 e.timestamp = logs[0].created_at
 
-                self.github_cache["embed"] = e
-                self.github_cache["message_data"] = logs
+                self.bot.github_cache["embed"] = e
+                self.bot.github_cache["message_data"] = logs
 
     #on_msg
     @commands.Cog.listener()
@@ -90,9 +90,9 @@ class mido_bot(commands.Cog):
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
         if commit:
-            return await m.edit(content=None, embed=self.github_cache["embed"])
+            return await m.edit(content=None, embed=self.bot.github_cache["embed"])
         else:
-            return await m.edit(content=None, embed=self.github_cache["embed"])
+            return await m.edit(content=None, embed=self.bot.github_cache["embed"])
 
     #ping
     @commands.command(usage="ping")
