@@ -13,8 +13,8 @@ class mido_bot(commands.Cog):
 
         if not hasattr(bot, "wait_for_reply"):
             bot.wait_for_reply = {}
-
-        self.github_cache = {}
+        if not hasattr(bot, "github_cache"):
+            bot.github_cache = {}
 
     #github_cache_create
     async def create_github_cache(self, msg):
