@@ -16,9 +16,8 @@ class mido_bot(commands.Cog):
 
         self.github_cache = {}
 
-    #github_cache
-    @commands.Cog.listener("on_message")
-    async def github_cache_creator(self, msg):
+    #github_cache_create
+    async def create_github_cache(self, msg):
         if msg.channel.id == self.bot.vars["github_channel_id"]:
             if msg.author.id != self.bot.vars["github_webhook_id"]:
                 pass
@@ -61,6 +60,7 @@ class mido_bot(commands.Cog):
             return
 
         if msg.guild.id == self.bot.vars["support"]["id"]:
+            await self.create_github_cache(msg)
             if msg.channel.id == self.bot.vars["logs"]["request"]:
                 admin_ids = [i.id for i in msg.guild.get_role(929780897052516392).members]
                 if msg.author.id in admin_ids:
