@@ -69,7 +69,7 @@ class mido_bot(commands.Cog):
                         value="{} {}".format(
                             i.embeds[0].description, 
                             datetime.datetime.fromtimestamp(
-                                msg2.created_at.timestamp(), 
+                                i.created_at.timestamp(), 
                                 self.bot.vars["time_jst"]
                             ).strftime("%Y/%m/%d %H:%M:%S")
                         )
