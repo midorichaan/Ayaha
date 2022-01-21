@@ -66,7 +66,7 @@ class mido_bot(commands.Cog):
                 if i.author.id == self.bot.vars["github_webhook_id"]:
                     e.add_field(
                         name="**{}**".format(i.embeds[0].title),
-                        value="{} {}".format(
+                        value="{} \n{}".format(
                             i.embeds[0].description, 
                             datetime.datetime.fromtimestamp(
                                 i.created_at.timestamp(), 
