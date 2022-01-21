@@ -28,7 +28,7 @@ class mido_bot(commands.Cog):
             e = discord.Embed(
                 title="Github Commits",
                 color=self.bot.color,
-                timestamp=None
+                timestamp=discord.Embed.Empty
             )
 
             for i in logs:
@@ -65,7 +65,7 @@ class mido_bot(commands.Cog):
                 e = discord.Embed(
                     title="Github Commits",
                     color=self.bot.color,
-                    timestamp=None
+                    timestamp=discord.Embed.Empty
                 )
 
                 for i in logs:
