@@ -234,15 +234,20 @@ class mido_info(commands.Cog):
             roles.reverse()
 
             e.add_field(name=d["userinfo-roles"], value=", ".join(r.mention for r in roles), inline=False)
+
+            perms = dict(target.guild_permissions)
+            val = []
+            for k, v in perms:
+                if v is True:
+                    val.append(
+                        "`{}`".format(
+                            d.get(k, str(k))
+                        )
+                    )
+
             e.add_field(
                 name=f"{d['userinfo-permissions']} ({target.guild_permissions.value})", 
-                value=", ".join(
-                    [
-                        "`{}`".format(
-                            d.get(k, str(k)) for k, v in dict(target.guild_permissions).items() if v
-                        )
-                    ]
-                ), 
+                value=", ".join(val), 
                 inline=False
             )
         else:
