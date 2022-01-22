@@ -14,7 +14,7 @@ def get_public_flags(ctx, user):
     func = lambda key, value: value and ctx.bot.vars["publicflags"].get(str(key))
     for k, v in flags.items():
         if func(k, v):
-            result.append(ctx.bot.vars["publicflags"].get(str(key)))
+            result.append(ctx.bot.vars["publicflags"].get(str(k)))
     return " ".join(i for i in result)
 
 #get_status
