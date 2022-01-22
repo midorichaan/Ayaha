@@ -1,18 +1,22 @@
 {
   
-  "bug_hunter": "",
-  "bug_hunter_level_2": "",
-  "early_supporter": "",
-  "early_verified_bot_developer": "",
-  "hypesquad": "",
-  "hypesquad_balance": "",
-  "hypesquad_bravery": "",
-  "hypesquad_brilliance": "",
-  "partner": "",
-  "staff": "",
-  "system": "",
-  "team_user": "",
-  "verified_bot": "",
-  "verified_bot_developer": ""
+  "bug_hunter": "<:discord_bughunter_1:934410695569735690>",
+  "bug_hunter_level_2": "<:discord_bughunter_2:934410689672532029>",
+  "early_supporter": "<:discord_early_supporter:934410681913077832>",
+  "early_verified_bot_developer": "<:early_verified_bot_developer:934410680000454706>",
+  "hypesquad": "<:hypesquad_gold:934410704058978304>",
+  "hypesquad_balance": "<:hypesquad_balance:934410700145721374>",
+  "hypesquad_bravery": "<:hypesquad_bravery:934410675046998026>",
+  "hypesquad_brilliance": "<:hypesquad_brilliance:934410686396776478>",
+  "hypesquad_gold": "<:hypesquad_gold:934410704058978304>",
+  "partner": "<:discord_partner_server:934410720408399884>",
+  "old_partner": "<:old_discord_partner:934410717203922965>"
+  "staff": "<:discord_staff:934410698971299870>",
+  "system": "<:old_discord_partner:934410717203922965>",
+  "team_user": "<:guild_owner:934410670873645128>",
+  "bot": "<:bot:934410713357774858>",
+  "verified_bot": "<:verified_bot:934410677202862112>",
+  "verified_bot_developer": "<:early_verified_bot_developer:934410680000454706>",
+  "guild_owner": "<:guild_owner:934410670873645128>"
    
 }
