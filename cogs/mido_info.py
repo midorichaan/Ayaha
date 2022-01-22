@@ -235,11 +235,13 @@ class mido_info(commands.Cog):
 
             e.add_field(name=d["userinfo-roles"], value=", ".join(r.mention for r in roles), inline=False)
             e.add_field(
-                name=f"d['userinfo-permissions'] ({target.guild_permissions.value})", 
+                name=f"{d['userinfo-permissions']} ({target.guild_permissions.value})", 
                 value=", ".join(
-                    "`{}`".format(
-                        d.get(k, str(k)) for k, v in dict(target.guild_permissions).items() if v
-                    )
+                    [
+                        "`{}`".format(
+                            d.get(k, str(k)) for k, v in dict(target.guild_permissions).items() if v
+                        )
+                    ]
                 ), 
                 inline=False
             )
