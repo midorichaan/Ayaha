@@ -237,7 +237,7 @@ class mido_info(commands.Cog):
 
             perms = dict(target.guild_permissions)
             val = []
-            for k, v in perms:
+            for k, v in perms.items():
                 if v is True:
                     val.append(
                         "`{}`".format(
