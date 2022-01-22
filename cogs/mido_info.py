@@ -229,7 +229,11 @@ class mido_info(commands.Cog):
             e.add_field(name=d["userinfo-bot"], value=d["true"] if target.bot else d["false"])
             e.add_field(name=d["userinfo-rank"], value=d[f"userinfo-rank-{userdb['rank']}"])
             e.add_field(name=d["userinfo-verified"], value=d["true"] if userdb["verify"] else d["false"])
-            e.add_field(name=d["userinfo-roles"], value=", ".join(r.mention for r in target.roles.reverse()), inline=False)
+
+            roles = target.roles
+            roles.reverse()
+
+            e.add_field(name=d["userinfo-roles"], value=", ".join(r.mention for r in roles), inline=False)
             e.add_field(
                 name=f"d['userinfo-permissions'] ({target.guild_permissions.value})", 
                 value=", ".join(
