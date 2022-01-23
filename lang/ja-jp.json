@@ -1,5 +1,5 @@
 {
-    
+
     "args-required": "引数が足りないよ！",
     "usage": "使用法",
     "description": "説明",
@@ -210,5 +210,5 @@
     "manage_emojis": "絵文字の管理",
     "use_slash_commands": "スラッシュコマンドの使用",
     "request_to_speak": "発言権の要求"
-    
+
 }
