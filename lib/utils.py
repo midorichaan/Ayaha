@@ -99,3 +99,21 @@ class FetchUserConverter(commands.Converter):
                         return None
                 else:
                     return None
+
+#GuildConverter
+class GuildConverter(commands.Converter):
+    async def convert(self, ctx, argument):
+        guild = None
+        if argument.isdigit():
+            guild = ctx.bot.get_guild(int(argument))
+
+            if guild is None:
+                raise commands.BadArgument(f"Guild {argument} not found.")
+        else:
+            if guild is None:
+                guild = discord.utils.get(ctx.bot.guilds, name=argument)
+                
+                if guild is None:
+                    raise commands.BadArgument(f"Guild {argument} not found.")
+
+        return guild
