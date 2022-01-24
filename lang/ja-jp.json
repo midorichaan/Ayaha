@@ -177,6 +177,11 @@
     "userinfo-permissions": "サーバー内権限",
     "userinfo-public_flags": "所持バッジ",
     
+    "guildinfo-name": "サーバー名",
+    "guildinfo-id": "サーバーID",
+    "guildinfo-created_at": "サーバー作成日",
+    "guildinfo-owner": "サーバーオーナー",
+    
     "create_instant_invite": "招待リンクの作成",
     "kick_members": "メンバーをKick",
     "ban_members": "メンバーをBan",
