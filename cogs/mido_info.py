@@ -191,8 +191,40 @@ class mido_info(commands.Cog):
 
         return await m.edit(content=None, embed=e)
 
+    #guildinfo
+    @commands.command(
+        name="guildinfo",
+        aliases=[
+            "guild", "serverinfo", "si", "server"
+        ],
+        usage="guildinfo [guild_id]"
+    )
+    async def guildinfo(self, ctx, target: utils.GuildConverter=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
+        if not target:
+            if ctx.guild:
+                target = ctx.guild
+            else:
+                return await m.edit(content=f"> {d['exc-nodm']}")
+
+        e = discord.Embed(
+            title=f"{target} ({target.id})",
+            color=self.bot.color,
+            timestamp=ctx.message.created_at
+        )
+        e.set_thumbnail(url=target.icon_url_as(static_format="png"))
+        e.add_field(name=d["guildinfo-name"], value=target.name)
+        e.add_field(name=d["guildinfo-id"], value=str(target.id))
+        e.add_field(name=d["guildinfo-created_at"], value=target.created_at.strftime("%Y/%m/%d %H:%M:%S"))
+        e.add_field(name=d["guildinfo-owner"], value=f"{target.owner} ({target.owner.id})")
+
+        return await m.edit(content=None, embed=e)
+
     #userinfo
-    @commands.command(name="userinfo", aliases=["user", "ui"])
+    @commands.command(name="userinfo", aliases=["user", "ui"], usage="userinfo [Member/User]")
     async def userinfo(self, ctx, target: utils.FetchUserConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
