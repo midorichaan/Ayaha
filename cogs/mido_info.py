@@ -210,6 +210,9 @@ class mido_info(commands.Cog):
             else:
                 return await m.edit(content=f"> {d['exc-nodm']}")
 
+        totalmembers = sum(i for i in target.members)
+        botmembers = sum(i for i in target.members if i.bot)
+
         e = discord.Embed(
             title=f"{target} ({target.id})",
             color=self.bot.color,
@@ -220,6 +223,7 @@ class mido_info(commands.Cog):
         e.add_field(name=d["guildinfo-id"], value=str(target.id))
         e.add_field(name=d["guildinfo-created_at"], value=target.created_at.strftime("%Y/%m/%d %H:%M:%S"))
         e.add_field(name=d["guildinfo-owner"], value=f"{target.owner} ({target.owner.id})")
+        e.add_field(name=d["guildinfo-members"], value=f"")
 
         return await m.edit(content=None, embed=e)
 
