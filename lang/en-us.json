@@ -157,9 +157,10 @@
     "kick-cannot-self": "Cannot kick!",
     
     "twitter-id-required": "Twitter ID was a required argument",
-
-    "github-latest-commit": "Latest commit",
-
+    
+    "system-maintenance-enabled": "メンテナンスモードを有効にしたよ！",
+    "system-maintenance-disabled": "メンテナンスモードを無効にしたよ！",
+    
     "userinfo-username": "Username",
     "userinfo-nickname": "Nickname",
     "userinfo-id": "User ID",
