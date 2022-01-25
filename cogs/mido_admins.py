@@ -363,7 +363,7 @@ class mido_admins(commands.Cog):
             return await utils.reply_or_send(ctx, content=f"> {d['system-maintenance-disabled']}")
         else:
             self.bot.vars["maintenance"] = True
-            await bot.change_presence(
+            await self.bot.change_presence(
                 status=discord.Status.dnd,
                 activity=discord.Game(
                     "利用制限中... / Maintenance Mode"
