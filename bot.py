@@ -22,7 +22,11 @@ async def _prefix_callable(bot, msg):
     base = ["-"]
 
     if msg.guild:
-        gs = await bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (msg.guild.id,))
+        try:
+            gs = await bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (msg.guild.id,))
+        except:
+            return base
+
         if gs["prefix"] != None:
             base.append(gs["prefix"])
         if gs["disable_base_prefix"]:
@@ -65,6 +69,7 @@ class Ayaha(commands.AutoShardedBot):
         self._last_exc = None
 
         self.vars = {
+            "maintenance": False,
             "uptime": datetime.datetime.now(),
             "voice": {
                 "read": False,
@@ -159,24 +164,32 @@ class Ayaha(commands.AutoShardedBot):
                 text=f"{ctx.guild} | {ctx.channel}", 
                 icon_url=ctx.guild.icon_url_as(static_format="png")
             )
-            await self.db.execute(
-                "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
-                (
-                    ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, 
-                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
+
+            try:
+                await self.db.execute(
+                    "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    (
+                        ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, 
+                        ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
+                    )
                 )
-            )
+            except Exception as exc:
+                print(f"[Error] {exc}")
         else:
             log.set_footer(
                 text=f"DM | {ctx.author}", 
             )
-            await self.db.execute(
-                "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
-                (
-                    ctx.message.id, ctx.author.id, ctx.channel.id, None, 
-                    ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
+
+            try:
+                await self.db.execute(
+                    "INSERT INTO error_log VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    (
+                        ctx.message.id, ctx.author.id, ctx.channel.id, None, 
+                        ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
+                    )
                 )
-            )
+            except Exception as exc:
+                print(f"[Error] {exc}")
 
         exclog = guild.get_channel(self.vars["logs"]["error"])
         await exclog.send(embed=log)
@@ -236,23 +249,31 @@ class Ayaha(commands.AutoShardedBot):
                 icon_url=ctx.guild.icon_url_as(static_format="png")
             )
             print(f"[Log] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
-            await self.db.execute(
-                "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
-                (
-                    ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, ctx.message.created_at, ctx.message.content
+
+            try:
+                await self.db.execute(
+                    "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
+                    (
+                        ctx.message.id, ctx.author.id, ctx.channel.id, ctx.guild.id, ctx.message.created_at, ctx.message.content
+                    )
                 )
-            )
+            except Exception as exc:
+                print(f"[Error] {exc}")
         else:
             log.set_footer(
                 text=f"DM | {ctx.author}",
             )
             print(f"[Log] {ctx.author} → {ctx.message.content} | @DM")
-            await self.db.execute(
-                "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
-                (
-                    ctx.message.id, ctx.author.id, ctx.channel.id, None, ctx.message.created_at, ctx.message.content
+
+            try:
+                await self.db.execute(
+                    "INSERT INTO command_log VALUES(%s, %s, %s, %s, %s, %s)", 
+                    (
+                        ctx.message.id, ctx.author.id, ctx.channel.id, None, ctx.message.created_at, ctx.message.content
+                    )
                 )
-            )
+            except Exception as exc:
+                print(f"[Error] {exc}")
 
         log.add_field(
             name="実行時刻",
@@ -284,9 +305,18 @@ class Ayaha(commands.AutoShardedBot):
         print("[System] on_ready!")
 
         for i in self.guilds:
-            await utils.check_guild_profile(self, i.id)
+            try:
+                await utils.check_guild_profile(self, i.id)
+            except:
+                pass
 
-        self.owner_ids = [i["user_id"] for i in await self.db.fetchall("SELECT * FROM users WHERE rank=2")]
+        try:
+            db = await self.db.fetchall("SELECT * FROM users WHERE rank=2")
+        except Exception as exc:
+            print(f"[Error] {exc}")
+            self.owner_ids = [546682137240403984, 635002934907895826, 449867036558884866]
+        else:
+            self.owner_ids = [i["user_id"] for i in db]
 
         await self.change_presence(
             status=discord.Status.online, 
@@ -307,6 +337,7 @@ class Ayaha(commands.AutoShardedBot):
             db = await self.db.fetchall("SELECT * FROM banned")
         except Exception as exc:
             print(f"[Error] {exc}")
+            self.banned = []
         else:
             self.banned = [i["user_id"] for i in db]
             print("[System] set prohibit users")
@@ -328,7 +359,10 @@ class Ayaha(commands.AutoShardedBot):
 
     #on_guild_join
     async def on_guild_join(self, guild):
-        await self.db.register_guild(guild.id)
+        try:
+            await self.db.register_guild(guild.id)
+        except Exception as exc:
+            print(f"[Error] {exc}")
 
         log = discord.Embed(
             title="Guild Join Log",
@@ -362,7 +396,10 @@ class Ayaha(commands.AutoShardedBot):
 
     #on_guild_remove
     async def on_guild_remove(self, guild):
-        await self.db.unregister_guild(guild.id)
+        try:
+            await self.db.unregister_guild(guild.id)
+        except Exception as exc:
+            print(f"[Error] {exc}")
 
         log = discord.Embed(
             title="Guild Left Log",
@@ -397,17 +434,18 @@ class Ayaha(commands.AutoShardedBot):
     #status update
     @tasks.loop(minutes=10.0)
     async def status_update(self):
-        try:
-            await self.change_presence(
-                status=discord.Status.online, 
-                activity=discord.Game(
-                    name=f"-help | Guilds: {len(self.guilds)} | Users: {len(self.users)}"
+        if not self.vars["maintenance"]:
+            try:
+                await self.change_presence(
+                    status=discord.Status.online, 
+                    activity=discord.Game(
+                        name=f"-help | Guilds: {len(self.guilds)} | Users: {len(self.users)}"
+                    )
                 )
-            )
-        except Exception as exc:
-            print(f"[Error] {exc}")
-        else:
-            print(f"[System] Status updated")
+            except Exception as exc:
+                print(f"[Error] {exc}")
+            else:
+                print(f"[System] Status updated")
 
     #close
     async def close(self):
