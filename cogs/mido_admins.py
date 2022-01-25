@@ -351,5 +351,25 @@ class mido_admins(commands.Cog):
             cmd.enabled = True
         await ctx.message.add_reaction(self.success)
 
+    #maintenance
+    @utils.staff()
+    @system.command(name="maintenance", usage="maintenance")
+    async def maintenance(self, ctx):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+
+        if self.bot.vars["maintenance"]:
+            self.bot.vars["maintenance"] = False
+            return await utils.reply_or_send(ctx, content=f"> {d['system-maintenance-disabled']}")
+        else:
+            self.bot.vars["maintenance"] = True
+            await bot.change_presence(
+                status=discord.Status.dnd,
+                activity=discord.Game(
+                    "利用制限中... / Maintenance Mode"
+                )
+            )
+            await utils.reply_or_send(ctx, content=f"> {d['system-maintenance-enabled']}")
+
 def setup(bot):
     bot.add_cog(mido_admins(bot))
