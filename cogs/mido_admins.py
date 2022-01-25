@@ -369,7 +369,7 @@ class mido_admins(commands.Cog):
                     "利用制限中... / Maintenance Mode"
                 )
             )
-            await utils.reply_or_send(ctx, content=f"> {d['system-maintenance-enabled']}")
+            return await utils.reply_or_send(ctx, content=f"> {d['system-maintenance-enabled']}")
 
 def setup(bot):
     bot.add_cog(mido_admins(bot))
