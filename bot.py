@@ -391,7 +391,7 @@ class Ayaha(commands.AutoShardedBot):
         )
 
         guild = self.get_guild(self.vars["support"]["id"])
-        channel = guild.get_channel(self.vars["logs"]["join"])
+        channel = guild.get_channel(self.vars["logs"]["left"])
         await channel.send(embed=log)
 
     #status update
