@@ -298,7 +298,11 @@ class Ayaha(commands.AutoShardedBot):
         if message.author.id in self.banned:
             return
 
-        await self.process_commands(message)
+        if not self.vars["maintenance"]:
+            await self.process_commands(message)
+        else:
+            if message.author.id in self.owner_ids:
+                await self.process_commands(message)
 
     #on_ready
     async def on_ready(self):
