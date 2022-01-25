@@ -157,8 +157,9 @@
     "kick-cannot-self": "Kickできないよ！",
     
     "twitter-id-required": "TwitterIDを入力してね！",
-
-    "github-latest-commit": "最終のコミット",
+    
+    "system-maintenance-enabled": "メンテナンスモードを有効にしたよ！",
+    "system-maintenance-disabled": "メンテナンスモードを無効にしたよ！",
     
     "userinfo-username": "ユーザー名",
     "userinfo-nickname": "ニックネーム",
