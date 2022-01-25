@@ -28,8 +28,12 @@ class LangUtil:
     
     #get_user_lang
     async def get_user_lang(self, user_id: int):
-        db = await self.get_data(user_id)
-        return db["lang"]
+        try:
+            db = await self.get_data(user_id)
+        except:
+            return "ja-jp"
+        else:
+            return db["lang"]
 
     #set_user_lang
     async def set_user_lang(self, user_id: int, *, lang: str):
