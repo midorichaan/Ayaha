@@ -352,7 +352,7 @@ class mido_admins(commands.Cog):
         await ctx.message.add_reaction(self.success)
 
     #maintenance
-    @utils.staff()
+    @utils.is_staff()
     @system.command(name="maintenance", usage="maintenance")
     async def maintenance(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
