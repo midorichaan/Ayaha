@@ -1,3 +1,7 @@
+import asyncio
+import json
+import urllib
+
 class TrafficUtils:
 
     def __init__(self) -> None:
@@ -44,6 +48,20 @@ class TrafficUtils:
             "伯備2線": "hakubi2"
         }
 
+        self.jrwlinelists = {
+            "wakayama1": "和歌山線 (五条 〜 和歌山)",
+            "wakayama2": "和歌山線 (王寺 〜 五条)",
+            "sanin1": "山陰線 (園部 〜 福知山)",
+            "sanin2": "山陰線 (福知山 〜 居組)",
+            "sanin3": "山陰線 (諸寄 〜 米子)",
+            "sanin4": "山陰線 (米子 〜 益田)",
+            "sanyo1": "山陽線 (上郡 〜 三原)",
+            "sanyo2": "山陽線 (糸崎 〜 南岩国)",
+            "sanyo3": "山陽線 (岩国 〜 下関)",
+            "hakubi1": "伯備線 (倉敷 〜 新郷)",
+            "hakubi2": "伯備線 (新郷 〜 伯耆大山)"
+        }
+
         self.jrwrapids = {
             "大和路快": "大和路快速",
             "丹波路快": "丹波路快速",
@@ -55,11 +73,27 @@ class TrafficUtils:
             "直快": "直通快速",
             "区快": "区間快速",
             "新快": "新快速",
+            "特": "特急"
         }
 
         self.jrwdesti = {
             "関西空港/和歌山方面": "関西空港・和歌山"
         }
+
+        self.api_url = {
+            "base": "https://www.train-guide.westjr.co.jp/api/v3",
+            "lineinfo": "https://www.train-guide.westjr.co.jp/api/v3/{}.json",
+            "stationinfo": "https://www.train-guide.westjr.co.jp/api/v3/{}_st.json",
+            "maintenance": "https://www.train-guide.westjr.co.jp/api/v3/{}_maintenance.json",
+            "areainfo": "https://www.train-guide.westjr.co.jp/api/v3/area_{}_master.json",
+            "nowtime": "https://www.train-guide.westjr.co.jp/api/v3/currenttime.txt",
+            "areatrafficinfo": "https://www.train-guide.westjr.co.jp/api/v3/area_{}_trafficinfo.json"
+        }
+
+    #convert_linename
+    def convert_linename(self, line: str) -> str:
+        d = self.jrwlinelists.get(line, line)
+        return d
 
     #convert_destination
     def convert_destination(self, desti: str) -> str:
@@ -70,3 +104,34 @@ class TrafficUtils:
     def convert_rapids(self, rapid: str) -> str:
         d = self.jrwrapids.get(rapid, rapid)
         return d
+
+    #get_delay_info
+    async def get_delay_info(self, line: str):
+        ret = urllib.request.urlopen(self.api_url["lineinfo"].format(line))
+        ret_station = urllib.request.urlopen(self.api_url["stationinfo"].format(line))
+        ret = json.loads(ret.read().decode("utf-8"))
+        ret_station = json.loads(ret_station.read().decode("utf-8"))
+
+        desti = None
+        data = {}
+        jsondata = {}
+
+        for i in ret_station["stations"]:
+            data[s["info"]["code"]] = s["info"]["name"]
+        for i in ret["trains"]:
+            if i["delayMinutes"] > 0:
+                st = i["pos"].split("_")
+
+                try:
+                    desti = data[st[0]] + "辺り"
+                except KeyError:
+                    desti = "不明"
+
+                type = self.convert_rapids(i["displayType"], i["displayType"])
+                if type in "特急":
+                    type = f"{type} {i['nickname']}"
+                jsondata[str(type)] = {
+                    "for": f"{self.convert_destination(i['dest']['text'], i['dest']]'text'])} 行き",
+                    "delay": f"約{i['delayMinutes']}分遅れ (走行位置: {desti})"
+                }
+        return jsondata
