@@ -2,6 +2,101 @@ import asyncio
 import json
 import urllib
 
+class Notification:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.groupId = data["groupId"]
+        self.text = data["text"]
+        self.duration = data["duration"]
+
+class MaintenanceInfo:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.title = data["title"]
+        self.text = data["text"]
+        self.duration = data["duration"]
+        self.link_title = data["linkTitle"]
+        self.link_url = data["linkUrl"]
+
+class Maintenance:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.status = data["status"]
+        self.notification = Notification(data["notification"])
+        self.maintenance = MaintenanceInfo(data["maintenance"])
+
+class AreaDestination:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.upper = data["upper"]
+        self.lower = data["lower"]
+
+class Area:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.name = data["name"]
+        self.range = data["range"]
+        self.station_info_url = "https://www.train-guide.westjr.co.jp" + data["st"]
+        self.traffic_info_url = "https://www.train-guide.westjr.co.jp" + data["pos"]
+        self.index = data["index"]
+        self.dest = AreaDestination(data["dest"])
+
+        relate = data.get("relatelines", None)
+        if relate:
+            self.relatelines = ["https://www.train-guide.westjr.co.jp" + i for i in relate]
+        else:
+            self.relatelines = []
+
+class Destination:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.station = data["text"]
+        self.code = int(data["code"])
+        self.line = data["line"]
+
+class Train:
+
+    def __init__(self, data) -> None:
+        self._payload = data
+        self.__update(data)
+
+    def __update(self, data) -> None:
+        self.form = data["no"]
+        self.pos = data["pos"]
+        self.direction = True if data["direction"] else False
+        self.nickname = data["nickname"]
+        self.type = int(data["type"])
+        self.display_type = data["displayType"]
+        self.destination = Destination(data["dest"])
+        self.via = data["via"]
+        self.delay_minutes = data["delayMinutes"]
+        self.type_change = data["typeChange"]
+        self.cars = data["numberOfCars"]
+
 class TrafficUtils:
 
     def __init__(self) -> None:
