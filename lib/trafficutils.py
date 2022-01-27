@@ -118,7 +118,7 @@ class TrafficUtils:
         jsondata = {}
 
         for i in ret_station["stations"]:
-            data[s["info"]["code"]] = s["info"]["name"]
+            data[i["info"]["code"]] = i["info"]["name"]
         for i in ret["trains"]:
             if i["delayMinutes"] > 0:
                 st = i["pos"].split("_")
