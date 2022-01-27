@@ -132,7 +132,7 @@ class TrafficUtils:
                 if type in "特急":
                     type = f"{type} {i['nickname']}"
                 jsondata[str(type)] = {
-                    "for": f"{self.convert_destination(i['dest']['text'], i['dest']]'text'])} 行き",
+                    "for": f"{self.convert_destination(i['dest']['text'], i['dest']['text'])} 行き",
                     "delay": f"約{i['delayMinutes']}分遅れ (走行位置: {desti})"
                 }
         return jsondata
