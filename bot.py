@@ -173,8 +173,8 @@ class Ayaha(commands.AutoShardedBot):
                         ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
                     )
                 )
-            except Exception as exc:
-                print(f"[Error] {exc}")
+            except Exception as exception:
+                print(f"[Error] {exception}")
         else:
             log.set_footer(
                 text=f"DM | {ctx.author}", 
@@ -188,8 +188,8 @@ class Ayaha(commands.AutoShardedBot):
                         ctx.message.created_at, ctx.message.content, str(exc), traceback_exc
                     )
                 )
-            except Exception as exc:
-                print(f"[Error] {exc}")
+            except Exception as exception:
+                print(f"[Error] {exception}")
 
         exclog = guild.get_channel(self.vars["logs"]["error"])
         await exclog.send(embed=log)
