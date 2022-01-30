@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import urllib, json
+
 from lib import utils, trafficutils
 
 class mido_traffic_info(commands.Cog):
