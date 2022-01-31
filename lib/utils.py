@@ -113,11 +113,11 @@ class TextChannelConverter(commands.Converter):
             try:
                 channel_id = int(argument, base=10)
             except ValueError:
-                raise commands.BadArgument(f"TextChannel {argument!r} not found.")
+                return None
             else:
                 channel = ctx.bot.get_channel(channel_id)
                 if channel is None:
-                    raise commands.BadArgument(f"TextChannel {argument!r} not found.")
+                    return None
                 return channel
 
 #GuildConverter
