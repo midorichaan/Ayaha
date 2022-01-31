@@ -146,7 +146,12 @@ class mido_bot(commands.Cog):
         if not channel:
             channel = self.bot.get_channel(self.bot.vars["support"]["notice"])
 
-        await ctx.channel.follow(destination=channel)
+        try:
+            await channel.follow(destination=ctx.channel)
+        except:
+            return await m.edit(content=f"> {d['follow-not-news']}")
+        else:
+            return await m.edit(content=f"> {d['follow-followed'].replace('{TARGET}', str(channel))}")
 
     #ping
     @commands.command(usage="ping")
