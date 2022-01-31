@@ -183,6 +183,9 @@
     "guildinfo-created_at": "サーバー作成日",
     "guildinfo-owner": "サーバーオーナー",
     
+    "follow-not-news": "そのチャンネルはニュースチャンネルじゃないよ！",
+    "follow-followed": "{TARGET}をフォローしたよ！",
+    
     "create_instant_invite": "招待リンクの作成",
     "kick_members": "メンバーをKick",
     "ban_members": "メンバーをBan",
