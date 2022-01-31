@@ -134,6 +134,16 @@ class mido_bot(commands.Cog):
                 return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
             return await m.edit(content=None, embed=e)
 
+    #follow
+    @commands.command(usage="follow [channel]")
+    async def follow(self, ctx, channel: utils.TextChannelConverter=None):
+        lang = await self.bot.langutil.get_user_lang(ctx.author.id)
+        d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
+
+        if not channel:
+            channel = self.bot.get_channel(self.bot.vars["support"]["notice"])
+
     #ping
     @commands.command(usage="ping")
     async def ping(self, ctx):
