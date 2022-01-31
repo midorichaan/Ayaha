@@ -104,6 +104,22 @@ class FetchUserConverter(commands.Converter):
                 else:
                     return None
 
+#TextChannelConverter
+class TextChannelConverter(commands.Converter):
+    async def convert(self, ctx, argument):
+        try:
+            return await commands.TextChannelConverter().convert(ctx, argument)
+        except commands.BadArgument:
+            try:
+                channel_id = int(argument, base=10)
+            except ValueError:
+                raise commands.BadArgument(f"TextChannel {argument!r} not found.")
+            else:
+                channel = ctx.bot.get_channel(channel_id)
+                if channel is None:
+                    raise commands.BadArgument(f"TextChannel {argument!r} not found.")
+                return channel
+
 #GuildConverter
 class GuildConverter(commands.Converter):
     async def convert(self, ctx, argument):
