@@ -104,7 +104,8 @@ class Ayaha(commands.AutoShardedBot):
             },
             "support": {
                 "id": 929780341382725643,
-                "invite": "https://discord.gg/H6u69mt6U9"
+                "invite": "https://discord.gg/H6u69mt6U9",
+                "notice": 929792683180953600
             },
             "github_channel_id": 929794199061143552,
             "github_webhook_id": 929799610560573501,
