@@ -136,6 +136,8 @@ class mido_bot(commands.Cog):
 
     #follow
     @commands.command(usage="follow [channel]")
+    @commands.has_permissions(manage_webhooks=True)
+    @commands.bot_has_permissions(manage_webhooks=True)
     async def follow(self, ctx, channel: utils.TextChannelConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
@@ -143,6 +145,8 @@ class mido_bot(commands.Cog):
 
         if not channel:
             channel = self.bot.get_channel(self.bot.vars["support"]["notice"])
+
+        await ctx.channel.follow(destination=channel)
 
     #ping
     @commands.command(usage="ping")
