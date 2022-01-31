@@ -163,14 +163,18 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.failed)
             return await utils.reply_or_send(ctx, content=f"> {d['args-required']}")
 
-        ret = await self.bot.db.fetchall(sql)
-
         try:
-            await ctx.message.add_reaction(self.success)
-            return await utils.reply_or_send(ctx, content=f"```py\n{ret}\n```")   
+            ret = await self.bot.db.fetchall(sql)
         except Exception as exc:
-            await ctx.message.add_reaction(self.failed)
+            await ctx.message.add_reaction("❌")
             return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
+        else:
+            try:
+                await ctx.message.add_reaction(self.success)
+                return await utils.reply_or_send(ctx, content=f"```py\n{ret}\n```")   
+            except Exception as exc:
+                await ctx.message.add_reaction(self.failed)
+                return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
 
     #shell
     @commands.is_owner()
