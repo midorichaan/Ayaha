@@ -260,6 +260,9 @@ class mido_global(commands.Cog):
             )
 
             if msg.channel.id if [self.sgc["test_channel_id"], self.sgc["channel_id"]]:
+                check = self.check_content(msg)
+                
+
                 tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
                 try:
                     return await self.handle_global(task=tasks)
