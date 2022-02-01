@@ -107,6 +107,9 @@ class Ayaha(commands.AutoShardedBot):
                 "invite": "https://discord.gg/H6u69mt6U9",
                 "notice": 929792683180953600
             },
+            "globalchat": {
+                "noreact": []
+            },
             "github_channel_id": 929794199061143552,
             "github_webhook_id": 929799610560573501,
             "time_jst": datetime.timezone(datetime.timedelta(hours=+9), 'JST')
