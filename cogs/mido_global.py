@@ -246,6 +246,19 @@ class mido_global(commands.Cog):
         except Exception as exc:
             print(f"[Error] {exc}")
 
+    #react_msg
+    async def react_msg(self, msg, *, type: int):
+        if type == 1:
+            try:
+                await msg.add_reaction(self.success)
+            except:
+                pass
+        elif type == 2:
+            try:
+                await msg.add_reaction(self.failed)
+            except:
+                pass
+
     #send global chat
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -261,14 +274,16 @@ class mido_global(commands.Cog):
 
             if msg.channel.id if [self.sgc["test_channel_id"], self.sgc["channel_id"]]:
                 check = self.check_content(msg)
-                
+                if not check:
+                    return await self.react_msg(msg, type=2)
 
                 tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
                 try:
-                    return await self.handle_global(task=tasks)
+                    await self.handle_global(task=tasks)
                 except Exception as exc:
                     print(f"[Error] {exc}")
-                    return
+                    return await self.react_msg(msg, type=2)
+                return await self.react_msg(msg, type=1)
                  
 def setup(bot):
     bot.add_cog(mido_global(bot))
