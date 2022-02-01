@@ -3,6 +3,7 @@ from discord.ext import commands
 from enum import Enum
 
 import aiohttp
+import asyncio
 import re
 
 class DBType(Enum):
@@ -238,6 +239,13 @@ class mido_global(commands.Cog):
             )
         return task
 
+    #handle_global
+    async def handle_global(self, *, task):
+        try:
+            await asyncio.gather(*task)
+        except Exception as exc:
+            print(f"[Error] {exc}")
+
     #send global chat
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -250,27 +258,14 @@ class mido_global(commands.Cog):
                 DBType.FETCHONE,
                 query=f"SELECT * FROM users WHERE user_id={msg.author.id}"
             )
-            if msg.guild.id == self.sgc["guild_id"]:
-                if self.sgc["channel"] == "test":
-                    if msg.channel.id == self.sgc["test_channel_id"]:
-                        tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
-                        try:
-                            await self.handle_global(*tasks)
-                        except Exception as exc:
-                            print(f"[Error] {exc}")
-                            return
-                elif self.sgc["channel"] == "main":
-                    tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
-                    try:
-                        await self.handle_global(*task)
-                    except Exception as exc:
-                        print(f"[Error] {exc}")
-                        return
-            else:
-                db = await self.get_db(
-                    DBType.FETCHONE,
-                    query=f"SELECT * FROM globalchat WHERE channel_id={msg.channel.id}"
-                )
+
+            if msg.channel.id if [self.sgc["test_channel_id"], self.sgc["channel_id"]]:
+                tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
+                try:
+                    return await self.handle_global(task=tasks)
+                except Exception as exc:
+                    print(f"[Error] {exc}")
+                    return
                  
 def setup(bot):
     bot.add_cog(mido_global(bot))
