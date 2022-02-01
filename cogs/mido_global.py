@@ -124,11 +124,11 @@ class mido_global(commands.Cog):
 
     async def global_send(
         self, 
+        *,
         webhook_url,
         msg,
         channel,
         username,
-        *,
         embeds=None
     ):
         hook = discord.Webhook.from_url(
@@ -188,18 +188,55 @@ class mido_global(commands.Cog):
             except Exception as exc:
                 return exc
 
+    #get_tasks
+    async def get_tasks(self, msg, *, userdb, channel: str):
+        db = await self.get_db(
+            DBType.FETCHALL,
+            query=f"SELECT * FROM globalchat WHERE channel={channel}"
+        )
+        if not db:
+            return []
+
+        task = []
+        for i in db:
+            task.append(
+                self.global_send(
+                    webhook_url=i["webhook_url"],
+                    msg=msg,
+                    channel=channel,
+                    username=,
+                    embeds=msg.embeds
+                )
+            )
+
     #send global chat
     @commands.Cog.listener()
     async def on_message(self, msg):
         if msg.guild:
             await self.check_db()
+            if not self.enabled:
+                return
 
+            userdb = await self.get_db(
+                DBType.FETCHONE,
+                query=f"SELECT * FROM users WHERE user_id={msg.author.id}"
+            )
             if msg.guild.id == self.sgc["guild_id"]:
                 if self.sgc["channel"] == "test":
                     if msg.channel.id == self.sgc["test_channel_id"]:
-                        
+                        tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
+                        try:
+                            await self.handle_global(*tasks)
+                        except Exception as exc:
+                            print(f"[Error] {exc}")
+                            return
                 elif self.sgc["channel"] == "main":
-                    pass
+                    tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
+                    try:
+                        await self.handle_global(*task)
+                    except Exception as exc:
+                        print(f"[Error] {exc}")
+                        return
             else:
                 try:
                     db = await self.bot.db.fetchone(
