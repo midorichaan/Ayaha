@@ -25,6 +25,7 @@ class mido_global(commands.Cog):
             "member": "👤",
             "bot": "🛠️",
             "partner": "🤝",
+            "vip": "💎",
             "sgc_mods": "🔨"
         }
 
@@ -37,8 +38,14 @@ class mido_global(commands.Cog):
             "guild_id": 706905953320304772,
             "channel_id": 707158257818664991,
             "test_channel_id": 707158343952629780,
-            "channel": "test"
+            "channel": "test",
+            "mod_ids": []
         }
+
+        guild = self.bot.get_guild(self.sgc["guild_id"])
+        if guild:
+            role = guild.get_role(795213916204564492)
+            self.sgc["mod_ids"] = [i.id for i in role.members]
 
         self.enabled = True
 
@@ -172,21 +179,41 @@ class mido_global(commands.Cog):
             self.enabled = True
 
     async def get_db(self, type, *, query):
-        if type == "1":
+        if type == DBType.FETCHONE:
             try:
                 return await self.bot.db.fetchone(query)
             except Exception as exc:
                 return exc   
-        elif type == "2":
+        elif type == DBType.FETCHALL:
             try:
                 return await self.bot.db.fetchall(query)
             except Exception as exc:
                 return exc
-        elif type == 3:
+        elif type == DBType.EXECUTE:
             try:
                 return await self.bot.db.execute(query)
             except Exception as exc:
                 return exc
+
+    #get_rank
+    def get_rank(self, user, db):
+        ret = ""
+        if db["rank"] == 2:
+            ret += self.badges["staff"]
+        if db["rank"] <= 1:
+            ret += self.badges["vip"]
+        if db["verify"] == 1:
+            ret += self.badges["verify"]
+        if db["partner"] == 1:
+            ret += self.badges["partner"]
+        if user.id in self.sgc["mod_ids"]:
+            ret += self.badges["sgc_mods"]
+        if user.bot:
+            ret += self.badges["bot"]
+        else:
+            ret += self.badges["member"]
+
+        return f"{ret}{user}"
 
     #get_tasks
     async def get_tasks(self, msg, *, userdb, channel: str):
@@ -198,16 +225,18 @@ class mido_global(commands.Cog):
             return []
 
         task = []
+        username = self.get_rank(msg.author, userdb)
         for i in db:
             task.append(
                 self.global_send(
                     webhook_url=i["webhook_url"],
                     msg=msg,
                     channel=channel,
-                    username=,
+                    username=username,
                     embeds=msg.embeds
                 )
             )
+        return task
 
     #send global chat
     @commands.Cog.listener()
@@ -238,20 +267,10 @@ class mido_global(commands.Cog):
                         print(f"[Error] {exc}")
                         return
             else:
-                try:
-                    db = await self.bot.db.fetchone(
-                        "SELECT * FROM globalchat WHERE channel_id=%s", 
-                        (msg.channel.id,)
-                    )
-                except Exception as exc:
-                    print(f"[Error] {exc}")
-                    return
-                else:
-                    if db:
-                        all = await self.bot.db.fetchall(
-                            "SELECT * FROM globalchat WHERE channel=%s",
-                            (db["channel"],)
-                        )
+                db = await self.get_db(
+                    DBType.FETCHONE,
+                    query=f"SELECT * FROM globalchat WHERE channel_id={msg.channel.id}"
+                )
                  
 def setup(bot):
     bot.add_cog(mido_global(bot))
