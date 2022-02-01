@@ -215,8 +215,6 @@ class mido_global(commands.Cog):
                             "SELECT * FROM globalchat WHERE channel=%s",
                             (db["channel"],)
                         )
-
-                        
-
+                 
 def setup(bot):
     bot.add_cog(mido_global(bot))
