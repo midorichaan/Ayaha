@@ -40,6 +40,7 @@ class mido_global(commands.Cog):
             "channel_id": 707158257818664991,
             "test_channel_id": 707158343952629780,
             "channel": "test",
+            "version": "2.0.5",
             "mod_ids": []
         }
 
@@ -169,7 +170,7 @@ class mido_global(commands.Cog):
                 files=attachments,
                 wait=True
             )
-        return (message.id, msg.id, msg.guild.id, msg.channel.id, msg.author.id, str(msg.content), channel)
+        return (message, msg, channel)
 
     async def check_db(self):
         try:
@@ -248,6 +249,9 @@ class mido_global(commands.Cog):
 
     #react_msg
     async def react_msg(self, msg, *, type: int):
+        if msg.channel.id in self.bot.vars["globalchat"]["noreact"]:
+            return
+
         if type == 1:
             try:
                 await msg.add_reaction(self.success)
@@ -258,6 +262,47 @@ class mido_global(commands.Cog):
                 await msg.add_reaction(self.failed)
             except:
                 pass
+
+    def build_sgc_data(self, msg):
+        data = {
+            "type": "message",
+            "version": self.sgc["version"],
+            "userId": str(msg.author.id),
+            "userName": str(msg.author.name),
+            "userDiscriminator": str(msg.author.discriminator),
+            "userAvatar": str(msg.author.avatar),
+            "isBot": msg.author.bot,
+            "guildId": str(msg.guild.id),
+            "guildName": str(msg.guild.name),
+            "guildIcon": str(msg.guild.icon),
+            "channelId": str(msg.channel.id),
+            "channelName": str(msg.channel.name),
+            "messageId": str(msg.id),
+            "content": str(msg.content),
+        }
+
+        if msg.attachments:
+            data["attachmentsUrl"] = [i.url for i in msg.attachments]
+        if msg.reference:
+            data["reference"] = msg.reference.message_id
+        return data
+
+    async def send_sgc(self, msg, type: str):
+        data = self.build_sgc_data(msg)
+        if self.sgc["channel"] == "test":
+            channel = self.bot.get_channel(self.sgc["test_channel_id"])
+            if channel:
+                await channel.send(
+                    json.dumps(data, ensure_ascii=False),
+                    allowed_mentions=discord.AllowedMentions.none()
+                )
+        else:
+            channel = self.bot.get_channel(self.sgc["channel_id"])
+            if channel:
+                await channel.send(
+                    json.dumps(data, ensure_ascii=False),
+                    allowed_mentions=discord.AllowedMentions.none()
+                )
 
     #send global chat
     @commands.Cog.listener()
@@ -272,12 +317,54 @@ class mido_global(commands.Cog):
                 query=f"SELECT * FROM users WHERE user_id={msg.author.id}"
             )
 
-            if msg.channel.id if [self.sgc["test_channel_id"], self.sgc["channel_id"]]:
+            if msg.channel.id in [self.sgc["test_channel_id"], self.sgc["channel_id"]]:
+                if msg.author.id == self.bot.user.id:
+                    return
+
+                try:
+                    data = json.loads(msg.content)
+                except Exception as exc:
+                    return await self.react_msg(msg, type=2)
+                else:
+                    type = data.get("type", "message")
+                    if type == "message":
+                        try:
+                            await self.send_sgc(msg)
+                        except:
+                            return
+                    elif type == "edit":
+                        return
+                    elif type == "delete":
+                        return
+
                 check = self.check_content(msg)
                 if not check:
                     return await self.react_msg(msg, type=2)
 
                 tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
+                try:
+                    await self.handle_global(task=tasks)
+                except Exception as exc:
+                    print(f"[Error] {exc}")
+                    return await self.react_msg(msg, type=2)
+                return await self.react_msg(msg, type=1)
+            else:
+                return
+
+                db = await self.get_db(
+                    DBType.FETCHONE,
+                    query=f"SELECT * FROM globalchat WHERE channel_id={msg.channel.id}"
+                )
+                if isinstance(db, Exception):
+                    return
+                if not db:
+                    return
+
+                check = self.check_content(msg)
+                if not check:
+                    return await self.react_msg(msg, type=2)
+
+                tasks = await self.get_tasks(msg, userdb=userdb, channel=db["channel"])
                 try:
                     await self.handle_global(task=tasks)
                 except Exception as exc:
