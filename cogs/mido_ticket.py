@@ -8,6 +8,27 @@ class mido_ticket(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ticketutil = ticketutil.TicketUtil(bot)
+        self.enabled = True
+        asyncio.gather(check_db())
+
+    #check_db
+    async def check_db(self):
+        try:
+            await self.bot.db.execute(
+                "SELECT 1"
+            )
+        except:
+            self.enabled = False
+            print("[Error] failed to connect database")
+            print("[System] unloading cogs.mido_ticket")
+
+            try:
+                self.bot.unload_cog(self)
+            except Exception as exc:
+                print(f"[Error] failed to unload cog → {exc}")
+        else:
+            self.enabled = True
+            print("[System] Successfully connected database")
     
     #raw_reaction
     @commands.Cog.listener()
