@@ -328,7 +328,7 @@ class mido_global(commands.Cog):
                 else:
                     type = data.get("type", "message")
                     if type == "message":
-                        check _ self.check_content(msg)
+                        check = self.check_content(msg)
                         if not check:
                             return await self.react_msg(msg, type=2)
 
