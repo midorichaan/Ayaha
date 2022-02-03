@@ -8,7 +8,17 @@ class mido_guild_settings(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-    
+
+    #check_db
+    async def check_db(self):
+        try:
+            await self.bot.db.execute(
+                "SELECT 1"
+            )
+        except:
+            return False
+        return True
+
     #build_gs_embed
     async def build_gs_embed(self, ctx, type: int, db, *, lang: str=None, value: str=None):
         if not lang:
@@ -29,7 +39,7 @@ class mido_guild_settings(commands.Cog):
                 color=self.bot.color,
                 timestamp=ctx.message.created_at
             )
-            
+
             val = [
                 "❗: {} ({})\n".format(d["guildsettings-ticket-adminmention"], d["guildsettings-true"] if db["admin_role_mention"] else d["guildsettings-false"]),
                 "📄: {} ({})\n".format(d["guildsettings-ticket-opencategory"], ctx.guild.get_channel(db["open_category_id"]) if db["open_category_id"] else d["guildsettings-false"]),
@@ -39,10 +49,10 @@ class mido_guild_settings(commands.Cog):
                 "📝: {} ({})\n".format(d["guildsettings-ticket-paneltitle"], db["ticket_panel_title"] if db["ticket_panel_title"] else d["none"]),
                 "📖: {} ({})\n".format(d["guildsettings-ticket-paneldescription"], db["ticket_panel_description"] if db["ticket_panel_description"] else d["none"]),
             ]
-            
+
             for i in val:
                 e.description += i
-            
+
             return e
         else:
             e = discord.Embed(
@@ -51,26 +61,26 @@ class mido_guild_settings(commands.Cog):
                 color=self.bot.color,
                 timestamp=ctx.message.created_at
             )
-            
+
             settings = [
                 "📝: {} ({})\n".format(d["guildsettings-prefix"], db["prefix"] or d["guildsettings-no-prefix"]),
                 "📚: {} ({})\n".format(d["guildsettings-toggle-baseprefix"], d["guildsettings-false"] if db["disable_base_prefix"] else d["guildsettings-true"]),
                 "✉: {}\n".format(d["guildsettings-ticket-settings"]),
                 "❌: {}".format(d["cancel"])
             ]
-        
+
             for i in settings:
                 e.description += i
-        
+
             return e
-    
+
     #clear_reactions
     async def clear_reactions(self, ctx, msg):
         if ctx.channel.permissions_for(ctx.me).manage_messages:
             await msg.clear_reactions()
         else:
             asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
-    
+
     #ticket_config
     async def ticket_config(self, ctx, message, lang):
         while True:
@@ -83,7 +93,7 @@ class mido_guild_settings(commands.Cog):
                 if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]:
                     if ctx.channel.permissions_for(ctx.me).manage_messages:
                         await message.remove_reaction(str(r), ctx.author)
-                
+
                 if r.emoji == "❗":
                     pass
                 elif r.emoji == "📄":
@@ -98,7 +108,7 @@ class mido_guild_settings(commands.Cog):
                     pass
                 elif r.emoji == "📖":
                     pass
-    
+
     #guildsettings
     @commands.command(name="guildsettings", aliases=["guildsetting", "gs", "config"], usage="guildsettings")
     @commands.guild_only()
@@ -107,7 +117,11 @@ class mido_guild_settings(commands.Cog):
     async def guildsettings(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
-        
+
+        dbchecker = await self.check_db()
+        if not dbchecker:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+
         gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs, lang=lang))
@@ -115,7 +129,7 @@ class mido_guild_settings(commands.Cog):
         await m.add_reaction("📚")
         await m.add_reaction("✉")
         await m.add_reaction("❌")
-        
+
         while True:
             try:
                 r, u = await self.bot.wait_for("reaction_add", check=lambda r, u: u.id == ctx.author.id and r.message.id == m.id, timeout=30.0)
@@ -126,14 +140,14 @@ class mido_guild_settings(commands.Cog):
             else:
                 if ctx.channel.permissions_for(ctx.me).manage_messages:
                     await m.remove_reaction(str(r), ctx.author)
-                
+
                 if r.emoji == "📝":
                     await self.clear_reactions(ctx, m)
                     await m.edit(embed=await self.build_gs_embed(ctx, 1, gs))
-                
+
                     msg = await self.bot.wait_for("message", check=lambda m: m.author.id == ctx.author.id and m.channel.id == ctx.channel.id)
                     await msg.delete()
-                    
+
                     if msg.content == "reset":
                         await self.bot.db.execute("UPDATE guilds SET prefix=%s WHERE guild_id=%s", (None, ctx.guild.id))
                     else:
@@ -147,12 +161,12 @@ class mido_guild_settings(commands.Cog):
                 elif r.emoji == "📚":
                     await self.clear_reactions(ctx, m)
                     await m.edit(embed=await self.build_gs_embed(ctx, 0, gs))
-                    
+
                     if gs["disable_base_prefix"]:
                         await self.bot.db.execute("UPDATE guilds SET disable_base_prefix=%s WHERE guild_id=%s", (0, ctx.guild.id,))
                     else:
                         await self.bot.db.execute("UPDATE guilds SET disable_base_prefix=%s WHERE guild_id=%s", (1, ctx.guild.id,))
-                    
+
                     gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
@@ -163,13 +177,13 @@ class mido_guild_settings(commands.Cog):
                     await self.clear_reactions(ctx, m)
                     db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
-                    
+
                     emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]
                     for i in emojis:
                         await m.add_reaction(i)
-                    
+
                     await self.ticket_config(ctx, m, d)
-                    
+
                     gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
