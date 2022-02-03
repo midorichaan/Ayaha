@@ -26,7 +26,7 @@ class mido_ticket(commands.Cog):
             print("[System] unloading cogs.mido_ticket")
 
             try:
-                self.bot.unload_extension(self)
+                self.bot.unload_extension("cogs.mido_ticket")
             except Exception as exc:
                 print(f"[Error] failed to unload cog → {exc}")
         else:
