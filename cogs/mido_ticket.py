@@ -11,7 +11,8 @@ class mido_ticket(commands.Cog):
         self.bot = bot
         self.ticketutil = ticketutil.TicketUtil(bot)
         self.enabled = True
-        asyncio.gather(check_db())
+
+        asyncio.gather(self.check_db())
 
     #check_db
     async def check_db(self):
