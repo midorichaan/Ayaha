@@ -10,6 +10,17 @@ class mido_user_settings(commands.Cog):
         self.bot = bot
         
         self.available_lang = ["ja-jp", "en-us"]
+
+    #check_db
+    async def check_db(self):
+        try:
+            await self.bot.db.execute(
+                "SELECT 1"
+            )
+        except:
+            return False
+        else:
+            return True
         
     #build_us_embed
     async def build_us_embed(self, ctx, type: int, *, lang: str=None):
@@ -56,6 +67,10 @@ class mido_user_settings(commands.Cog):
         d = await self.bot.langutil.get_lang(lang)
         
         m = await utils.reply_or_send(ctx, content="> {}".format(d["loading"]))
+        dbchecker = await self.check_db()
+        if not dbchecker:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+
         await m.edit(content=None, embed=await self.build_us_embed(ctx, 0, lang=lang))
         await m.add_reaction("🏳")
         await m.add_reaction("❌")
