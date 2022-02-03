@@ -328,26 +328,54 @@ class mido_global(commands.Cog):
                 else:
                     type = data.get("type", "message")
                     if type == "message":
+                        check _ self.check_content(msg)
+                        if not check:
+                            return await self.react_msg(msg, type=2)
+
+                        task = await self.get_tasks(msg, userdb=userdb, channel="sgc")
                         try:
-                            await self.send_sgc(msg)
-                        except:
-                            return
+                            await self.handle_global(task=task)
+                        except Exception as exc:
+                            print(f"[Error] {exc}")
+                            return await self.react_msg(msg, type=2)
+                        return await self.react_msg(msg, type=1)
                     elif type == "edit":
-                        return
+                        d = self.sgc_cache.get(data["messageId"], None)
+                        if not d:
+                            return await self.react_msg(msg, type=2)
+
+                        check = self.check_content(data["content"])
+                        if not check:
+                            return await self.react_msg(msg, type=2)
+
+                        
                     elif type == "delete":
-                        return
+                        d = self.sgc_cache.get(data["messageId"], None)
+                        if not d:
+                            return await self.react_msg(msg, type=2)
 
-                check = self.check_content(msg)
-                if not check:
-                    return await self.react_msg(msg, type=2)
+                        db = await self.get_db(
+                            DBType.FETCHALL,
+                            query=f"SELECT * FROM globallogs WHERE original_id={int(data['messageId'])}"
+                        )
+                        if not db or isinstance(db, Exception):
+                            return await self.react_msg(msg, type=2)
 
-                tasks = await self.get_tasks(msg, userdb=userdb, channel="sgc")
-                try:
-                    await self.handle_global(task=tasks)
-                except Exception as exc:
-                    print(f"[Error] {exc}")
-                    return await self.react_msg(msg, type=2)
-                return await self.react_msg(msg, type=1)
+                        task = []
+                        for i in db:
+                            task.append(
+                                self.delete_message(
+                                    message_id=int(data["messageId"]),
+                                    db=db
+                                )
+                            )
+                            task.append(asyncio.sleep(3))
+
+                        try:
+                            await asyncio.gather(*task)
+                        except Exception as exc:
+                            print(f"[Error] {exc}")
+                            return await self.react_msg(msg, type=2)
             else:
                 return
 
