@@ -8,6 +8,16 @@ class mido_info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    #check_db
+    async def check_db(self):
+        try:
+            await self.bot.db.execute(
+                "SELECT 1"
+            )
+        except:
+            return False
+        return True
+
     #shadowban
     @commands.command(aliases=["sb"], usage="shadowban <twitter_id>")
     async def shadowban(self, ctx, twitter_id=None):
@@ -59,6 +69,10 @@ class mido_info(commands.Cog):
         if not target:
             target = ctx.author
 
+        dbchecker = await self.check_db()
+        if not dbchecker:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+
         e = discord.Embed(color=self.bot.color, timestamp=ctx.message.created_at)
         e.set_author(name=f"{target} ({target.id})", icon_url=target.avatar_url_as(static_format="png"))
         e.set_footer(text=f"Requested by {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar_url_as(static_format="png"))
@@ -96,6 +110,10 @@ class mido_info(commands.Cog):
             else:
                 return await m.edit(content=f"> {d['exc-nodm']}")
 
+        dbchecker = await self.check_db()
+        if not dbchecker:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
+
         totalmembers = sum(i for i in target.members)
         botmembers = sum(i for i in target.members if i.bot)
 
@@ -122,6 +140,10 @@ class mido_info(commands.Cog):
 
         if not target:
             target = ctx.author
+
+        dbchecker = await self.check_db()
+        if not dbchecker:
+            return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
         is_member = isinstance(target, discord.Member)
         userdb = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (target.id,))
