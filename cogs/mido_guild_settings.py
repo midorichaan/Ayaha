@@ -117,13 +117,13 @@ class mido_guild_settings(commands.Cog):
     async def guildsettings(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
         d = await self.bot.langutil.get_lang(lang)
+        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
 
         dbchecker = await self.check_db()
         if not dbchecker:
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
         gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
-        m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs, lang=lang))
         await m.add_reaction("📝")
         await m.add_reaction("📚")
