@@ -21,9 +21,11 @@ class mido_help(commands.Cog):
             return e
         else:
             e = discord.Embed(title=f"Help - Commands", color=self.bot.color, timestamp=ctx.message.created_at)
+            if userdb is None:
+                userdb = {} #override fake userdb
             
             for i in self.bot.commands:
-                if ctx.author.id in self.bot.owner_ids or userdb["rank"] >= 2:
+                if ctx.author.id in self.bot.owner_ids or userdb.get("rank", 0) >= 2:
                     e.add_field(name=i.name, value=data.get(f"help-{i.name}", data["none"]))
                 else:
                     if not isinstance(i.cog, type(self.bot.cogs["mido_admins"])):
@@ -36,10 +38,17 @@ class mido_help(commands.Cog):
     @commands.command(usage="help [command]")
     async def help(self, ctx, command: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
-        d = await self.bot.langutil.get_lang(lang)
-        
+        d = await self.bot.langutil.get_lang(lang)        
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
-        userdb = await self.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (ctx.author.id,))
+
+        userdb = None #init local userdb
+        try:
+            userdb = await self.bot.db.fetchone(
+                "SELECT * FROM users WHERE user_id=%s", 
+                (ctx.author.id,)
+            )
+        except:
+            userdb = None
         
         if not command:
             return await m.edit(content=None, embed=self.generate_help(ctx, d, userdb=userdb))
