@@ -120,7 +120,7 @@ class mido_global(commands.Cog):
                 return False
             if "@everyone" in msg:
                 return False
-            if invite.regex.findall(msg):
+            if invite_regex.findall(msg):
                 return False
             if len(mention_regex.findall(msg)) >= 5:
                 return False
@@ -249,7 +249,7 @@ class mido_global(commands.Cog):
 
     #react_msg
     async def react_msg(self, msg, *, type: int):
-        if msg.channel.id in self.bot.vars["globalchat"]["noreact"]:
+        if self.check_reaction(msg.channel.id):
             return
 
         if type == 1:
