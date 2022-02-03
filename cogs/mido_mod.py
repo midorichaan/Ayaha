@@ -14,6 +14,17 @@ class mido_mod(commands.Cog):
     def check_hierarchy(self, ctx, user, target):
         return user == ctx.guild.owner or user.top_role > target.top_role
 
+    #check_db
+    async def check_db(self):
+        try:
+            await self.bot.db.execute(
+                "SELECT 1"
+            )
+        except:
+            return False
+        else:
+            return True
+
     #ban
     @commands.command(name="ban", usage="ban <Member/User> [Reson]")
     @commands.has_permissions(ban_members=True)
