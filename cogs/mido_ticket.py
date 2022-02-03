@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import asyncio
+
 from lib import utils, ticketutil
 
 class mido_ticket(commands.Cog):
