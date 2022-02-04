@@ -115,11 +115,11 @@ class mido_mod(commands.Cog):
             return await m.edit(content="> メンバーを指定してね！")
 
         try:
-            await self.timeout_member(ctx, target, duration=duration.dt, reason=reason)
+            await self.timeout_member(ctx.guild.id, target.id, duration=duration.dt, reason=reason)
         except Exception as exc:
             return await m.edit(content=f"> エラー \n```py\n{exc}\n```")
         else:
-            return await m.edit(content=f"> {target}をタイムアウトしたよ！ ({duration})")
+            return await m.edit(content=f"> {target}をタイムアウトしたよ！ ({duration.dt})")
 
     #untimeout
     @commands.command(name="untimeout", description="メンバーのタイムアウトを解除するよ！", usage="untimeout <member> [reason]")
