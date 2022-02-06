@@ -38,17 +38,24 @@ class mido_info(commands.Cog):
                 data = await r.json()
                 profile = data["profile"]
 
-                if not profile["exists"]:
-                    e.description = f"{predicate(profile['exists'])} Account Exists"
-                    return await m.edit(content=None, embed=e)
+                if not profile["exists"] or profile.get["error"]:
+                    if not profile.get("protected", None):
+                        e.description += f"\n❌ Account Exists"
+
+                        if profile.get("suspended", False):
+                            e.description += f"\n❌ Account Suspended"
+                        return await m.edit(content=None, embed=e)
+
+                if profile.get("suspended", False):
+                    e.description += f"{predicate(profile.get('suspended', False))}"
 
                 banned = data.get("tests", None)
                 if not banned:
-                    e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile.get('protected', False))}Account Protected"
+                    e.description += f"\n✅ Account Exists \n{predicate(not profile.get('protected', False))}Account Protected"
                     return await m.edit(content=None, embed=e)
 
                 dates = [
-                    f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile.get('protected', False))}Account Protected\n",
+                    f"\n{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile.get('protected', False))}Account Protected\n",
                     f"{predicate(not banned['ghost']['ban'])}Ghost Ban\n", f"{predicate(banned['search'])}Search Ban\n",
                     f"{predicate(banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
                 ]
