@@ -40,7 +40,7 @@ class mido_info(commands.Cog):
                 data = await r.json()
                 profile = data["profile"]
 
-                if not profile["exists"] or profile.get["error"]:
+                if not profile["exists"] or profile["error"]:
                     if not profile.get("protected", None):
                         e.description += f"\n❌ Account Exists"
 
