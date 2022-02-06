@@ -44,7 +44,7 @@ class mido_info(commands.Cog):
 
                 banned = data.get("tests", None)
                 if not banned:
-                    e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile.get('protected', False)}Account Protected"
+                    e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile.get('protected', False))}Account Protected"
                     return await m.edit(content=None, embed=e)
 
                 dates = [
