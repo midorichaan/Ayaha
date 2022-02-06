@@ -158,8 +158,8 @@
     
     "twitter-id-required": "Twitter ID was a required argument",
     
-    "system-maintenance-enabled": "メンテナンスモードを有効にしたよ！",
-    "system-maintenance-disabled": "メンテナンスモードを無効にしたよ！",
+    "system-maintenance-enabled": "I've enabled maintenance mode!",
+    "system-maintenance-disabled": "I've disabled maintenance mode!",
     
     "userinfo-username": "Username",
     "userinfo-nickname": "Nickname",
@@ -178,13 +178,13 @@
     "userinfo-permissions": "Server Permission(s)",
     "userinfo-public_flags": "Owned Badge",
     
-    "guildinfo-name": "サーバー名",
-    "guildinfo-id": "サーバーID",
-    "guildinfo-created_at": "サーバー作成日",
-    "guildinfo-owner": "サーバーオーナー",
+    "guildinfo-name": "server name",
+    "guildinfo-id": "Server ID",
+    "guildinfo-created_at": "Server creation date",
+    "guildinfo-owner": "Server Owner",
     
-    "follow-not-news": "そのチャンネルはニュースチャンネルじゃないよ！",
-    "follow-followed": "{TARGET}をフォローしたよ！",
+    "follow-not-news": "That channel is not a news channel!",
+    "follow-followed": "I'm following {TARGET}!",
     
     "create_instant_invite": "Create Invite",
     "kick_members": "Kick Members",
