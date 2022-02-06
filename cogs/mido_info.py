@@ -44,11 +44,11 @@ class mido_info(commands.Cog):
 
                 banned = data.get("tests", None)
                 if not banned:
-                    e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile['protected'])}Account Protected"
+                    e.description += f"{predicate(profile['exists'])}Account Exists \n{predicate(not profile.get('protected', False)}Account Protected"
                     return await m.edit(content=None, embed=e)
 
                 dates = [
-                    f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile['protected'])}Account Protected\n",
+                    f"{predicate(profile['exists'])}Account Exists\n", f"{predicate(profile.get('protected', False))}Account Protected\n",
                     f"{predicate(not banned['ghost']['ban'])}Ghost Ban\n", f"{predicate(banned['search'])}Search Ban\n",
                     f"{predicate(banned['typeahead'])}SearchSuggest Ban\n", f"{predicate(not banned['more_replies'].get('ban', False))}Reply Deboosting\n"
                 ]
@@ -57,7 +57,7 @@ class mido_info(commands.Cog):
 
                 return await m.edit(content=None, embed=e)
         except Exception as exc:
-            return await m.edit(content=f"> d['error'] \n```py\n{exc}\n```")
+            return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
 
     #profile
     @commands.command(usage="profile [user/member]")
