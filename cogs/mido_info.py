@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import traceback
+
 from lib import utils
 
 class mido_info(commands.Cog):
@@ -47,7 +49,7 @@ class mido_info(commands.Cog):
                         return await m.edit(content=None, embed=e)
 
                 if profile.get("suspended", False):
-                    e.description += f"{predicate(profile.get('suspended', False))}"
+                    e.description += f"\n{predicate(profile.get('suspended', False))}"
 
                 banned = data.get("tests", None)
                 if not banned:
@@ -64,6 +66,8 @@ class mido_info(commands.Cog):
 
                 return await m.edit(content=None, embed=e)
         except Exception as exc:
+            self.bot.vars["exc"]["exc"] = exc
+            self.bot.vars["exc"]["traceback"] = traceback.TracebackException.from_exception(exc).format()
             return await m.edit(content=f"> {d['error']} \n```py\n{exc}\n```")
 
     #profile
