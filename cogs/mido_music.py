@@ -445,6 +445,7 @@ class mido_music(commands.Cog):
                 e = discord.Embed(title="🎶Music Search", color=self.bot.color, timestamp=ctx.message.created_at)
                 e.set_thumbnail(url=i["snippet"]["thumbnails"]["medium"]["url"])
                 e.add_field(name="タイトル", value=f"[{i['snippet']['title']}](https://youtube.com/watch?v={i['id']['videoId']})")
+                e.add_field(name="動画URL", value=f"https://youtube.com/watch?v={i['id']['videoId']}")
                 e.add_field(name="説明", value=f"```\n{i['snippet']['description']}\n```", inline=False)
                 e.add_field(name="アップロード日", value=datetime.datetime.strptime(i["snippet"]["publishedAt"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y/%m/%d %H:%M:%S"))
                 e.add_field(name="アップロードチャンネル", value=f"[{i['snippet']['channelTitle']}](https://youtube.com/channel/{i['snippet']['channelId']})")
