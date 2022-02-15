@@ -49,7 +49,7 @@ class mido_logs(commands.Cog):
             if len(msg.content) >= 1010:
                 embed.add_field(name="メッセージ内容", value=f"```\n{msg.content}\n...\n```", inline=False)
             else:
-                embed.add_field(name="メッセージ内容", value=f"```\n{msg.content}\n```", inline=False)[]
+                embed.add_field(name="メッセージ内容", value=f"```\n{msg.content}\n```", inline=False)
 
 def setup(bot):
     bot.add_cog(mido_logs(bot))
