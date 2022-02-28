@@ -182,6 +182,10 @@
     "guildinfo-id": "サーバーID",
     "guildinfo-created_at": "サーバー作成日",
     "guildinfo-owner": "サーバーオーナー",
+    "guildinfo-total": "合計",
+    "guildinfo-members": "メンバー数",
+    "guildinfo-member": "メンバー",
+    "guildinfo-bot": "Bot",
     
     "follow-not-news": "そのチャンネルはニュースチャンネルじゃないよ！",
     "follow-followed": "{TARGET}をフォローしたよ！",
