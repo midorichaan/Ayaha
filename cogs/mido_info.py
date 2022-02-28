@@ -125,8 +125,8 @@ class mido_info(commands.Cog):
         if not dbchecker:
             return await m.edit(content=f"> {d['exc-cant_fetch-data']}")
 
-        totalmembers = sum(i for i in target.members)
-        botmembers = sum(i for i in target.members if i.bot)
+        totalmembers = len(target.members)
+        botmembers = len([i for i in target.members if i.bot])
 
         e = discord.Embed(
             title=f"{target} ({target.id})",
@@ -138,7 +138,10 @@ class mido_info(commands.Cog):
         e.add_field(name=d["guildinfo-id"], value=str(target.id))
         e.add_field(name=d["guildinfo-created_at"], value=target.created_at.strftime("%Y/%m/%d %H:%M:%S"))
         e.add_field(name=d["guildinfo-owner"], value=f"{target.owner} ({target.owner.id})")
-        e.add_field(name=d["guildinfo-members"], value=f"")
+        e.add_field(
+            name=d["guildinfo-members"], 
+            value=f"{d['guildinfo-total']}: {totalmembers} \n{d['guildinfo-member']}: {totalmembers} \n{d['guildinfo-bot']}: {botmembers}"
+        )
 
         return await m.edit(content=None, embed=e)
 
