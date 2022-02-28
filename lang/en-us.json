@@ -182,7 +182,11 @@
     "guildinfo-id": "Server ID",
     "guildinfo-created_at": "Server creation date",
     "guildinfo-owner": "Server Owner",
-    
+    "guildinfo-total": "合計",
+    "guildinfo-members": "メンバー数",
+    "guildinfo-member": "メンバー",
+    "guildinfo-bot": "Bot",
+        
     "follow-not-news": "That channel is not a news channel!",
     "follow-followed": "I'm following {TARGET}!",
     
