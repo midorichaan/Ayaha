@@ -36,7 +36,7 @@ class mido_admins(commands.Cog):
             return e
 
     #prohibit
-    @utils.is_staff()
+    @utils.is_staff(2)
     @commands.command(usage="prohibit <user/member> [reason]")
     async def prohibit(self, ctx, target: utils.FetchUserConverter=None, *, reason: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -58,7 +58,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {r}")
 
     #unprohibit
-    @utils.is_staff()
+    @utils.is_staff(2)
     @commands.command(usage="unprohibit <user/member>")
     async def unprohibit(self, ctx, target: utils.FetchUserConverter=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -80,7 +80,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {r}")
 
     #rank
-    @commands.is_owner()
+    @commands.is_owner(3)
     @commands.command(usage="rank <user/member> <rank>")
     async def rank(self, ctx, target: utils.FetchUserConverter=None, rank: int=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -90,7 +90,7 @@ class mido_admins(commands.Cog):
         if not target:
             return await m.edit(content=f"> {d['args-required']}")
 
-        if not rank in [0, 1, 2]:
+        if not rank in [0, 1, 2, 3]:
             return await m.edit(content=f"> {d['args-required']}")
 
         try:
@@ -105,7 +105,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {msg}")
 
     #eval
-    @commands.is_owner()
+    @commands.is_owner(3)
     @commands.command(name="eval", usage="eval <code>")
     async def _eval(self, ctx, *, code: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -153,7 +153,7 @@ class mido_admins(commands.Cog):
                 await utils.reply_or_send(ctx, content=f'```py\n{value}{ret}\n```')
 
     #sql
-    @commands.is_owner()
+    @commands.is_owner(3)
     @commands.command(name="sql", usage="sql <command>")
     async def sql(self, ctx, *, sql=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -177,7 +177,7 @@ class mido_admins(commands.Cog):
                 return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
 
     #shell
-    @commands.is_owner()
+    @commands.is_owner(3)
     @commands.command(name="shell", aliases=["sh"], usage="shell <command>")
     async def shell(self, ctx, *, command=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -201,7 +201,7 @@ class mido_admins(commands.Cog):
             return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
 
     #getlog
-    @utils.is_staff()
+    @utils.is_staff(2)
     @commands.command(usage="getlog <error_id>")
     async def getlog(self, ctx, error_id: int=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -225,13 +225,13 @@ class mido_admins(commands.Cog):
         return await m.edit(content=None, embed=e)
 
     #system
-    @utils.is_staff()
+    @utils.is_staff(2)
     @commands.group(name="system", usage="system [args]", invoke_without_command=True)
     async def system(self, ctx):
         pass
 
     #help
-    @utils.is_staff()
+    @utils.is_staff(2)
     @system.command(name="help", usage="help [cmd]")
     async def help(self, ctx, cmd=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -247,7 +247,7 @@ class mido_admins(commands.Cog):
             return await m.edit(content=None, embed=self.generate_help(ctx, d))
 
     #load
-    @commands.is_owner()
+    @commands.is_owner(3)
     @system.command(name="load", usage="load <file>")
     async def load(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -266,7 +266,7 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.success)
 
     #unload
-    @commands.is_owner()
+    @commands.is_owner(3)
     @system.command(name="unload", usage="unload <file>")
     async def unload(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -286,7 +286,7 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.success)
 
     #reload
-    @commands.is_owner()
+    @commands.is_owner(3)
     @system.command(name="reload", aliases=["rl"], usage="reload <file>")
     async def reload(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -316,7 +316,7 @@ class mido_admins(commands.Cog):
                 await ctx.message.add_reaction(self.success)
 
     #restart
-    @commands.is_owner()
+    @commands.is_owner(3)
     @system.command(name="restart", aliases=["reboot"], usage="restart")
     async def restart(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -334,7 +334,7 @@ class mido_admins(commands.Cog):
             os.execl(sys.executable, sys.executable, *sys.argv)
 
     #toggle
-    @utils.is_staff()
+    @utils.is_staff(2)
     @system.command(name="toggle", usage="toggle <command>")
     async def toggle(self, ctx, command=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -356,7 +356,7 @@ class mido_admins(commands.Cog):
         await ctx.message.add_reaction(self.success)
 
     #maintenance
-    @utils.is_staff()
+    @utils.is_staff(2)
     @system.command(name="maintenance", usage="maintenance")
     async def maintenance(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
