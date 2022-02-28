@@ -80,7 +80,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {r}")
 
     #rank
-    @commands.is_owner(3)
+    @commands.is_owner()
     @commands.command(usage="rank <user/member> <rank>")
     async def rank(self, ctx, target: utils.FetchUserConverter=None, rank: int=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -105,7 +105,7 @@ class mido_admins(commands.Cog):
             await m.edit(content=f"> {msg}")
 
     #eval
-    @commands.is_owner(3)
+    @commands.is_owner()
     @commands.command(name="eval", usage="eval <code>")
     async def _eval(self, ctx, *, code: str=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -153,7 +153,7 @@ class mido_admins(commands.Cog):
                 await utils.reply_or_send(ctx, content=f'```py\n{value}{ret}\n```')
 
     #sql
-    @commands.is_owner(3)
+    @commands.is_owner()
     @commands.command(name="sql", usage="sql <command>")
     async def sql(self, ctx, *, sql=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -177,7 +177,7 @@ class mido_admins(commands.Cog):
                 return await utils.reply_or_send(ctx, content=f"```py\n{exc}\n```")
 
     #shell
-    @commands.is_owner(3)
+    @commands.is_owner()
     @commands.command(name="shell", aliases=["sh"], usage="shell <command>")
     async def shell(self, ctx, *, command=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -247,7 +247,7 @@ class mido_admins(commands.Cog):
             return await m.edit(content=None, embed=self.generate_help(ctx, d))
 
     #load
-    @commands.is_owner(3)
+    @commands.is_owner()
     @system.command(name="load", usage="load <file>")
     async def load(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -266,7 +266,7 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.success)
 
     #unload
-    @commands.is_owner(3)
+    @commands.is_owner()
     @system.command(name="unload", usage="unload <file>")
     async def unload(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -286,7 +286,7 @@ class mido_admins(commands.Cog):
             await ctx.message.add_reaction(self.success)
 
     #reload
-    @commands.is_owner(3)
+    @commands.is_owner()
     @system.command(name="reload", aliases=["rl"], usage="reload <file>")
     async def reload(self, ctx, *, module=None):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
@@ -316,7 +316,7 @@ class mido_admins(commands.Cog):
                 await ctx.message.add_reaction(self.success)
 
     #restart
-    @commands.is_owner(3)
+    @commands.is_owner()
     @system.command(name="restart", aliases=["reboot"], usage="restart")
     async def restart(self, ctx):
         lang = await self.bot.langutil.get_user_lang(ctx.author.id)
