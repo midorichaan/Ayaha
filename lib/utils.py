@@ -69,10 +69,10 @@ async def check_guild_profile(bot, guild_id: int):
         await bot.db.register_guild(guild_id)
 
 #is_staff
-def is_staff():
+def is_staff(value: int=2):
     async def predicate(ctx):
-        if ctx.author.id in ctx.bot.owner_ids:
-            return True
+        if not value in [2, 3]:
+            raise NotStaff("Staff rank was required")
 
         try:
             db = await ctx.bot.db.fetchone("SELECT * FROM users WHERE user_id=%s", (ctx.author.id,))
@@ -82,7 +82,7 @@ def is_staff():
             if not db:
                 raise NotStaff("Staff rank was required")
             else:
-                if db["rank"] >= 2:
+                if db["rank"] >= value:
                     return True
                 raise NotStaff("Staff rank was required")
     return commands.check(predicate)
