@@ -127,6 +127,7 @@ class mido_info(commands.Cog):
 
         totalmembers = len(target.members)
         botmembers = len([i for i in target.members if i.bot])
+        members = len([i for i in target.members if not i.bot])
 
         e = discord.Embed(
             title=f"{target} ({target.id})",
@@ -140,7 +141,7 @@ class mido_info(commands.Cog):
         e.add_field(name=d["guildinfo-owner"], value=f"{target.owner} ({target.owner.id})")
         e.add_field(
             name=d["guildinfo-members"], 
-            value=f"{d['guildinfo-total']}: {totalmembers} \n{d['guildinfo-member']}: {totalmembers} \n{d['guildinfo-bot']}: {botmembers}"
+            value=f"{d['guildinfo-total']}: {totalmembers} \n{d['guildinfo-member']}: {members} \n{d['guildinfo-bot']}: {botmembers}"
         )
 
         return await m.edit(content=None, embed=e)
