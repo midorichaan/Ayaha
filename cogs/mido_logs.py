@@ -15,7 +15,7 @@ class mido_logs(commands.Cog):
         }
 
     #send_log
-    async def send_log(self, channel, *args, **kwargs):
+    async def send_log(self, channel: discord.TextChannel, embed: discord.Embed):
         try:
             msg = await channel.send(embed=embed)
         except Exception as exc:
