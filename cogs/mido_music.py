@@ -460,14 +460,15 @@ class mido_music(commands.Cog):
     async def _play(self, ctx, vol=0.5):
         if not self.bot.loop_queue.get(ctx.guild.id, None):
             self.bot.loop_queue[ctx.guild.id] = False
-        
+
+        vol = vol
         while self.bot.queue[ctx.guild.id]:
             ctx.guild.voice_client.play(discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(f"musics/{self.bot.queue[ctx.guild.id][0]['id']}", options=ffmpeg_options), volume=vol))
             
             try:
                 while ctx.guild.voice_client.is_playing() or ctx.guild.voice_client.is_paused():
                     await asyncio.sleep(1)
-                    v = ctx.voice_client.source.volume
+                    vol = ctx.voice_client.source.volume
             except AttributeError:
                 pass
             
