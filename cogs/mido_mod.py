@@ -114,6 +114,9 @@ class mido_mod(commands.Cog):
         if not target:
             return await m.edit(content="> メンバーを指定してね！")
 
+        if not duration:
+            return await m.edit(content="> 期間を指定してね！")
+
         try:
             await self.timeout_member(ctx.guild.id, target.id, duration=duration.dt, reason=reason)
         except Exception as exc:
