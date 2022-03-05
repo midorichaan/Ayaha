@@ -464,9 +464,9 @@ class mido_music(commands.Cog):
         vol = vol
         while self.bot.queue[ctx.guild.id]:
             if self.bot.queue[ctx.guild.id]["type"] == "Stream":
-                src = discord.FFmpegPCMAudio(self.bot.queue[ctx.guild.id]["url"], options=ffmpeg_options)
+                src = discord.FFmpegPCMAudio(self.bot.queue[ctx.guild.id][0]["url"], options=ffmpeg_options)
             elif self.bot.queue[ctx.guild.id]["type"] == "Download":
-                src = discord.FFmpegPCMAudio(f"musics/{self.bot.queue[ctx.guild.id]['id']}", options=ffmpeg_options)
+                src = discord.FFmpegPCMAudio(f"musics/{self.bot.queue[ctx.guild.id][0]['id']}", options=ffmpeg_options)
             
             ctx.guild.voice_client.play(
                 discord.PCMVolumeTransformer(
