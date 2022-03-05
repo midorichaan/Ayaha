@@ -164,15 +164,15 @@ class mido_music(commands.Cog):
                 await msg.edit(content="> 再生処理を行っています....")
                 query = message.content
         
-        if query.startswith("stream:"):
+        if query.startswith("download:"):
             try:
-                data = await self.get_data(ctx, query[7:], False)
+                data = await self.get_data(ctx, query[9:], True)
             except Exception as exc:
                 return await msg.edit(content=f"> エラー \n```\n{exc}\n```")
             else:
                 if data.get("_type", None) == "playlist":
                     try:
-                        data = await self.get_info(ctx, f"https://youtu.be/{data['entries'][0]['id']}", False)
+                        data = await self.get_info(ctx, f"https://youtu.be/{data['entries'][0]['id']}", True)
                     except Exception as exc:
                         return await msg.edit(content=f"> エラー \n```py\n{exc}\n```")
                     else:
@@ -201,11 +201,11 @@ class mido_music(commands.Cog):
         
             #from sina () maybe only youtube
             if data.get("_type", None) == "playlist":
-                if len(data["entries"]) >= 10:
-                    lists.append(self.get_info(ctx, f"https://www.youtube.com/watch?v={data['entries'][0]['id']}", True))
+                if len(data["entries"]) >= 5:
+                    lists.append(self.get_info(ctx, f"https://www.youtube.com/watch?v={data['entries'][0]['id']}", False))
                 else:    
                     for i in data["entries"]:
-                        lists.append(self.get_info(ctx, f"https://www.youtube.com/watch?v={i['id']}", True))
+                        lists.append(self.get_info(ctx, f"https://www.youtube.com/watch?v={i['id']}", False))
                 
                 try:
                     ret = [r for r in await asyncio.gather(*lists) if r]
@@ -223,7 +223,7 @@ class mido_music(commands.Cog):
                     await msg.edit(content=f"> プレイリストからの{len(ret)}本の動画を再生するよ！")
                     self.bot.loop.create_task(self._play(ctx))
             else:
-                ret = await self.get_info(ctx, f"https://www.youtube.com/watch?v={data['id']}")
+                ret = await self.get_info(ctx, f"https://www.youtube.com/watch?v={data['id']}", False)
             
                 if self.bot.queue.get(ctx.guild.id, None):
                     self.bot.queue[ctx.guild.id] = self.bot.queue[ctx.guild.id] + [ret]
@@ -457,14 +457,24 @@ class mido_music(commands.Cog):
             await page.paginate()
             
     #_play
-    async def _play(self, ctx, vol=0.5):
+    async def _play(self, ctx, vol=0.5, src=None):
         if not self.bot.loop_queue.get(ctx.guild.id, None):
             self.bot.loop_queue[ctx.guild.id] = False
 
         vol = vol
         while self.bot.queue[ctx.guild.id]:
-            ctx.guild.voice_client.play(discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(f"musics/{self.bot.queue[ctx.guild.id][0]['id']}", options=ffmpeg_options), volume=vol))
+            if self.bot.queue[ctx.guild.id]["type"] == "Stream":
+                src = discord.FFmpegPCMAudio(self.bot.queue[ctx.guild.id]["url"], options=ffmpeg_options)
+            elif self.bot.queue[ctx.guild.id]["type"] == "Download":
+                src = discord.FFmpegPCMAudio(f"musics/{self.bot.queue[ctx.guild.id]['id']}", options=ffmpeg_options)
             
+            ctx.guild.voice_client.play(
+                discord.PCMVolumeTransformer(
+                    src, 
+                    volume=vol
+                )
+            )
+
             try:
                 while ctx.guild.voice_client.is_playing() or ctx.guild.voice_client.is_paused():
                     await asyncio.sleep(1)
