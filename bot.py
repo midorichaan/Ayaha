@@ -319,7 +319,7 @@ class Ayaha(commands.AutoShardedBot):
                 pass
 
         try:
-            db = await self.db.fetchall("SELECT * FROM users WHERE rank=2")
+            db = await self.db.fetchall("SELECT * FROM users WHERE rank=3")
         except Exception as exc:
             print(f"[Error] {exc}")
             self.owner_ids = [546682137240403984, 635002934907895826, 449867036558884866]
