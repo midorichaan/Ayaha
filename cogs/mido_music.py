@@ -57,18 +57,18 @@ class mido_music(commands.Cog):
         return data
     
     #get_info
-    async def get_info(self, ctx, url, download=True):
+    async def get_info(self, ctx, url, download=False):
         data = await self.get_data(ctx, url, download)
         
         result = {
             "type": "Download" if download else "Stream",
-            "url": data["url"],
-            "id": data["id"],
-            "webpage_url": data["webpage_url"],
-            "title": data["title"],
-            "thumbnail": data["thumbnail"],
-            "uploader": data["uploader"],
-            "uploader_url": data["uploader_url"],
+            "url": data.get("url", "unknown"),
+            "id": data.get("id", "unknown"),
+            "webpage_url": data.get("webpage_url", "unknown"),
+            "title": data.get("title", "unknown"),
+            "thumbnail": data.get("thumbnail", "unknown"),
+            "uploader": data.get("uploader", "unknown"),
+            "uploader_url": data.get("uploader_url", "unknown"),
             "request": ctx.author.id
         }
         
@@ -193,7 +193,7 @@ class mido_music(commands.Cog):
                         self.bot.loop.create_task(self._play(ctx))
         else:
             try:
-                data = await self.get_data(ctx, query, True)
+                data = await self.get_data(ctx, query, False)
             except Exception as exc:
                 return await msg.edit(content=f"> エラー \n```\n{exc}\n```")
         
