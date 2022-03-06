@@ -355,7 +355,7 @@ class mido_music(commands.Cog):
 
     #loop
     @commands.command(name="loop", aliases=["repeat"], description="曲のループを切り替えます。")
-    async def loop(self, ctx, loop: bool=False):
+    async def loop(self, ctx, loop: bool=None):
         msg = await util.reply_or_send(ctx, content="> 処理中...")
         
         if isinstance(ctx.channel, discord.DMChannel):
@@ -368,9 +368,17 @@ class mido_music(commands.Cog):
                 
                 if not ctx.guild.voice_client.is_playing():
                     return await msg.edit(content="> 再生中のみ変更できるよ！")
-                
-                self.bot.loop_queue[ctx.guild.id] = loop
-                return await msg.edit(content=f"> ループを{loop}にしたよ！")
+
+                if loop:
+                    self.bot.loop_queue[ctx.guild.id] = loop
+                    return await msg.edit(content=f"> ループを{loop}にしたよ！")
+                else:
+                    if self.bot.loop_queue[ctx.guild.id]:
+                        self.bot.loop_queue[ctx.guild.id] = False
+                        return await msg.edit(content=f"> ループをFalseにしたよ！")
+                    else:
+                        self.bot.loop_queue[ctx.guild.id] = True
+                        return await msg.edit(content=f"> ループをTrueにしたよ！")
             else:
                 return await msg.edit(content="> このサーバーでは何も再生していないよ！")
         else:
