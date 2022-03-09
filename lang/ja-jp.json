@@ -123,6 +123,7 @@
     "guildsettings-ticket-moveclosed": "クローズ後チケット移動",
     "guildsettings-ticket-paneltitle": "チケットパネルのタイトル",
     "guildsettings-ticket-paneldescription": "チケットパネルの説明",
+    "guildsettings-ticket-mention_role": "メンションするロール",
     
     "profile-rank": "権限 (Bot)",
     "profile-verify": "認証 (Bot)",
