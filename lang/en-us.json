@@ -28,6 +28,7 @@
     "require-perms": "Required Permission(s)",
     "true": "Yes",
     "false": "No",
+    "wait-for-reply": "メッセージを入力してね！",
 
     "status-online": "Online",
     "status-idle": "Idle",
