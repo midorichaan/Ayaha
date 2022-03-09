@@ -49,7 +49,7 @@ class mido_guild_settings(commands.Cog):
                 "📩: {} ({})\n".format(d["guildsettings-ticket-moveclosed"], d["guildsettings-true"] if db["move_after_closed"] else d["guildsettings-false"]),
                 "📝: {} ({})\n".format(d["guildsettings-ticket-paneltitle"], db["ticket_panel_title"] if db["ticket_panel_title"] else d["none"]),
                 "📖: {} ({})\n".format(d["guildsettings-ticket-paneldescription"], db["ticket_panel_description"] if db["ticket_panel_description"] else d["none"]),
-                "❌: {}".format(d["cancel"])
+                "❌: {}".format(d["cancel"]),
             ]
 
             for i in val:
