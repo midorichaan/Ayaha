@@ -28,6 +28,7 @@
     "require-perms": "必要な権限",
     "true": "はい",
     "false": "いいえ",
+    "wait-for-reply": "メッセージを入力してね！",
 
     "status-online": "オンライン",
     "status-idle": "退席中",
