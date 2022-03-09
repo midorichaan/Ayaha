@@ -144,7 +144,7 @@ class mido_guild_settings(commands.Cog):
                         check = lambda x: x.author.id == ctx.author.id and x.chanenl.id == ctx.channel.id and x.content.isdigit()
                         m = await self.bot.wait_for(
                             "message",
-                            check=chcek,
+                            check=check,
                             timeout=15.0
                         )
                     except Exception as exc:
