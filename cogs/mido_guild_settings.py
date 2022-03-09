@@ -135,22 +135,22 @@ class mido_guild_settings(commands.Cog):
                     await message.edit(embed=gs)
                 elif r.emoji == "📄":
                     try:
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
+                        )
+
                         check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
                             timeout=15.0
                         )
-
-                        i = await utils.reply_or_send(
-                            message,
-                            content=f"> {data['wait-for-reply']}"
-                        )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
                     else:
                         await i.delete()
-                        await self.delete_message(i)
+                        await self.delete_message(m)
 
                         if db["open_category_id"]:
                             await self.bot.db.execute(
@@ -175,16 +175,16 @@ class mido_guild_settings(commands.Cog):
                     await message.edit(embed=gs)
                 elif r.emoji == "📑":
                     try:
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
+                        )
+
                         check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
                             timeout=15.0
-                        )
-
-                        i = await utils.reply_or_send(
-                            message,
-                            content=f"> {data['wait-for-reply']}"
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
@@ -262,16 +262,16 @@ class mido_guild_settings(commands.Cog):
                     await message.edit(embed=gs)
                 elif r.emoji == "📝":
                     try:
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
+                        )
+
                         check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
                             timeout=15.0
-                        )
-
-                        i = await utils.reply_or_send(
-                            message,
-                            content=f"> {data['wait-for-reply']}"
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
@@ -296,6 +296,11 @@ class mido_guild_settings(commands.Cog):
                     await message.edit(embed=gs)
                 elif r.emoji == "📖":
                     try:
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
+                        )
+
                         check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id
                         m = await self.bot.wait_for(
                             "message",
@@ -305,6 +310,8 @@ class mido_guild_settings(commands.Cog):
                     except Exception as exc:
                         print(f"[Error] {exc}")  
                     else:
+                        await i.delete()
+                        await self.delete_message(m)
                         await self.bot.db.execute(
                             "UPDATE ticketconfig SET ticket_panel_description=%s WHERE guild_id=%s",
                             (m.content, ctx.guild.id)
