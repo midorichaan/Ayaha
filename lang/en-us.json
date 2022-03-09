@@ -123,6 +123,7 @@
     "guildsettings-ticket-moveclosed": "Move closed ticket",
     "guildsettings-ticket-paneltitle": "Title of ticket panel",
     "guildsettings-ticket-paneldescription": "Description of ticket panel",
+    "guildsettings-ticket-mention_role": "メンションするロール",
 
     "profile-rank": "Permission (Bot)",
     "profile-verify": "Verify (Bot)",
