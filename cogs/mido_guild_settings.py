@@ -42,6 +42,7 @@ class mido_guild_settings(commands.Cog):
 
             val = [
                 "❗: {} ({})\n".format(d["guildsettings-ticket-adminmention"], d["guildsettings-true"] if db["admin_role_mention"] else d["guildsettings-false"]),
+                "📢: {} ({})\n".format(d["guildsettings-ticket-mention_role"], ctx.guild.get_role(db.get("admin_role_id", 0)).mention if db["admin_role_id"] else d["guildsettings-false"],
                 "📄: {} ({})\n".format(d["guildsettings-ticket-opencategory"], ctx.guild.get_channel(db["open_category_id"]) if db["open_category_id"] else d["guildsettings-false"]),
                 "📑: {} ({})\n".format(d["guildsettings-ticket-closecategory"], ctx.guild.get_channel(db["close_category_id"]) if db["close_category_id"] else d["guildsettings-false"]),
                 "🗑: {} ({})\n".format(d["guildsettings-ticket-deleteticket"], d["guildsettings-true"] if db["delete_after_closed"] else d["guildsettings-false"]),
@@ -98,7 +99,7 @@ class mido_guild_settings(commands.Cog):
                 await self.clear_reactions(ctx, message)
                 break
             else:
-                if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]:
+                if str(r) in ["❗", "📢", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]:
                     if ctx.channel.permissions_for(ctx.me).manage_messages:
                         await message.remove_reaction(str(r), ctx.author)
 
@@ -133,6 +134,40 @@ class mido_guild_settings(commands.Cog):
                         lang=lang
                     )
                     await message.edit(embed=gs)
+                elif r.emoji == "📢":
+                    try:
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
+                        )
+
+                        check = lambda x: x.author.id == ctx.author.id and x.chanenl.id == ctx.channel.id and x.content.isdigit()
+                        m = await self.bot.wait_for(
+                            "message",
+                            check=chcek,
+                            timeout=15.0
+                        )
+                    except Exception as exc:
+                        print(f"[Error] {exc}")
+                    else:
+                        await i.delete()
+                        await self.delete_message(m)
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET admin_role_id=%s WHERE guild_id=%s",
+                            (m.content, ctx.guild.id)
+                        )
+
+                        db = await self.bot.db.fetchone(
+                            "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                            (ctx.guild.id,)
+                        )
+                        gs = await self.build_gs_embed(
+                            ctx,
+                            2,
+                            db,
+                            lang=lang
+                        )
+                        await message.edit(embed=gs)
                 elif r.emoji == "📄":
                     try:
                         i = await utils.reply_or_send(
@@ -151,17 +186,10 @@ class mido_guild_settings(commands.Cog):
                     else:
                         await i.delete()
                         await self.delete_message(m)
-
-                        if db["open_category_id"]:
-                            await self.bot.db.execute(
-                                "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
-                                (m.content, ctx.guild.id)
-                            )
-                        else:
-                            await self.bot.db.execute(
-                                "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
-                                (m.content, ctx.guild.id)
-                            )
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
+                            (m.content, ctx.guild.id)
+                        )
 
                     db = await self.bot.db.fetchone(
                         "SELECT * FROM ticketconfig WHERE guild_id=%s",
@@ -192,17 +220,10 @@ class mido_guild_settings(commands.Cog):
                     else:
                         await i.delete()
                         await self.delete_message(m)
-
-                        if db["close_category_id"]:
-                            await self.bot.db.execute(
-                                "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
-                                (m.content, ctx.guild.id)
-                            )
-                        else:
-                            await self.bot.db.execute(
-                                "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
-                                (m.content, ctx.guild.id)
-                            )
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
+                            (m.content, ctx.guild.id)
+                        )
 
                     db = await self.bot.db.fetchone(
                         "SELECT * FROM ticketconfig WHERE guild_id=%s",
@@ -401,7 +422,7 @@ class mido_guild_settings(commands.Cog):
                     db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
 
-                    emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]
+                    emojis = ["❗", "📢", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]
                     for i in emojis:
                         await m.add_reaction(i)
 
