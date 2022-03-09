@@ -48,6 +48,7 @@ class mido_guild_settings(commands.Cog):
                 "📩: {} ({})\n".format(d["guildsettings-ticket-moveclosed"], d["guildsettings-true"] if db["move_after_closed"] else d["guildsettings-false"]),
                 "📝: {} ({})\n".format(d["guildsettings-ticket-paneltitle"], db["ticket_panel_title"] if db["ticket_panel_title"] else d["none"]),
                 "📖: {} ({})\n".format(d["guildsettings-ticket-paneldescription"], db["ticket_panel_description"] if db["ticket_panel_description"] else d["none"]),
+                "❌: {}".format(d["cancel"])
             ]
 
             for i in val:
@@ -361,7 +362,7 @@ class mido_guild_settings(commands.Cog):
                     db = await self.bot.db.fetchone("SELECT * FROM ticketconfig WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(embed=await self.build_gs_embed(ctx, 2, db))
 
-                    emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]
+                    emojis = ["❗", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]
                     for i in emojis:
                         await m.add_reaction(i)
 
