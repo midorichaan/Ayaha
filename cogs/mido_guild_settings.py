@@ -82,6 +82,13 @@ class mido_guild_settings(commands.Cog):
         else:
             asyncio.gather(*[msg.remove_reaction(str(r), ctx.author) for r in msg.reactions()])
 
+    #delete_message
+    async def delete_message(self, message):
+        try:
+            await message.delete()
+        except:
+            pass
+
     #ticket_config
     async def ticket_config(self, ctx, message, lang):
         while True:
@@ -95,6 +102,7 @@ class mido_guild_settings(commands.Cog):
                     if ctx.channel.permissions_for(ctx.me).manage_messages:
                         await message.remove_reaction(str(r), ctx.author)
 
+                data = await self.bot.langutil.get_lang(lang)
                 db = await self.bot.db.fetchone(
                     "SELECT * FROM ticketconfig WHERE guild_id=%s",
                     (ctx.guild.id,)
@@ -131,11 +139,19 @@ class mido_guild_settings(commands.Cog):
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
-                            timeout=30.0
+                            timeout=15.0
+                        )
+
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
                     else:
+                        await i.delete()
+                        await self.delete_message(i)
+
                         if db["open_category_id"]:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
@@ -163,11 +179,19 @@ class mido_guild_settings(commands.Cog):
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
-                            timeout=30.0
+                            timeout=15.0
+                        )
+
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
                     else:
+                        await i.delete()
+                        await self.delete_message(m)
+
                         if db["close_category_id"]:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
@@ -242,11 +266,18 @@ class mido_guild_settings(commands.Cog):
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
-                            timeout=30.0
+                            timeout=15.0
+                        )
+
+                        i = await utils.reply_or_send(
+                            message,
+                            content=f"> {data['wait-for-reply']}"
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
                     else:
+                        await i.delete()
+                        await self.delete_message(m)
                         await self.bot.db.execute(
                             "UPDATE ticketconfig SET ticket_panel_title=%s WHERE guild_id=%s",
                             (m.content, ctx.guild.id)
@@ -265,11 +296,11 @@ class mido_guild_settings(commands.Cog):
                     await message.edit(embed=gs)
                 elif r.emoji == "📖":
                     try:
-                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
-                            timeout=30.0
+                            timeout=15.0
                         )
                     except Exception as exc:
                         print(f"[Error] {exc}")  
