@@ -399,6 +399,7 @@ class mido_guild_settings(commands.Cog):
 
                     await self.ticket_config(ctx, m, lang)
 
+                    await self.clear_reactions(ctx, m)
                     gs = await self.bot.db.fetchone("SELECT * FROM guilds WHERE guild_id=%s", (ctx.guild.id,))
                     await m.edit(content=None, embed=await self.build_gs_embed(ctx, 0, gs))
                     await m.add_reaction("📝")
