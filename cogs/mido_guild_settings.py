@@ -155,12 +155,12 @@ class mido_guild_settings(commands.Cog):
                         if db["open_category_id"]:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
-                                (int(m.content), ctx.guild.id)
+                                (m.content, ctx.guild.id)
                             )
                         else:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
-                                (int(m.content), ctx.guild.id)
+                                (m.content, ctx.guild.id)
                             )
 
                     db = await self.bot.db.fetchone(
@@ -195,12 +195,12 @@ class mido_guild_settings(commands.Cog):
                         if db["close_category_id"]:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
-                                (int(m.content), ctx.guild.id)
+                                (m.content, ctx.guild.id)
                             )
                         else:
                             await self.bot.db.execute(
                                 "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
-                                (int(m.content), ctx.guild.id)
+                                (m.content, ctx.guild.id)
                             )
 
                     db = await self.bot.db.fetchone(
