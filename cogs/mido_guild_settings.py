@@ -165,6 +165,7 @@ class mido_guild_settings(commands.Cog):
 
                     db = await self.bot.db.fetchone(
                         "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
                     )
                     gs = await self.build_gs_embed(
                         ctx,
