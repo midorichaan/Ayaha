@@ -42,14 +42,14 @@ class mido_guild_settings(commands.Cog):
 
             val = [
                 "❗: {} ({})\n".format(d["guildsettings-ticket-adminmention"], d["guildsettings-true"] if db["admin_role_mention"] else d["guildsettings-false"]),
-                "📢: {} ({})\n".format(d["guildsettings-ticket-mention_role"], ctx.guild.get_role(db.get("admin_role_id", 0)).mention if db["admin_role_id"] else d["guildsettings-false"],
+                "📢: {} ({})\n".format(d["guildsettings-ticket-mention_role"], ctx.guild.get_role(db.get("admin_role_id", 0)).mention if db["admin_role_id"] else d["guildsettings-false"]),
                 "📄: {} ({})\n".format(d["guildsettings-ticket-opencategory"], ctx.guild.get_channel(db["open_category_id"]) if db["open_category_id"] else d["guildsettings-false"]),
                 "📑: {} ({})\n".format(d["guildsettings-ticket-closecategory"], ctx.guild.get_channel(db["close_category_id"]) if db["close_category_id"] else d["guildsettings-false"]),
                 "🗑: {} ({})\n".format(d["guildsettings-ticket-deleteticket"], d["guildsettings-true"] if db["delete_after_closed"] else d["guildsettings-false"]),
                 "📩: {} ({})\n".format(d["guildsettings-ticket-moveclosed"], d["guildsettings-true"] if db["move_after_closed"] else d["guildsettings-false"]),
                 "📝: {} ({})\n".format(d["guildsettings-ticket-paneltitle"], db["ticket_panel_title"] if db["ticket_panel_title"] else d["none"]),
                 "📖: {} ({})\n".format(d["guildsettings-ticket-paneldescription"], db["ticket_panel_description"] if db["ticket_panel_description"] else d["none"]),
-                "❌: {}".format(d["cancel"]),
+                "❌: {}".format(d["cancel"])
             ]
 
             for i in val:
