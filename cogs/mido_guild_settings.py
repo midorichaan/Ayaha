@@ -90,24 +90,207 @@ class mido_guild_settings(commands.Cog):
                 await self.clear_reactions(ctx, message)
                 break
             else:
-                if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖"]:
+                if str(r) in ["❗", "📄", "📑", "🗑", "📩", "📝", "📖", "❌"]:
                     if ctx.channel.permissions_for(ctx.me).manage_messages:
                         await message.remove_reaction(str(r), ctx.author)
 
+                db = await self.bot.db.fetchone(
+                    "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                    (ctx.guild.id,)
+                )
+                if not db:
+                    break
+
                 if r.emoji == "❗":
-                    pass
+                    if db["admin_role_mention"]:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET admin_role_mention=%s WHERE guild_id=%s",
+                            (0, ctx.guild.id)
+                        )
+                    else:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET admin_role_mention=%s WHERE guild_id=%s",
+                            (1, ctx.guild.id)
+                        )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "📄":
-                    pass
+                    try:
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
+                        m = await self.bot.wait_for(
+                            "message",
+                            check=check,
+                            timeout=30.0
+                        )
+                    except Exception as exc:
+                        print(f"[Error] {exc}")  
+                    else:
+                        if db["open_category_id"]:
+                            await self.bot.db.execute(
+                                "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
+                                (int(m.content), ctx.guild.id)
+                            )
+                        else:
+                            await self.bot.db.execute(
+                                "UPDATE ticketconfig SET open_category_id=%s WHERE guild_id=%s",
+                                (int(m.content), ctx.guild.id)
+                            )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "📑":
-                    pass
+                    try:
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
+                        m = await self.bot.wait_for(
+                            "message",
+                            check=check,
+                            timeout=30.0
+                        )
+                    except Exception as exc:
+                        print(f"[Error] {exc}")  
+                    else:
+                        if db["close_category_id"]:
+                            await self.bot.db.execute(
+                                "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
+                                (int(m.content), ctx.guild.id)
+                            )
+                        else:
+                            await self.bot.db.execute(
+                                "UPDATE ticketconfig SET close_category_id=%s WHERE guild_id=%s",
+                                (int(m.content), ctx.guild.id)
+                            )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "🗑":
-                    pass
+                    if db["delete_after_closed"]:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET delete_after_closed=%s WHERE guild_id=%s",
+                            (0, ctx.guild.id)
+                        )
+                    else:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET delete_after_closed=%s WHERE guild_id=%s",
+                            (1, ctx.guild.id)
+                        )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "📩":
-                    pass
+                    if db["move_after_closed"]:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET move_after_closed=%s WHERE guild_id=%s",
+                            (0, ctx.guild.id)
+                        )
+                    else:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET move_after_closed=%s WHERE guild_id=%s",
+                            (1, ctx.guild.id)
+                        )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "📝":
-                    pass
+                    try:
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id
+                        m = await self.bot.wait_for(
+                            "message",
+                            check=check,
+                            timeout=30.0
+                        )
+                    except Exception as exc:
+                        print(f"[Error] {exc}")  
+                    else:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET ticket_panel_title=%s WHERE guild_id=%s",
+                            (m.content, ctx.guild.id)
+                        )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
                 elif r.emoji == "📖":
-                    pass
+                    try:
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
+                        m = await self.bot.wait_for(
+                            "message",
+                            check=check,
+                            timeout=30.0
+                        )
+                    except Exception as exc:
+                        print(f"[Error] {exc}")  
+                    else:
+                        await self.bot.db.execute(
+                            "UPDATE ticketconfig SET ticket_panel_description=%s WHERE guild_id=%s",
+                            (m.content, ctx.guild.id)
+                        )
+
+                    db = await self.bot.db.fetchone(
+                        "SELECT * FROM ticketconfig WHERE guild_id=%s",
+                        (ctx.guild.id,)
+                    )
+                    gs = await self.build_gs_embed(
+                        ctx,
+                        2,
+                        db,
+                        lang=lang
+                    )
+                    await message.edit(embed=gs)
+                elif r.emoji == "❌":
+                    break
 
     #guildsettings
     @commands.command(name="guildsettings", aliases=["guildsetting", "gs", "config"], usage="guildsettings")
