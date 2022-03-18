@@ -14,7 +14,7 @@ from lib import database, utils, langutil
 #logger
 basicConfig(
     level=WARNING, 
-    format=="%(asctime)s - %(name)s - [%(levelname)s]: %(message)s"
+    format="%(asctime)s - %(name)s - [%(levelname)s]: %(message)s"
 )
 
 #load .env
