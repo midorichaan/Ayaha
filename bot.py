@@ -4,15 +4,18 @@ from discord.ext import commands, tasks
 import aiohttp
 import datetime
 import json
-import logging
 import os
 import traceback
 
+from logging import basicConfig, getLogger, INFO, 
 from dotenv import load_dotenv
 from lib import database, utils, langutil
 
 #logger
-logging.basicConfig(level=logging.WARNING, format="[DebugLog] %(levelname)-8s: %(message)s")
+basicConfig(
+    level=WARNING, 
+    format=="%(asctime)s - %(name)s - [%(levelname)s]: %(message)s"
+)
 
 #load .env
 load_dotenv()
@@ -65,7 +68,7 @@ class Ayaha(commands.AutoShardedBot):
 
         self.langutil = langutil.LangUtil(self)
         self.color = 0xb66767
-        self.logger = logging.getLogger("discord")
+        self.logger = getLogger("discord")
         self._last_exc = None
 
         self.vars = {
@@ -87,8 +90,7 @@ class Ayaha(commands.AutoShardedBot):
             },
             "resumes": {
             },
-            "tasks": {
-            },
+            "tasks": [],
             "exc": {
             },
             "fonts": {
@@ -122,21 +124,24 @@ class Ayaha(commands.AutoShardedBot):
             "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_mod", "cogs.mido_user_settings", 
             "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "cogs.mido_music", "jishaku"
         ]
+        self._tasks = [
+            self.api_status_poster, self.status_update
+        ]
 
         for ext in self._ext:
             try:
                 self.load_extension(ext)
             except Exception as exc:
-                print(f"[Error] failed to load {ext} → {exc}")
+                self.logger.error(f"EXTENSION: failed to load {ext}: {exc}")
             else:
-                print(f"[System] {ext} load")
+                self.logger.info(f"EXTENSION: {ext} load")
 
     #on_command_error
     async def on_command_error(self, ctx, exc):
         traceback_exc = ''.join(
             traceback.TracebackException.from_exception(exc).format()
         )
-        print(f"[Error] {ctx.author} → {exc}")
+        self.logger.info(f"ERROR: {ctx.author} ({ctx.author.id}) -> {ctx.message.content}: {exc}")
 
         trace = discord.Embed(
             timestamp=ctx.message.created_at,
@@ -178,7 +183,7 @@ class Ayaha(commands.AutoShardedBot):
                     )
                 )
             except Exception as exception:
-                print(f"[Error] {exception}")
+                self.logger.warning(f"ERROR: {exception}")
         else:
             log.set_footer(
                 text=f"DM | {ctx.author}", 
@@ -193,7 +198,7 @@ class Ayaha(commands.AutoShardedBot):
                     )
                 )
             except Exception as exception:
-                print(f"[Error] {exception}")
+                self.logger.warning(f"ERROR: {exception}")
 
         exclog = guild.get_channel(self.vars["logs"]["error"])
         await exclog.send(embed=log)
@@ -252,7 +257,7 @@ class Ayaha(commands.AutoShardedBot):
                 text=f"{ctx.guild} | {ctx.channel}",
                 icon_url=ctx.guild.icon_url_as(static_format="png")
             )
-            print(f"[Log] {ctx.author} → {ctx.message.content} | {ctx.guild} {ctx.channel}")
+            self.logger.info(f"COMMAND: {ctx.author} ({ctx.author.id}) -> {ctx.message.content} @{ctx.channel} ({ctx.channel.id}) - {ctx.guild} ({ctx.guild.id})")
 
             try:
                 await self.db.execute(
@@ -262,12 +267,12 @@ class Ayaha(commands.AutoShardedBot):
                     )
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.logger.warning(f"ERROR: {exc}")
         else:
             log.set_footer(
                 text=f"DM | {ctx.author}",
             )
-            print(f"[Log] {ctx.author} → {ctx.message.content} | @DM")
+            self.logger.info(f"COMMAND: {ctx.author} ({ctx.author.id}) -> {ctx.message.content} @DM")
 
             try:
                 await self.db.execute(
@@ -277,7 +282,7 @@ class Ayaha(commands.AutoShardedBot):
                     )
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.logger.warning(f"ERROR: {exc}")
 
         log.add_field(
             name="実行時刻",
@@ -310,7 +315,7 @@ class Ayaha(commands.AutoShardedBot):
 
     #on_ready
     async def on_ready(self):
-        print("[System] on_ready!")
+        self.logger.info("READY: on_ready!")
 
         for i in self.guilds:
             try:
@@ -321,7 +326,7 @@ class Ayaha(commands.AutoShardedBot):
         try:
             db = await self.db.fetchall("SELECT * FROM users WHERE rank=3")
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.logger.warning(f"ERROR: {exc}")
             self.owner_ids = [546682137240403984, 635002934907895826, 449867036558884866]
         else:
             self.owner_ids = [i["user_id"] for i in db]
@@ -333,44 +338,46 @@ class Ayaha(commands.AutoShardedBot):
             )
         )
 
-        try:
-            self.status_update.start()
-        except Exception as exc:
-            print(f"[Error] {exc}")
-        else:
-            self.vars["tasks"]["status_updater"] = self.status_update
-            print("[System] Status updater start")
+        for i in self._tasks:
+            try:
+                i.start()
+            except Exception as exc:
+                self.logger.warning(f"ERROR: {exc}")
+            else:
+                self.vars["tasks"].append(i)
+                self.logger.info(f"TASK: {i} ready")
 
         try:
             db = await self.db.fetchall("SELECT * FROM banned")
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.logger.warning(f"ERROR: {exc}")
             self.banned = []
         else:
             self.banned = [i["user_id"] for i in db]
-            print("[System] set prohibit users")
+            self.logger.info("READY: Updated banned user_ids")
         
-        print("[System] enabled midori-dbot!")
+        self.logger.info("READY: Enabled Ayaha-DiscordBot v1.0")
 
     #on_connect
     async def on_connect(self):
-        print("[System] on_connect!")
+        self.logger.info("CONNECT: on_connect!")
 
     #on_shard_ready
     async def on_shard_ready(self, shard_id):
-        print(f"[System] shard {shard_id} ready")
+        self.logger.info(f"SHARD: Shard ID {shard_id} ready!")
 
     #on_shard_resumed
     async def on_shard_resumed(self, shard_id):
-        print(f"[System] shard {shard_id} has resumed")
+        self.logger.info(f"SHARD: Shard ID {shard_id} resumed")
         self.vars["resumes"][shard_id] = datetime.datetime.now()
 
     #on_guild_join
     async def on_guild_join(self, guild):
+        self.logger.info(f"GUILD: Joined {guild} ({guild.id})")
         try:
             await self.db.register_guild(guild.id)
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.logger.warning(f"ERROR: {exc}")
 
         log = discord.Embed(
             title="Guild Join Log",
@@ -404,10 +411,11 @@ class Ayaha(commands.AutoShardedBot):
 
     #on_guild_remove
     async def on_guild_remove(self, guild):
+        self.logger.info(f"GUILD: Left {guild} ({guild.id})")
         try:
             await self.db.unregister_guild(guild.id)
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.logger.warning(f"ERROR: {exc}")
 
         log = discord.Embed(
             title="Guild Left Log",
@@ -451,9 +459,34 @@ class Ayaha(commands.AutoShardedBot):
                     )
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.logger.warning(f"ERROR: {exc}")
             else:
-                print(f"[System] Status updated")
+                self.logger.info("TASK: Status updated")
+
+    #api status poster
+    @tasks.loop(minutes=15.0)
+    async def api_status_poster(self):
+        d = {
+            "identity": "ayaha",
+        }
+
+        if not self.vars["maintenance"]:
+            d["status"] = 2
+
+            try:
+                async with self.session.request(
+                    "POST",
+                    "https://api.midorichan.cf/v1/service/status",
+                    headers={"Authorization": f"Bearer {os.environ['MIDORI_TOKEN']}"},
+                    json=d
+                ) as request:
+                    data = await discord.http.json_or_text(request)
+                    if request.status == 200:
+                        self.logger.info(f"API: Updated service status - {data}")
+                    else:
+                        self.logger.warning(f"API: Service status update failed - {data}")
+            except Exception as exc:
+                self.logger.warning(f"ERROR: {exc}")
 
     #close
     async def close(self):
@@ -465,9 +498,9 @@ class Ayaha(commands.AutoShardedBot):
         try:
             super().run(os.environ["BOT_TOKEN"])
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.logger.critical(f"STARTUP: {exc}")
         else:
-            print("[System] enabling....")
+            self.logger.info("STARTUP: Enabling...")
 
 bot = Ayaha()
 bot.run()
