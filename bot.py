@@ -7,7 +7,7 @@ import json
 import os
 import traceback
 
-from logging import basicConfig, getLogger, INFO, 
+from logging import basicConfig, getLogger, INFO
 from dotenv import load_dotenv
 from lib import database, utils, langutil
 
