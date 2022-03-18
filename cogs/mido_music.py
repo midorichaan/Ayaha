@@ -483,7 +483,7 @@ class mido_music(commands.Cog):
                     )
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.bot.logger.warning(f"ERROR: {exc}")
                 self.bot.queue[ctx.guild.id].pop(0)
             else:
                 try:
