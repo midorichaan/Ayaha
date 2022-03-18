@@ -148,7 +148,7 @@ class mido_guild_settings(commands.Cog):
                             timeout=15.0
                         )
                     except Exception as exc:
-                        print(f"[Error] {exc}")
+                        self.bot.logger.warning(f"ERROR: {exc}")
                     else:
                         await i.delete()
                         await self.delete_message(m)
@@ -182,7 +182,7 @@ class mido_guild_settings(commands.Cog):
                             timeout=15.0
                         )
                     except Exception as exc:
-                        print(f"[Error] {exc}")  
+                        self.bot.logger.warning(f"ERROR: {exc}")
                     else:
                         await i.delete()
                         await self.delete_message(m)
@@ -216,7 +216,7 @@ class mido_guild_settings(commands.Cog):
                             timeout=15.0
                         )
                     except Exception as exc:
-                        print(f"[Error] {exc}")  
+                        self.bot.logger.warning(f"ERROR: {exc}")
                     else:
                         await i.delete()
                         await self.delete_message(m)
@@ -296,7 +296,7 @@ class mido_guild_settings(commands.Cog):
                             timeout=15.0
                         )
                     except Exception as exc:
-                        print(f"[Error] {exc}")  
+                        self.bot.logger.warning(f"ERROR: {exc}")  
                     else:
                         await i.delete()
                         await self.delete_message(m)
@@ -330,7 +330,7 @@ class mido_guild_settings(commands.Cog):
                             timeout=15.0
                         )
                     except Exception as exc:
-                        print(f"[Error] {exc}")  
+                        self.bot.logger.warning(f"ERROR: {exc}")
                     else:
                         await i.delete()
                         await self.delete_message(m)
