@@ -23,7 +23,7 @@ class mido_bot(commands.Cog):
             logs = await logch.history(limit=9).flatten()                 
             logs.reverse()
         except Exception as exc:
-            print(f"[Error] failed to create github cache → {exc}")
+            self.bot.logger.warning(f"ERROR: {exc}")
         else:
             e = discord.Embed(
                 title="Github Commits",
@@ -60,7 +60,7 @@ class mido_bot(commands.Cog):
                 logs = await logch.history(limit=9).flatten()                 
                 logs.reverse()
             except Exception as exc:
-                print(f"[Error] failed to create github cache → {exc}")
+                self.bot.logger.warning(f"ERROR: {exc}")
             else:
                 e = discord.Embed(
                     title="Github Commits",
