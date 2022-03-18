@@ -13,7 +13,7 @@ from lib import database, utils, langutil
 
 #logger
 basicConfig(
-    level=WARNING, 
+    level=INFO, 
     format="%(asctime)s - %(name)s - [%(levelname)s]: %(message)s"
 )
 
