@@ -22,16 +22,16 @@ class mido_ticket(commands.Cog):
             )
         except:
             self.enabled = False
-            print("[Error] failed to connect database")
-            print("[System] unloading cogs.mido_ticket")
+            self.bot.logger.warning("ERROR: Database connection failed")
+            self.bot.logger.warning("ERROR: Unloading cogs.mido_ticket")
 
             try:
                 self.bot.unload_extension("cogs.mido_ticket")
             except Exception as exc:
-                print(f"[Error] failed to unload cog → {exc}")
+                self.bot.logger.warning(f"ERROR: {exc}")
         else:
             self.enabled = True
-            print("[System] Successfully connected database")
+            self.bot.logger.info("DATABASE: Successfully connected")
     
     #raw_reaction
     @commands.Cog.listener()
@@ -54,7 +54,6 @@ class mido_ticket(commands.Cog):
                 try:
                     panel = await commands.MessageConverter().convert(ctx, f"{msg.channel.id}-{db['panel_id']}")
                 except Exception as exc:
-                    print(f"[Error] {exc}")
                     return await utils.reply_or_send(ctx, content=f"> {d['ticket-cant-fetch-panel']}")
                 else:
                     e = panel.embeds[0]
