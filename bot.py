@@ -487,9 +487,45 @@ class Ayaha(commands.AutoShardedBot):
                         self.logger.warning(f"API: Service status update failed - {data}")
             except Exception as exc:
                 self.logger.warning(f"ERROR: {exc}")
+        else:
+            d["status"] = 1
+
+            try:
+                async with self.session.request(
+                    "POST",
+                    "https://api.midorichan.cf/v1/service/status",
+                    headers={"Authorization": f"Bearer {os.environ['MIDORI_TOKEN']}"},
+                    json=d
+                ) as request:
+                    data = await discord.http.json_or_text(request)
+                    if request.status == 200:
+                        self.logger.info(f"API: Updated service status - {data}")
+                    else:
+                        self.logger.warning(f"API: Service status update failed - {data}")
+            except Exception as exc:
+                self.logger.warning(f"ERROR: {exc}")
 
     #close
     async def close(self):
+        d = {
+            "identity": "ayaha",
+            "status": 0
+        }
+        try:
+            async with self.session.request(
+                "POST",
+                "https://api.midorichan.cf/v1/service/status",
+                headers={"Authorization": f"Bearer {os.environ['MIDORI_TOKEN']}"},
+                json=d
+            ) as request:
+                data = await discord.http.json_or_text(request)
+                if request.status == 200:
+                    self.logger.info(f"API: Updated service status - {data}")
+                else:
+                    self.logger.warning(f"API: Service status update failed - {data}")
+        except Exception as exc:
+            self.logger.warning(f"ERROR: {exc}")
+
         await self.session.close()
         await super().close()
 
