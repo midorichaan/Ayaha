@@ -36,7 +36,7 @@ async def _prefix_callable(bot, msg):
             base.remove("-")
     return base
 
-class Ayaha(commands.AutoShardedBot):
+class AyahaChan(commands.AutoShardedBot):
 
     def __init__(self):
         intents = discord.Intents.all()
@@ -538,5 +538,5 @@ class Ayaha(commands.AutoShardedBot):
         else:
             self.logger.info("STARTUP: Enabling...")
 
-bot = Ayaha()
+bot = AyahaChan()
 bot.run()
