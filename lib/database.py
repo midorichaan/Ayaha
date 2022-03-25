@@ -72,8 +72,8 @@ class Database:
     #register_guild
     async def register_guild(self, guild_id: int):
         await self.execute(
-            "INSERT INTO guilds VALUES(%s, %s, %s, %s, %s)", 
-            (guild_id, None, 0, 0, 0)
+            "INSERT INTO guilds VALUES(%s, %s, %s, %s, %s, %s)", 
+            (guild_id, None, 0, 0, 0, 0)
         )
         
         await self.execute(
