@@ -9,6 +9,7 @@ class mido_talk(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._cache = []
+        self._nsfw_cache = []
 
         self.cache_updater.start()
 
@@ -25,7 +26,12 @@ class mido_talk(commands.Cog):
             self.bot.logger.warning(f"TASK: {exc}")
         else:
             self.bot.logger.info("TASK: Talk cache updated")
-            self._cache = [i["word"] for i in db]
+
+            for i in db:
+                if i["nsfw"]:
+                    self._nsfw_cache.append(i["word"])
+                else:
+                    self._cache.append(i["word"])
 
     #check_talk
     async def check_talk(self, msg) -> bool:
@@ -49,9 +55,14 @@ class mido_talk(commands.Cog):
         if not check:
             return
 
-        i = random.choice(self._cache)
-        if i:
-            await utils.reply_or_send(i)
+        if msg.channel.is_nsfw():
+            i = random.choice(self._nsfw_cache)
+            if i:
+                await utils.reply_or_send(i)
+        else:
+            i = random.choice(self._cache)
+            if i:
+                await utils.reply_or_send(i)
 
 def setup(bot):
     bot.add_cog(mido_talk(bot))
