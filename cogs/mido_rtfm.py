@@ -44,7 +44,6 @@ class mido_rtfm(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self._rtfm_cache = None
 
     #parse_object_inv
     def parse_object_inv(self, stream, url):
