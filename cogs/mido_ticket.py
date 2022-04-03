@@ -43,7 +43,9 @@ class mido_ticket(commands.Cog):
     async def on_message(self, msg):
         db = await self.ticketutil.get_ticket(msg.channel.id)
         if db:
-            if db["status"] == 2:
+            if db["statis"] == 1:
+                
+            elif db["status"] == 2:
                 if not msg.author.id == int(db["author_id"]):
                     return
                 
@@ -301,8 +303,13 @@ class mido_ticket(commands.Cog):
             ticket = ctx.channel
         
         ow = {
-            ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),
-            ctx.author: discord.PermissionOverwrite(send_messages=False, add_reactions=False),
+            ctx.guild.default_role: discord.PermissionOverwrite(
+                read_messages=False
+            ),
+            ctx.author: discord.PermissionOverwrite(
+                send_messages=False, 
+                add_reactions=False
+            ),
             ctx.guild.me: discord.PermissionOverwrite(
                 manage_channels=True, 
                 manage_messages=True, 
@@ -313,17 +320,16 @@ class mido_ticket(commands.Cog):
                 use_external_emojis=True
             )
         }
-        
-        ticketch = ticket
+
         ticketdb = await self.ticketutil.get_ticket(ticket.id)
         if not ticketdb:
             return await m.edit(content=f"> {d['ticket-notfound']}")
         
-        await self.ticketutil.close_ticket(ticketch.id)
+        await self.ticketutil.close_ticket(ticket.id)
         try:
-            panel = await commands.MessageConverter().convert(ctx, f"{ticketch.id}-{ticketdb['panel_id']}")
+            panel = await commands.MessageConverter().convert(ctx, f"{ticket.id}-{ticketdb['panel_id']}")
         except Exception as exc:
-            print(f"[Error] {exc}")
+            self.bot.logger.warning(exc)
         else:
             e = panel.embeds[0]
             e.set_field_at(1, name="ステータス / Status", value=f"```\nクローズ / Close\n```", inline=False)
@@ -333,19 +339,19 @@ class mido_ticket(commands.Cog):
         if config["delete_after_closed"]:
             await m.edit(content=f"> {d['ticket-delete-after']}")
             await asyncio.sleep(5)
-            return await ticketch.delete()
+            return await ticket.delete()
 
         if config["move_after_closed"]:
             if config.get("close_category_id", None):
                 await m.edit(content=f"> {d['ticket-closed']}")
-                await ticketch.edit(
-                    name=ticketch.name.replace("ticket", "close"),
+                await ticket.edit(
+                    name=ticket.name.replace("ticket", "close"),
                     category=ctx.guild.get_channel(config["close_category_id"]),
                     overwrites=ow
                 )
                 return await m.edit(content=f"> {d['ticket-closed']}")
         
-        await ticketch.edit(
+        await ticket.edit(
             name=ticketch.name.replace("ticket", "close"),
             overwrites=ow,
         )
