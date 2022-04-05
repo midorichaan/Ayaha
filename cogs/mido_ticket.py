@@ -26,7 +26,6 @@ class mido_ticket(commands.Cog):
                 await msg.remove_reaction(author, react)
             except:
                 return
-            
 
     #check_db
     async def check_db(self):
