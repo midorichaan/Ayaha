@@ -193,7 +193,7 @@ class mido_ticket(commands.Cog):
                     payload.user_id,
                     ch.id,
                     status=status,
-                    reason=reason
+                    reason=None
                 )
     
     #on_msg
