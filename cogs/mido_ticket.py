@@ -181,14 +181,9 @@ class mido_ticket(commands.Cog):
                         color=self.bot.color
                     )
 
-                if not reason:
-                    status = 2
-                    e.add_field(name="チケット作成理由 / Reason", value=f"```\nnone\n```", inline=False)
-                    e.add_field(name="ステータス / Status", value=f"```\n理由待ち / Wait for reason\n```", inline=False)
-                else:
-                    status = 1
-                    e.add_field(name="チケット作成理由 / Reason", value=f"```\n{reason}\n```", inline=False)
-                    e.add_field(name="ステータス / Status", value=f"```\nオープン / Open\n```", inline=False)
+                status = 2
+                e.add_field(name="チケット作成理由 / Reason", value=f"```\nnone\n```", inline=False)
+                e.add_field(name="ステータス / Status", value=f"```\n理由待ち / Wait for reason\n```", inline=False)
                 panel = await ch.send(embed=e)
                 await panel.add_reaction("🔒")
         
