@@ -160,7 +160,7 @@ class mido_ticket(commands.Cog):
                         ch = await self.bot.get_guild(payload.guild_id).get_channel(config["open_category_id"]).create_text_channel(
                             name=f"ticket-{payload.user_id}-{len(tickets) + 1}",
                             overwrites=ow,
-                            reason=f"Ticket channel created by {payload.member)} (ID: {payload.user_id})"
+                            reason=f"Ticket channel created by {payload.member} (ID: {payload.user_id})"
                         )
                     except Exception as exc:
                         self.bot.logger.warning(exc)
@@ -170,7 +170,7 @@ class mido_ticket(commands.Cog):
                         ch = await ctx.guild.create_text_channel(
                             name=f"ticket-{payload.user_id}-{len(tickets) + 1}",
                             overwrites=ow,
-                            reason=f"Ticket channel created by {payload.member)} (ID: {payload.user_id})"
+                            reason=f"Ticket channel created by {payload.member} (ID: {payload.user_id})"
                         )
                     except Exception as exc:
                         self.bot.logger.warning(exc)
