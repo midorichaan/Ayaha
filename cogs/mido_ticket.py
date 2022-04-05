@@ -104,7 +104,7 @@ class mido_ticket(commands.Cog):
                     if config.get("close_category_id", None):
                         await channel.edit(
                             name=channel.name.replace("ticket", "close"),
-                            category=ctx.guild.get_channel(config["close_category_id"]),
+                            category=guild.get_channel(config["close_category_id"]),
                             overwrites=ow
                         )
                         return await channel.send(content=f"> チケットをクローズしました！")
