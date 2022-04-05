@@ -59,12 +59,61 @@ class mido_ticket(commands.Cog):
             if not db:
                 return
             else:
+                guild = self.bot.get_guild(payload.guild_id)
+                channel = guild.get_channel(payload.channel_id)
+
                 try:
-                    msg = await self.bot.get_channel(payload.channel_id).fetch_message(db["panel_id"])
+                    msg = await channel.fetch_message(db["panel_id"])
                 except Exception as exc:
                     self.bot.logger.warning(exc)
                 else:
                     await self.remove_reaction(msg, payload.emoji, clear=True)
+
+                if db["status"] == 0:
+                    return
+                if not db["author_id"] == payload.user_id:
+                    return
+                if db["admin_role_id"]:
+                    if not payload.user_id in [m.id for m in guild.get_role(db["admin_role_id"]).members]:
+                        return
+                else:
+                    if not payload.member.permissions_in(channel).manage_messages:
+                        return
+
+                ow = discord.PermissionOverwrite()
+                ow.send_messages = False
+                ow.add_reactions = False
+
+                await self.ticketutil.close_ticket(payload.channel_id)
+                try:
+                    panel = await channel.fetch_message(db['panel_id'])
+                except Exception as exc:
+                    self.bot.logger.warning(exc)
+                else:
+                    e = panel.embeds[0]
+                    e.set_field_at(1, name="ステータス / Status", value=f"```\nクローズ / Close\n```", inline=False)
+                    await panel.edit(embed=e)
+
+                config = await self.ticketutil.get_config(payload.guild_id)
+                if config["delete_after_closed"]:
+                    await channel.send("> 5秒後にチケットを削除します")
+                    await asyncio.sleep(5)
+                    return await channel.delete()
+
+                if config["move_after_closed"]:
+                    if config.get("close_category_id", None):
+                        await channel.edit(
+                            name=channel.name.replace("ticket", "close"),
+                            category=ctx.guild.get_channel(config["close_category_id"]),
+                            overwrites=ow
+                        )
+                        return await channel.send(content=f"> チケットをクローズしました！")
+
+                await channel.edit(
+                    name=channel.name.replace("ticket", "close"),
+                    overwrites=ow,
+                )
+                await m.edit(content=f"> チケットをクローズしました！")
         elif str(payload.emoji) == "📩":
             db = await self.ticketutil.get_panel(payload.message_id)
             if not db:
