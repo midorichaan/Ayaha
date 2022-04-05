@@ -81,10 +81,11 @@ class mido_ticket(commands.Cog):
                     if not payload.member.permissions_in(channel).manage_messages:
                         return
 
-                ow = discord.PermissionOverwrite()
-                ow.send_messages = False
-                ow.add_reactions = False
-
+                ow = discord.PermissionOverwrite(
+                    send_messages=False,
+                    add_reactions=False
+                )
+                
                 await self.ticketutil.close_ticket(payload.channel_id)
                 try:
                     panel = await channel.fetch_message(db['panel_id'])
