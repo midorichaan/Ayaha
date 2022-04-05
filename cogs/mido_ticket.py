@@ -81,10 +81,12 @@ class mido_ticket(commands.Cog):
                     if not payload.member.permissions_in(channel).manage_messages:
                         return
 
-                ow = discord.PermissionOverwrite(
-                    send_messages=False,
-                    add_reactions=False
-                )
+                ow = {
+                    payload.member: discord.PermissionOverwrite(
+                        send_messages=False,
+                        add_reactions=False
+                    )
+                }
                 
                 await self.ticketutil.close_ticket(payload.channel_id)
                 try:
