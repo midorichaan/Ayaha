@@ -121,8 +121,9 @@ class AyahaChan(commands.AutoShardedBot):
             self.vars["publicflags"] = json.load(pf)
 
         self._ext = [
-            "cogs.mido_admins", "cogs.mido_help", "cogs.mido_bot", "cogs.mido_mod", "cogs.mido_user_settings", 
-            "cogs.mido_guild_settings", "cogs.mido_ticket", "cogs.mido_info", "cogs.mido_music", "jishaku"
+            "cogs.mido_admins", "cogs.mido_bot", "cogs.mido_guild_settings", "cogs.mido_help",
+            "cogs.mido_info", "cogs.mido_music", "cogs.mido_rtfm", "cogs.mido_ticket",
+            "cogs.mido_traffic_info", "cogs.mido_user_settings", "jishaku"
         ]
         self._tasks = [
             self.api_status_poster, self.status_update
@@ -530,13 +531,22 @@ class AyahaChan(commands.AutoShardedBot):
         await super().close()
 
     #run
-    def run(self):
-        try:
-            super().run(os.environ["BOT_TOKEN"])
-        except Exception as exc:
-            self.logger.critical(f"STARTUP: {exc}")
+    def run(self, token: str=None):
+        if not token:
+            try:
+                super().run(os.environ["BOT_TOKEN"])
+            except Exception as exc:
+                self.logger.critical(f"STARTUP: {exc}")
+            else:
+                self.logger.info("STARTUP: Enabling...")
         else:
-            self.logger.info("STARTUP: Enabling...")
+            try:
+                super().run(token)
+            except Exception as exc:
+                self.logger.critical(f"STARTUP: {exc}")
+            else:
+                self.logger.info("STARTUP: Enabling...")
 
-bot = AyahaChan()
-bot.run()
+if __name__ == "__main__":
+    bot = AyahaChan()
+    bot.run()

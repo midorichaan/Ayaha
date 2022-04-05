@@ -30,10 +30,50 @@ class TicketUtil:
        channel_id : チャンネルID
        author_id : 作成者のID
        created_at : パネルの作成日時
+
+    ・guilds - ギルドテーブルの情報
+        guild_id : ギルドID
+        admin_role_mention : ロールメンションするか
+        admin_role_id : メンションするID
+        open_category_id : Ticketのオープンするカテゴリ
+        close_category_id : Ticketをクローズするカテゴリ
+        delete_after_closed : クローズ後に削除するか
+        move_after_closed : クローズ後にチケットを移動させるか
+        ticket_panel_title : チケットパネルのタイトル
+        ticket_panel_description : チケットパネルの説明
+
+    Reactions
+        - 🔒
+        - 📩
     """
-    
+
+    #create_log
+    async def create_log(
+        self,
+        message_id: int,
+        channel_id: int,
+        author_id: int,
+        guild_id: int,
+        *,
+        content: str,
+        created_at: str
+    ):
+        await self.bot.db.execute(
+            "INSERT INTO ticketlog VALUES(%s, %s, %s, %s, %s, %s)",
+            (message_id, channel_id, author_id, guild_id, content, created_at)
+        )
+
     #create_ticket
-    async def create_ticket(self, guild_id: int, panel_id: int, author_id: int, ticket_id: int, *, status: int=None, reason: str=None):
+    async def create_ticket(
+        self, 
+        guild_id: int, 
+        panel_id: int, 
+        author_id: int, 
+        ticket_id: int, 
+        *, 
+        status: int=None, 
+        reason: str=None
+    ):
         await self.bot.db.execute(
             "INSERT INTO tickets VALUES(%s, %s, %s, %s, %s, %s, %s)",
             (ticket_id, panel_id, guild_id, author_id, datetime.datetime.now(), status, reason)

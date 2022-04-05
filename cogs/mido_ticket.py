@@ -14,6 +14,20 @@ class mido_ticket(commands.Cog):
 
         asyncio.gather(self.check_db())
 
+    #remove_reaction
+    async def remove_reaction(self, msg, react, *, author=None, clear=False):
+        if clear:
+            try:
+                await msg.clear_reactions()
+            except:
+                return
+        else:
+            try:
+                await msg.remove_reaction(author, react)
+            except:
+                return
+            
+
     #check_db
     async def check_db(self):
         try:
@@ -36,15 +50,126 @@ class mido_ticket(commands.Cog):
     #raw_reaction
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        pass
+        if not payload.guild_id:
+            return
+        if payload.user_id == self.bot.user.id:
+            return
+
+        if str(payload.emoji) == "🔒":
+            db = await self.ticketutil.get_ticket(payload.channel_id)
+            if not db:
+                return
+            else:
+                try:
+                    msg = await self.bot.get_channel(payload.channel_id).fetch_message(db["panel_id"])
+                except Exception as exc:
+                    self.bot.logger.warning(exc)
+                else:
+                    await self.remove_reaction(msg, payload.emoji, clear=True)
+        elif str(payload.emoji) == "📩":
+            db = await self.ticketutil.get_panel(payload.message_id)
+            if not db:
+                return
+            else:
+                try:
+                    m = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
+                except Exception as exc:
+                    self.bot.logger.warning(exc)
+                else:
+                    await self.remove_reaction(m, payload.emoji, author=payload.member)
+
+                tickets = [
+                    i for i in self.bot.get_guild(payload.guild_id).channels 
+                    if str(payload.user_id) in str(i)
+                ]
+                ow = {
+                    payload.member: discord.PermissionOverwrite(
+                        embed_links=True,
+                        attach_files=True,
+                        read_message_history=True,
+                        read_messages=True,
+                        send_messages=True,
+                        external_emojis=True,
+                        use_external_emojis=True
+                    ),
+                    self.bot.get_guild(payload.guild_id).default_role: discord.PermissionOverwrite(read_messages=False),
+                    self.bot.get_guild(payload.guild_id).me: discord.PermissionOverwrite(
+                        manage_channels=True, 
+                        manage_messages=True, 
+                        embed_links=True, 
+                        attach_files=True, 
+                        read_messages=True,
+                        read_message_history=True,
+                        external_emojis=True,
+                        use_external_emojis=True
+                    )
+                }
+                ch = None
+                status = 0
+                config = await self.ticketutil.get_config(payload.guild_id)
+                if config["open_category_id"]:
+                    try:
+                        ch = await self.bot.get_guild(payload.guild_id).get_channel(config["open_category_id"]).create_text_channel(
+                            name=f"ticket-{payload.user_id}-{len(tickets) + 1}",
+                            overwrites=ow,
+                            reason=f"Ticket channel created by {payload.member)} (ID: {payload.user_id})"
+                        )
+                    except Exception as exc:
+                        self.bot.logger.warning(exc)
+                        return await m.edit(content=f"> {d['ticket-cant-create']}")
+                else:
+                    try:
+                        ch = await ctx.guild.create_text_channel(
+                            name=f"ticket-{payload.user_id}-{len(tickets) + 1}",
+                            overwrites=ow,
+                            reason=f"Ticket channel created by {payload.member)} (ID: {payload.user_id})"
+                        )
+                    except Exception as exc:
+                        self.bot.logger.warning(exc)
+                        return await m.edit(content=f"> {d['ticket-cant-create']}")
+
+                e = discord.Embed(
+                        title=f"Ticket - {payload.member}",
+                        color=self.bot.color
+                    )
+
+                if not reason:
+                    status = 2
+                    e.add_field(name="チケット作成理由 / Reason", value=f"```\nnone\n```", inline=False)
+                    e.add_field(name="ステータス / Status", value=f"```\n理由待ち / Wait for reason\n```", inline=False)
+                else:
+                    status = 1
+                    e.add_field(name="チケット作成理由 / Reason", value=f"```\n{reason}\n```", inline=False)
+                    e.add_field(name="ステータス / Status", value=f"```\nオープン / Open\n```", inline=False)
+                panel = await ch.send(embed=e)
+                await panel.add_reaction("🔒")
+        
+                await self.ticketutil.create_ticket(
+                    payload.guild_id,
+                    panel.id,
+                    payload.user_id,
+                    ch.id,
+                    status=status,
+                    reason=reason
+                )
     
     #on_msg
     @commands.Cog.listener()
     async def on_message(self, msg):
         db = await self.ticketutil.get_ticket(msg.channel.id)
         if db:
-            if db["statis"] == 1:
-                
+            if db["status"] == 1:
+                try:
+                    await self.ticketutil.create_log(
+                        msg.id,
+                        msg.channel.id,
+                        msg.author.id,
+                        msg.guild.id,
+                        content=msg.content,
+                        created_at=str(msg.created_at)
+                    )
+                except Exception as exc:
+                    self.bot.logger.warning(exc)
             elif db["status"] == 2:
                 if not msg.author.id == int(db["author_id"]):
                     return
@@ -154,7 +279,8 @@ class mido_ticket(commands.Cog):
         
         try:
             panel = await self.ticketutil.create_panel(guild_id=ctx.guild.id)
-        except:
+        except Exception as exc:
+            self.bot.logger.warning(exc)
             return await m.edit(content=f"> {d['ticket-unknown-exc']}")
         else:
             panel_obj = await channel.send(embed=panel)
@@ -175,7 +301,10 @@ class mido_ticket(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
         if not panel_id:
-            return await m.edit(content=f"> {d['args-required']}")
+            if not ctx.message.reference:
+                return await m.edit(content=f"> {d['args-required']}")
+            else:
+                panel_id = ctx.message.reference.resolved.id
         
         exists = await self.ticketutil.panel_exists(panel_id=panel_id)
         if not exists:
@@ -204,7 +333,10 @@ class mido_ticket(commands.Cog):
         m = await utils.reply_or_send(ctx, content=f"> {d['loading']}")
         
         if not panel_id:
-            return await m.edit(content=f"> {d['args-required']}")
+            if not ctx.message.reference:
+                return await m.edit(content=f"> {d['args-required']}")
+            else:
+                panel_id = ctx.message.reference.resolved.id
         
         exists = await self.ticketutil.panel_exists(panel_id=panel_id)
         if not exists:
@@ -229,10 +361,20 @@ class mido_ticket(commands.Cog):
         
         tickets = [i for i in ctx.guild.channels if str(ctx.author.id) in str(i)]
         ow = {
+            ctx.author: discord.PermissionOverwrite(
+                embed_links=True,
+                attach_files=True,
+                read_message_history=True,
+                read_messages=True,
+                send_messages=True,
+                external_emojis=True,
+                use_external_emojis=True
+            ),
             ctx.guild.default_role: discord.PermissionOverwrite(read_messages=False),
             ctx.guild.me: discord.PermissionOverwrite(
                 manage_channels=True, 
                 manage_messages=True, 
+                read_messages=True,
                 embed_links=True, 
                 attach_files=True, 
                 read_message_history=True,
@@ -251,7 +393,7 @@ class mido_ticket(commands.Cog):
                     reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.bot.logger.warning(exc)
                 return await m.edit(content=f"> {d['ticket-cant-create']}")
         else:
             try:
@@ -261,7 +403,7 @@ class mido_ticket(commands.Cog):
                     reason=f"Ticket channel created by {ctx.author} (ID: {ctx.author.id})"
                 )
             except Exception as exc:
-                print(f"[Error] {exc}")
+                self.bot.logger.warning(exc)
                 return await m.edit(content=f"> {d['ticket-cant-create']}")
             
         e = discord.Embed(
@@ -343,7 +485,6 @@ class mido_ticket(commands.Cog):
 
         if config["move_after_closed"]:
             if config.get("close_category_id", None):
-                await m.edit(content=f"> {d['ticket-closed']}")
                 await ticket.edit(
                     name=ticket.name.replace("ticket", "close"),
                     category=ctx.guild.get_channel(config["close_category_id"]),
