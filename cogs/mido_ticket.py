@@ -56,6 +56,7 @@ class mido_ticket(commands.Cog):
 
         if str(payload.emoji) == "🔒":
             db = await self.ticketutil.get_ticket(payload.channel_id)
+            config = await self.ticketutil.get_config(payload.guild_id)
             if not db:
                 return
             else:
@@ -73,8 +74,8 @@ class mido_ticket(commands.Cog):
                     return
                 if not db["author_id"] == payload.user_id:
                     return
-                if db["admin_role_id"]:
-                    if not payload.user_id in [m.id for m in guild.get_role(db["admin_role_id"]).members]:
+                if config["admin_role_id"]:
+                    if not payload.user_id in [m.id for m in guild.get_role(config["admin_role_id"]).members]:
                         return
                 else:
                     if not payload.member.permissions_in(channel).manage_messages:
@@ -94,7 +95,6 @@ class mido_ticket(commands.Cog):
                     e.set_field_at(1, name="ステータス / Status", value=f"```\nクローズ / Close\n```", inline=False)
                     await panel.edit(embed=e)
 
-                config = await self.ticketutil.get_config(payload.guild_id)
                 if config["delete_after_closed"]:
                     await channel.send("> 5秒後にチケットを削除します")
                     await asyncio.sleep(5)
@@ -174,7 +174,7 @@ class mido_ticket(commands.Cog):
                         )
                     except Exception as exc:
                         self.bot.logger.warning(exc)
-                        return await m.edit(content=f"> {d['ticket-cant-create']}")
+                        return await m.edit(content=f"> チケットを作成できませんでした...")
 
                 e = discord.Embed(
                         title=f"Ticket - {payload.member}",
@@ -195,6 +195,7 @@ class mido_ticket(commands.Cog):
                     status=status,
                     reason=None
                 )
+            self.bot.logger.info("TICKET: Successfully created ticket (RawReactionEvent)")
     
     #on_msg
     @commands.Cog.listener()
