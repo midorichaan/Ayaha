@@ -141,7 +141,7 @@ class mido_guild_settings(commands.Cog):
                             content=f"> {data['wait-for-reply']}"
                         )
 
-                        check = lambda x: x.author.id == ctx.author.id and x.chanenl.id == ctx.channel.id and x.content.isdigit()
+                        check = lambda x: x.author.id == ctx.author.id and x.channel.id == ctx.channel.id and x.content.isdigit()
                         m = await self.bot.wait_for(
                             "message",
                             check=check,
