@@ -54,15 +54,15 @@ class mido_ticket(commands.Cog):
         if payload.user_id == self.bot.user.id:
             return
 
+        guild = self.bot.get_guild(payload.guild_id)
+        channel = guild.get_channel(payload.channel_id)
+
         if str(payload.emoji) == "🔒":
             db = await self.ticketutil.get_ticket(payload.channel_id)
             config = await self.ticketutil.get_config(payload.guild_id)
             if not db:
                 return
             else:
-                guild = self.bot.get_guild(payload.guild_id)
-                channel = guild.get_channel(payload.channel_id)
-
                 try:
                     msg = await channel.fetch_message(db["panel_id"])
                 except Exception as exc:
