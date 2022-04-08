@@ -23,7 +23,7 @@ class mido_ticket(commands.Cog):
                 return
         else:
             try:
-                await msg.remove_reaction(author, react)
+                await msg.remove_reaction(react, author)
             except:
                 return
 
@@ -185,9 +185,21 @@ class mido_ticket(commands.Cog):
                     )
 
                 status = 2
+                panel = None
                 e.add_field(name="チケット作成理由 / Reason", value=f"```\nnone\n```", inline=False)
                 e.add_field(name="ステータス / Status", value=f"```\n理由待ち / Wait for reason\n```", inline=False)
-                panel = await ch.send(embed=e)
+
+                if config["admin_role_mention"]:
+                    if config["admin_role_id"]:
+                        role = guild.get_role(config["admin_role_id"])
+                        if role:
+                            panel = await ch.send(content=f"{role.mention} {payload.member.mention} ->", embed=e)
+                        else:
+                            panel = await ch.send(content=f"{payload.member.mention} ->", embed=e)
+                    else:
+                        panel = await ch.send(content=f"{payload.member.mention} ->", embed=e)
+                else:
+                    panel = await ch.send(content=f"{payload.member.mention} ->", embed=e)
                 await panel.add_reaction("🔒")
         
                 await self.ticketutil.create_ticket(
