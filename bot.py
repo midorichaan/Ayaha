@@ -76,6 +76,13 @@ class AyahaChan(commands.AutoShardedBot):
             "uptime": datetime.datetime.now(),
             "voice": {
                 "read": False,
+                "talkapi": {
+                    "speaker": "haruka",
+                    "format": "wav",
+                    "pitch": 100,
+                    "speed": 100,
+                    "volume": 100
+                },
                 "openjtalk": {
                     "path": "",
                     "dictionary": "",
