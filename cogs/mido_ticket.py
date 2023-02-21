@@ -74,8 +74,9 @@ class mido_ticket(commands.Cog):
                     return
                 if not db["author_id"] == payload.user_id:
                     return
+                role = guild.get_role(config["admin_role_id"])
                 if config["admin_role_id"]:
-                    if not payload.user_id in [m.id for m in guild.get_role(config["admin_role_id"]).members]:
+                    if not payload.user_id in [m.id for m in role.members]:
                         return
                 else:
                     if not payload.member.permissions_in(channel).manage_messages:
@@ -84,7 +85,19 @@ class mido_ticket(commands.Cog):
                 ow = {
                     payload.member: discord.PermissionOverwrite(
                         send_messages=False,
+                        read_messages=True,
+                        read_message_history=True,
                         add_reactions=False
+                    ),
+                    role: discord.PermissionOverwrite(
+                        send_messages=True,
+                        read_messages=True,
+                        read_message_history=True,
+                        add_reactions=True
+                    ),
+                    guild.default_role: discord.PermissionOverwrite(
+                        read_messages=False
+                        read_message_history=False,
                     )
                 }
                 
@@ -509,6 +522,8 @@ class mido_ticket(commands.Cog):
             ),
             ctx.author: discord.PermissionOverwrite(
                 send_messages=False, 
+                read_messages=True,
+                read_message_history=True,
                 add_reactions=False
             ),
             ctx.guild.me: discord.PermissionOverwrite(
